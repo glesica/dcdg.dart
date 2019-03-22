@@ -18,18 +18,19 @@ Future<void> buildDiagram() async {
     'set namespaceSeparator $namespaceSeparator'
   ];
 
+  final visitor = PlantUmlVisitor();
+
   for (final file in files) {
     final filePath = path.normalize(path.absolute(file.path));
     final context = contextCollection.contextFor(filePath);
     final library = await context.currentSession.getResolvedLibrary(filePath);
 
-    final visitor = PlantUmlVisitor();
     library.element.accept(visitor);
+  }
 
-    if (visitor.lines.isNotEmpty) {
-      lines.addAll(visitor.lines);
-      lines.add('');
-    }
+  if (visitor.lines.isNotEmpty) {
+    lines.addAll(visitor.lines);
+    lines.add('');
   }
 
   lines.add('@enduml');
