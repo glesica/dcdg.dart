@@ -14,7 +14,7 @@ class PlantUmlVisitor extends RecursiveElementVisitor {
   }
 
   void addClass(ClassElement element) {
-    final fullClassName = getFullClassName(element);
+    final fullClassName = getFullTypeName(element);
 
     if (_classesSeen.contains(fullClassName)) {
       return;
@@ -42,8 +42,8 @@ class PlantUmlVisitor extends RecursiveElementVisitor {
     for (final interface in element.interfaces) {
       final interfaceElement = interface.element;
 
-      final fullClassName = getFullClassName(element);
-      final fullInterfaceClassName = getFullClassName(interfaceElement);
+      final fullClassName = getFullTypeName(element);
+      final fullInterfaceClassName = getFullTypeName(interfaceElement);
 
       _lines.add('$fullInterfaceClassName <|-- $fullClassName');
     }
@@ -65,8 +65,8 @@ class PlantUmlVisitor extends RecursiveElementVisitor {
     for (final mixin in element.mixins) {
       final mixinElement = mixin.element;
 
-      final fullClassName = getFullClassName(element);
-      final fullInterfaceClassName = getFullClassName(mixinElement);
+      final fullClassName = getFullTypeName(element);
+      final fullInterfaceClassName = getFullTypeName(mixinElement);
 
       _lines.add('$fullInterfaceClassName <|-- $fullClassName');
     }
@@ -79,15 +79,16 @@ class PlantUmlVisitor extends RecursiveElementVisitor {
       return;
     }
 
-    final fullClassName = getFullClassName(element);
-    final fullSuperClassName = getFullClassName(superElement);
+    final fullClassName = getFullTypeName(element);
+    final fullSuperClassName = getFullTypeName(superElement);
 
     _lines.add('$fullSuperClassName <|-- $fullClassName');
   }
 
-  String getFullClassName(ClassElement element) {
+  String getFullTypeName(Element element) {
     final namespace = element.library.identifier
         .replaceFirst('package:', '')
+        .replaceFirst('dart:', 'dart::')
         .split('/')
         .join(namespaceSeparator);
     final className = element.name;
@@ -98,13 +99,13 @@ class PlantUmlVisitor extends RecursiveElementVisitor {
     return element.isPrivate ? '-' : element.hasProtected ? '#' : '+';
   }
 
-  void hasA(ClassElement container, ClassElement contained) {
+  void hasA(Element container, Element contained) {
     if (contained.library.identifier.startsWith('dart:core')) {
       return;
     }
 
-    final containerFullName = getFullClassName(container);
-    final containedFullName = getFullClassName(contained);
+    final containerFullName = getFullTypeName(container);
+    final containedFullName = getFullTypeName(contained);
 
     _lines.add('$containerFullName *- $containedFullName');
   }
