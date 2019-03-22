@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:dartagram/dartagram.dart';
 
-Future<void> main(List<String> arguments) async {
+Future<Null> main(List<String> arguments) async {
   await buildDiagram();
 }
