@@ -3,8 +3,13 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:dartagram/src/constants.dart';
-import 'package:dartagram/src/visitor.dart';
+import 'package:dartagram/src/plant_uml_builder.dart';
 import 'package:path/path.dart' as path;
+
+// Convert this function to just take a generic UmlBuilder and then
+// do the right thing with it. The actual file format generated
+// can be handled elsewhere. This way new formats (like DOT) can be
+// added more easily.
 
 // TODO: This function should take an iterable of libraries?
 Future<String> buildPlantUml(
@@ -42,7 +47,7 @@ Future<String> buildPlantUml(
     'set namespaceSeparator $namespaceSeparator'
   ];
 
-  final visitor = new PlantUmlVisitor();
+  final visitor = new PlantUmlBuilder();
 
   for (final file in files) {
     final filePath = path.normalize(path.absolute(file.path));

@@ -1,15 +1,15 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:dartagram/src/constants.dart';
-import 'package:dartagram/src/visitor.dart';
+import 'package:dartagram/src/plant_uml_builder.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('PlantUmlVisitor', () {
-    PlantUmlVisitor visitor;
+  group('PlantUmlBuilder', () {
+    PlantUmlBuilder visitor;
 
     setUp(() {
-      visitor = new PlantUmlVisitor();
+      visitor = new PlantUmlBuilder();
     });
 
     group('getFullTypeName', () {

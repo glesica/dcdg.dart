@@ -1,12 +1,15 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:dartagram/src/constants.dart';
+import 'package:dartagram/src/uml_builder.dart';
 
-class PlantUmlVisitor extends RecursiveElementVisitor {
+class PlantUmlBuilder extends RecursiveElementVisitor<void>
+    implements UmlBuilder {
   final Set<String> _classesSeen = {};
 
   final List<String> _lines = [];
 
+  @override
   Iterable<String> get lines => _lines;
 
   void addBlank() {
