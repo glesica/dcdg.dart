@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:dartagram/dartagram.dart';
+import 'package:dcdg/dcdg.dart';
 import 'package:path/path.dart' as path;
 
 // TODO: Export the necessary stuff
-import 'package:dartagram/src/command_line.dart';
-import 'package:dartagram/src/configuration.dart';
-import 'package:dartagram/src/find_libraries.dart';
+import 'package:dcdg/src/command_line.dart';
+import 'package:dcdg/src/configuration.dart';
+import 'package:dcdg/src/find_libraries.dart';
 
 Future<Null> main(Iterable<String> arguments) async {
   final config = Configuration.fromCommandLine(arguments);

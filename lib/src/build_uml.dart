@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:dartagram/src/uml_builder.dart';
-import 'package:dartagram/src/uml_visitor.dart';
+import 'package:dcdg/src/uml_builder.dart';
+import 'package:dcdg/src/uml_visitor.dart';
 import 'package:meta/meta.dart';
 
 void buildUml({

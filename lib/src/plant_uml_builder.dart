@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/element/element.dart';
-import 'package:dartagram/src/constants.dart';
-import 'package:dartagram/src/uml_builder.dart';
+import 'package:dcdg/src/constants.dart';
+import 'package:dcdg/src/uml_builder.dart';
 
 class PlantUmlBuilder implements UmlBuilder {
   final Set<String> _classesSeen = {};

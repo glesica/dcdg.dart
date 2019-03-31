@@ -1,5 +1,5 @@
-import 'package:dartagram/src/plant_uml_builder.dart';
-import 'package:dartagram/src/uml_builder.dart';
+import 'package:dcdg/src/plant_uml_builder.dart';
+import 'package:dcdg/src/uml_builder.dart';
 import 'package:meta/meta.dart';
 
 /// A collection of available builders parameterized in different ways

@@ -1,5 +1,5 @@
 import 'package:args/args.dart';
-import 'package:dartagram/src/uml_builder_factories.dart';
+import 'package:dcdg/src/uml_builder_factories.dart';
 
 const exludeOption = 'exclude';
 const builderOption = 'builder';
@@ -49,7 +49,7 @@ final argParser = ArgParser(usageLineLength: 80)
 
 String makeHelp() {
   final usage = argParser.usage;
-  return '''Usage: dartagram [options]
+  return '''Usage: dcdg [options]
 
 $usage
 
