@@ -1,24 +1,29 @@
 import 'package:args/args.dart';
+import 'package:dartagram/src/uml_builder_factories.dart';
 import 'package:dartagram/src/command_line.dart';
+import 'package:dartagram/src/uml_builder.dart';
 import 'package:meta/meta.dart';
 
 abstract class Configuration {
+  UmlBuilder get builder;
+
   String get outputPath;
 
   String get packagePath;
 
   bool get shouldShowHelp;
 
-  Iterable<String> get typeBlacklist;
+  Iterable<String> get typeExcludes;
 
-  Iterable<String> get typeWhitelist;
+  Iterable<String> get typeIncludes;
 
   factory Configuration.fromArgResults(ArgResults results) => ConfigurationImpl(
+        builder: getBuilder(results[builderOption]),
         outputPath: results[outputPathOption],
         packagePath: results[packagePathOption],
         shouldShowHelp: results[helpOption],
-        typeBlacklist: results[blacklistOption],
-        typeWhitelist: results[whitelistOption],
+        typeExcludes: results[exludeOption],
+        typeIncludes: results[includeOption],
       );
 
   factory Configuration.fromCommandLine(List<String> arguments) {
@@ -29,6 +34,9 @@ abstract class Configuration {
 
 class ConfigurationImpl implements Configuration {
   @override
+  final UmlBuilder builder;
+
+  @override
   final String outputPath;
 
   @override
@@ -38,16 +46,17 @@ class ConfigurationImpl implements Configuration {
   final bool shouldShowHelp;
 
   @override
-  final Iterable<String> typeBlacklist;
+  final Iterable<String> typeExcludes;
 
   @override
-  final Iterable<String> typeWhitelist;
+  final Iterable<String> typeIncludes;
 
   ConfigurationImpl({
+    @required this.builder,
     @required this.outputPath,
     @required this.packagePath,
     @required this.shouldShowHelp,
-    @required this.typeBlacklist,
-    @required this.typeWhitelist,
+    @required this.typeExcludes,
+    @required this.typeIncludes,
   });
 }

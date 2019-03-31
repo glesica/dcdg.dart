@@ -1,1 +1,1 @@
-export 'src/plant_uml.dart' show buildPlantUml;
+export 'src/build_uml.dart' show buildUml;

@@ -1,15 +1,17 @@
 import 'package:args/args.dart';
+import 'package:dartagram/src/uml_builder_factories.dart';
 
-const blacklistOption = 'blacklist';
+const exludeOption = 'exclude';
+const builderOption = 'builder';
 const helpOption = 'help';
 const outputPathOption = 'output';
 const packagePathOption = 'package';
-const whitelistOption = 'whitelist';
+const includeOption = 'include';
 
 final argParser = new ArgParser(usageLineLength: 80)
   ..addMultiOption(
-    blacklistOption,
-    abbr: 'b',
+    exludeOption,
+    abbr: 'e',
     help: 'Class / type names to ignore',
   )
   ..addFlag(
@@ -17,6 +19,13 @@ final argParser = new ArgParser(usageLineLength: 80)
     abbr: 'h',
     help: 'Show usage information',
     negatable: false,
+  )
+  ..addOption(
+    builderOption,
+    abbr: 'b',
+    help: 'Builder to use to construct a UML diagram',
+    valueHelp: 'NAME',
+    defaultsTo: availableBuilders().first,
   )
   ..addOption(
     outputPathOption,
@@ -33,8 +42,8 @@ final argParser = new ArgParser(usageLineLength: 80)
     defaultsTo: '.',
   )
   ..addMultiOption(
-    whitelistOption,
-    abbr: 'w',
+    includeOption,
+    abbr: 'i',
     help: 'Class / type names to include',
   );
 
@@ -44,7 +53,10 @@ String makeHelp() {
 
 $usage
 
-Note: If both blacklist and whitelist are supplied, types in both lists
-will be removed from the whitelist and then the whitelist will be applied
-as usual.''';
+Available builders:
+  * ${availableBuilders().join('\n  * ')}
+
+Note: If both excludes and includes are supplied, types that are in
+both lists will be removed from the includes list and then the
+includes list will be applied as usual.''';
 }

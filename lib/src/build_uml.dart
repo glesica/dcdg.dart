@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
-import 'package:dartagram/src/plant_uml_builder.dart';
+import 'package:dartagram/src/uml_builder.dart';
 import 'package:dartagram/src/uml_visitor.dart';
+import 'package:meta/meta.dart';
 import 'package:path/path.dart' as path;
 
 // Convert this function to just take a generic UmlBuilder and then
@@ -12,10 +13,11 @@ import 'package:path/path.dart' as path;
 // added more easily.
 
 // TODO: This function should take an iterable of libraries?
-Future<String> buildPlantUml(
-  String packagePath, {
-  Iterable<String> blacklist,
-  Iterable<String> whitelist,
+Future<void> buildUml({
+  @required UmlBuilder builder,
+  @required String packagePath,
+  Iterable<String> excludes,
+  Iterable<String> includes,
 }) async {
   String makePackageSubPath(String part0, [String part1]) => path.normalize(
         path.absolute(
@@ -43,11 +45,12 @@ Future<String> buildPlantUml(
   final files =
       new Directory(makePackageSubPath('lib')).listSync(recursive: true);
 
-  final builder = new PlantUmlBuilder();
   final visitor = new UmlVisitor(
-    builder,
-    blacklist: blacklist,
-    whitelist: whitelist,
+    onClass: (element) {
+      builder.processClass(element);
+    },
+    excludes: excludes,
+    includes: includes,
   );
 
   for (final file in files) {
@@ -56,6 +59,4 @@ Future<String> buildPlantUml(
     final library = await context.currentSession.getResolvedLibrary(filePath);
     library.element.accept(visitor);
   }
-
-  return builder.build();
 }

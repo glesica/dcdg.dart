@@ -1,41 +1,48 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
-import 'package:dartagram/src/uml_builder.dart';
+import 'package:meta/meta.dart';
+
+typedef void OnClassHandler(ClassElement element);
+
+void _defaultOnClass(ClassElement element) {
+  throw new StateError('No onClassHandler provided');
+}
 
 class UmlVisitor extends RecursiveElementVisitor<void> {
-  final Set<String> _blacklist;
+  final Set<String> _excludes;
 
-  final UmlBuilder _umlBuilder;
+  final Set<String> _includes;
 
-  final Set<String> _whitelist;
+  final OnClassHandler _onClassElement;
 
-  UmlVisitor(this._umlBuilder, {
-    Iterable<String> blacklist,
-    Iterable<String> whitelist,
-  })  : assert(_umlBuilder != null),
-        _blacklist = Set.from(blacklist ?? []),
-        _whitelist = Set.from(whitelist ?? []);
+  UmlVisitor({
+    @required OnClassHandler onClass,
+    Iterable<String> excludes,
+    Iterable<String> includes,
+  })  : _excludes = Set.from(excludes ?? []),
+        _includes = Set.from(includes ?? []),
+        _onClassElement = onClass ?? _defaultOnClass;
 
-  /// Applies the blacklist / whitelist logic.
+  /// Applies the excludes / includes logic.
   ///
-  /// When both a blacklist and a whitelist are provided,
-  /// the blacklist takes precedent.
+  /// When both an excludes list and an includes list are provided,
+  /// the excludes list takes precedence.
   bool shouldProcess(ClassElement element) {
-    if (_blacklist.contains(element.name)) {
+    if (_excludes.contains(element.name)) {
       return false;
     }
 
-    if (_whitelist.contains(element.name)) {
+    if (_includes.contains(element.name)) {
       return true;
     }
 
-    return _whitelist.isEmpty;
+    return _includes.isEmpty;
   }
 
   @override
   void visitClassElement(ClassElement element) {
     if (shouldProcess(element)) {
-      _umlBuilder.processClass(element);
+      _onClassElement(element);
     }
   }
 }

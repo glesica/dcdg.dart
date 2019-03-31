@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dartagram/dartagram.dart';
+
 // TODO: Export the necessary stuff
 import 'package:dartagram/src/command_line.dart';
 import 'package:dartagram/src/configuration.dart';
@@ -14,20 +15,22 @@ Future<Null> main(Iterable<String> arguments) async {
     exit(0);
   }
 
-  String plantUml;
   try {
-    plantUml = await buildPlantUml(config.packagePath);
+    await buildUml(
+      builder: config.builder,
+      packagePath: config.packagePath,
+    );
   } on ArgumentError catch (_) {
     outputError('Package path is not a Dart package (${config.packagePath}');
     exit(1);
   }
 
   if (config.outputPath == '') {
-    print(plantUml);
+    print(config.builder.build());
   } else {
     final plantUmlFile = new File(config.outputPath);
     try {
-      plantUmlFile.writeAsStringSync(plantUml);
+      plantUmlFile.writeAsStringSync(config.builder.build());
     } on FileSystemException catch (exception) {
       outputError(
         'Failed writing to file ${exception.path} (${exception.osError})',
