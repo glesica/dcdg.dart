@@ -6,6 +6,7 @@ import 'package:dartagram/dartagram.dart';
 // TODO: Export the necessary stuff
 import 'package:dartagram/src/command_line.dart';
 import 'package:dartagram/src/configuration.dart';
+import 'package:dartagram/src/find_libraries.dart';
 
 Future<Null> main(Iterable<String> arguments) async {
   final config = Configuration.fromCommandLine(arguments);
@@ -16,9 +17,13 @@ Future<Null> main(Iterable<String> arguments) async {
   }
 
   try {
-    await buildUml(
+    final libraries = await findLibraries(packagePath: config.packagePath);
+
+    buildUml(
       builder: config.builder,
-      packagePath: config.packagePath,
+      libraries: libraries,
+      excludes: config.typeExcludes,
+      includes: config.typeIncludes,
     );
   } on ArgumentError catch (_) {
     outputError('Package path is not a Dart package (${config.packagePath}');
@@ -28,7 +33,7 @@ Future<Null> main(Iterable<String> arguments) async {
   if (config.outputPath == '') {
     print(config.builder.build());
   } else {
-    final plantUmlFile = new File(config.outputPath);
+    final plantUmlFile = File(config.outputPath);
     try {
       plantUmlFile.writeAsStringSync(config.builder.build());
     } on FileSystemException catch (exception) {

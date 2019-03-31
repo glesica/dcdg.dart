@@ -9,7 +9,7 @@ void main() {
     PlantUmlBuilder visitor;
 
     setUp(() {
-      visitor = new PlantUmlBuilder();
+      visitor = PlantUmlBuilder();
     });
 
     group('getFullTypeName', () {
@@ -17,8 +17,8 @@ void main() {
       LibraryElement library;
 
       setUp(() {
-        element = new MockElement();
-        library = new MockLibraryElement();
+        element = MockElement();
+        library = MockLibraryElement();
 
         when(element.name).thenReturn('class');
         when(element.library).thenReturn(library);

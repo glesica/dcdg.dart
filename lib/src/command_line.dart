@@ -8,7 +8,7 @@ const outputPathOption = 'output';
 const packagePathOption = 'package';
 const includeOption = 'include';
 
-final argParser = new ArgParser(usageLineLength: 80)
+final argParser = ArgParser(usageLineLength: 80)
   ..addMultiOption(
     exludeOption,
     abbr: 'e',

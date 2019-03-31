@@ -90,6 +90,7 @@ class PlantUmlBuilder implements UmlBuilder<String> {
   @override
   String build() => ([]
         ..addAll(_lines)
+        ..add('')
         ..add('@enduml'))
       .join('\n');
 

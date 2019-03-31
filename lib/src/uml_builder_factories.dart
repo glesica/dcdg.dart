@@ -15,7 +15,7 @@ final Map<String, UmlBuilderFactory> _factories = {
   ),
 };
 
-typedef UmlBuilder UmlBuilderFactoryCallback();
+typedef UmlBuilderFactoryCallback = UmlBuilder Function();
 
 class UmlBuilderFactory {
   final UmlBuilderFactoryCallback callback;

@@ -2,10 +2,10 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:meta/meta.dart';
 
-typedef void OnClassHandler(ClassElement element);
+typedef OnClassHandler = void Function(ClassElement element);
 
 void _defaultOnClass(ClassElement element) {
-  throw new StateError('No onClassHandler provided');
+  throw StateError('No onClassHandler provided');
 }
 
 class UmlVisitor extends RecursiveElementVisitor<void> {
