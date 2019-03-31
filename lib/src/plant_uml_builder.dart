@@ -1,16 +1,15 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/element/visitor.dart';
 import 'package:dartagram/src/constants.dart';
 import 'package:dartagram/src/uml_builder.dart';
 
-class PlantUmlBuilder extends RecursiveElementVisitor<void>
-    implements UmlBuilder {
+class PlantUmlBuilder implements UmlBuilder<String> {
   final Set<String> _classesSeen = {};
 
-  final List<String> _lines = [];
-
-  @override
-  Iterable<String> get lines => _lines;
+  final List<String> _lines = [
+    '@startuml',
+    'set namespaceSeparator $namespaceSeparator',
+    '',
+  ];
 
   void addBlank() {
     _lines.add('');
@@ -88,6 +87,12 @@ class PlantUmlBuilder extends RecursiveElementVisitor<void>
     _lines.add('$fullSuperClassName <|-- $fullClassName');
   }
 
+  @override
+  String build() => ([]
+        ..addAll(_lines)
+        ..add('@enduml'))
+      .join('\n');
+
   String getFullTypeName(Element element) {
     final namespace = element.library.identifier
         .replaceFirst('package:', '')
@@ -114,7 +119,7 @@ class PlantUmlBuilder extends RecursiveElementVisitor<void>
   }
 
   @override
-  void visitClassElement(ClassElement element) {
+  void processClass(ClassElement element) {
     addBlank();
     addClass(element);
 

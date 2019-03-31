@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
-import 'package:dartagram/src/constants.dart';
 import 'package:dartagram/src/plant_uml_builder.dart';
+import 'package:dartagram/src/uml_visitor.dart';
 import 'package:path/path.dart' as path;
 
 // Convert this function to just take a generic UmlBuilder and then
@@ -42,27 +42,20 @@ Future<String> buildPlantUml(
   // TODO: Allow the starting point to be customized on the command line
   final files =
       new Directory(makePackageSubPath('lib')).listSync(recursive: true);
-  final lines = <String>[
-    '@startuml',
-    'set namespaceSeparator $namespaceSeparator'
-  ];
 
-  final visitor = new PlantUmlBuilder();
+  final builder = new PlantUmlBuilder();
+  final visitor = new UmlVisitor(
+    builder,
+    blacklist: blacklist,
+    whitelist: whitelist,
+  );
 
   for (final file in files) {
     final filePath = path.normalize(path.absolute(file.path));
     final context = contextCollection.contextFor(filePath);
     final library = await context.currentSession.getResolvedLibrary(filePath);
-
     library.element.accept(visitor);
   }
 
-  if (visitor.lines.isNotEmpty) {
-    lines.addAll(visitor.lines);
-    lines.add('');
-  }
-
-  lines.add('@enduml');
-
-  return lines.join('\n');
+  return builder.build();
 }
