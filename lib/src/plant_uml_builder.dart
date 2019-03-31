@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:analyzer/dart/element/element.dart';
 import 'package:dartagram/src/constants.dart';
 import 'package:dartagram/src/uml_builder.dart';
 
-class PlantUmlBuilder implements UmlBuilder<String> {
+class PlantUmlBuilder implements UmlBuilder {
   final Set<String> _classesSeen = {};
 
   final List<String> _lines = [
@@ -88,11 +90,14 @@ class PlantUmlBuilder implements UmlBuilder<String> {
   }
 
   @override
-  String build() => ([]
-        ..addAll(_lines)
-        ..add('')
-        ..add('@enduml'))
-      .join('\n');
+  void printContent(void printer(String content)) {
+    final content = ([]
+          ..addAll(_lines)
+          ..add('')
+          ..add('@enduml'))
+        .join('\n');
+    printer(content);
+  }
 
   String getFullTypeName(Element element) {
     final namespace = element.library.identifier
@@ -145,5 +150,10 @@ class PlantUmlBuilder implements UmlBuilder<String> {
     for (final field in element.fields) {
       hasA(element, field.type.element);
     }
+  }
+
+  @override
+  void writeContent(File file) {
+    printContent(file.writeAsStringSync);
   }
 }

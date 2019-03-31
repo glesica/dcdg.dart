@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dartagram/dartagram.dart';
+import 'package:path/path.dart' as path;
 
 // TODO: Export the necessary stuff
 import 'package:dartagram/src/command_line.dart';
@@ -16,26 +17,34 @@ Future<Null> main(Iterable<String> arguments) async {
     exit(0);
   }
 
-  try {
-    final libraries = await findLibraries(packagePath: config.packagePath);
+  // TODO: Move validation to the Configuration itself for easier testing
 
-    buildUml(
-      builder: config.builder,
-      libraries: libraries,
-      excludes: config.typeExcludes,
-      includes: config.typeIncludes,
-    );
-  } on ArgumentError catch (_) {
-    outputError('Package path is not a Dart package (${config.packagePath}');
+  if (config.builder == null) {
+    outputError('Builder "${config.builderName}" was not found');
     exit(1);
   }
 
+  final pubspec = File(path.join(config.packagePath, 'pubspec.yaml'));
+  if (!pubspec.existsSync()) {
+    outputError('No Dart package found at ${config.packagePath}');
+    exit(1);
+  }
+
+  final libraries = await findLibraries(packagePath: config.packagePath);
+
+  buildUml(
+    builder: config.builder,
+    libraries: libraries,
+    excludes: config.typeExcludes,
+    includes: config.typeIncludes,
+  );
+
   if (config.outputPath == '') {
-    print(config.builder.build());
+    config.builder.printContent(print);
   } else {
-    final plantUmlFile = File(config.outputPath);
+    final outFile = File(config.outputPath);
     try {
-      plantUmlFile.writeAsStringSync(config.builder.build());
+      config.builder.writeContent(outFile);
     } on FileSystemException catch (exception) {
       outputError(
         'Failed writing to file ${exception.path} (${exception.osError})',

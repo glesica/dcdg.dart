@@ -7,6 +7,8 @@ import 'package:meta/meta.dart';
 abstract class Configuration {
   UmlBuilder get builder;
 
+  String get builderName;
+
   String get outputPath;
 
   String get packagePath;
@@ -19,6 +21,7 @@ abstract class Configuration {
 
   factory Configuration.fromArgResults(ArgResults results) => ConfigurationImpl(
         builder: getBuilder(results[builderOption]),
+        builderName: results[builderOption],
         outputPath: results[outputPathOption],
         packagePath: results[packagePathOption],
         shouldShowHelp: results[helpOption],
@@ -37,6 +40,9 @@ class ConfigurationImpl implements Configuration {
   final UmlBuilder builder;
 
   @override
+  final String builderName;
+
+  @override
   final String outputPath;
 
   @override
@@ -53,6 +59,7 @@ class ConfigurationImpl implements Configuration {
 
   ConfigurationImpl({
     @required this.builder,
+    @required this.builderName,
     @required this.outputPath,
     @required this.packagePath,
     @required this.shouldShowHelp,

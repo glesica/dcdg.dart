@@ -18,14 +18,6 @@ Future<Iterable<LibraryElement>> findLibraries({
         ),
       );
 
-  // Attempt to verify that the package path contains a Dart package
-  // of some sort.
-  final pubspec = File(makePackageSubPath('pubspec.yaml'));
-  if (!pubspec.existsSync()) {
-    // TODO: Make this exception easier to distinguish from other errors
-    throw ArgumentError.value(packagePath, 'packagePath');
-  }
-
   final contextCollection = AnalysisContextCollection(
     includedPaths: [
       // TODO: Handle other possible directories like web/ and bin/
