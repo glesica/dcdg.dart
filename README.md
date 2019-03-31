@@ -4,7 +4,11 @@ A small command line utility to generate a class (UML) diagram from a Dart packa
 
 ## Usage
 
+Install from clone:
+
+`pub global activate -s path .`
+
 From inside a Dart package repository:
 
-`pub run dcdg`
+`pub global run dcdg`
 
