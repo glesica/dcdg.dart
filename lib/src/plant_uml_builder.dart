@@ -10,7 +10,6 @@ class PlantUmlBuilder implements UmlBuilder {
   final List<String> _lines = [
     '@startuml',
     'set namespaceSeparator $namespaceSeparator',
-    '',
   ];
 
   void addBlank() {
@@ -34,6 +33,7 @@ class PlantUmlBuilder implements UmlBuilder {
     final visibilityPrefix = getVisibility(element);
     final staticPrefix = element.isStatic ? '{static} ' : '';
     final name = element.name;
+    // TODO: Make this work properly for typedefs (currently null)
     final type = element.type.name;
     _lines.add('  $staticPrefix$visibilityPrefix$type $name');
   }

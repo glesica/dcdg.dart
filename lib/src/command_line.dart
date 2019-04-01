@@ -1,7 +1,7 @@
 import 'package:args/args.dart';
 import 'package:dcdg/src/uml_builder_factories.dart';
 
-const exludeOption = 'exclude';
+const excludeOption = 'exclude';
 const builderOption = 'builder';
 const helpOption = 'help';
 const outputPathOption = 'output';
@@ -10,7 +10,7 @@ const includeOption = 'include';
 
 final argParser = ArgParser(usageLineLength: 80)
   ..addMultiOption(
-    exludeOption,
+    excludeOption,
     abbr: 'e',
     help: 'Class / type names to ignore',
   )

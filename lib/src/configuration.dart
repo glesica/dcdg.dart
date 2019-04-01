@@ -25,7 +25,7 @@ abstract class Configuration {
         outputPath: results[outputPathOption],
         packagePath: results[packagePathOption],
         shouldShowHelp: results[helpOption],
-        typeExcludes: results[exludeOption],
+        typeExcludes: results[excludeOption],
         typeIncludes: results[includeOption],
       );
 
