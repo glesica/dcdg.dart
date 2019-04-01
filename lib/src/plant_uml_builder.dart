@@ -57,7 +57,7 @@ class PlantUmlBuilder implements UmlBuilder {
     final visibilityPrefix = getVisibility(element);
     final staticPrefix = element.isStatic ? '{static} ' : '';
     final name = element.name;
-    final type = element.type.name;
+    final type = element.returnType.name;
     _lines.add('  $staticPrefix$visibilityPrefix$type $name()');
   }
 
@@ -89,16 +89,6 @@ class PlantUmlBuilder implements UmlBuilder {
     _lines.add('$fullSuperClassName <|-- $fullClassName');
   }
 
-  @override
-  void printContent(void printer(String content)) {
-    final content = ([]
-          ..addAll(_lines)
-          ..add('')
-          ..add('@enduml'))
-        .join('\n');
-    printer(content);
-  }
-
   String getFullTypeName(Element element) {
     final namespace = element.library.identifier
         .replaceFirst('package:', '')
@@ -122,6 +112,16 @@ class PlantUmlBuilder implements UmlBuilder {
     final containedFullName = getFullTypeName(contained);
 
     _lines.add('$containerFullName *- $containedFullName');
+  }
+
+  @override
+  void printContent(void printer(String content)) {
+    final content = ([]
+      ..addAll(_lines)
+      ..add('')
+      ..add('@enduml'))
+        .join('\n');
+    printer(content);
   }
 
   @override
