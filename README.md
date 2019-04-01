@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/glesica/dcdg.dart.svg?branch=master)](https://travis-ci.org/glesica/dcdg.dart)
+
 # Dart Class Diagram Generator
 
 A small command line utility to generate a class (UML) diagram from a Dart package.
