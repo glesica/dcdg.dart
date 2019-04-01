@@ -117,9 +117,9 @@ class PlantUmlBuilder implements UmlBuilder {
   @override
   void printContent(void printer(String content)) {
     final content = ([]
-      ..addAll(_lines)
-      ..add('')
-      ..add('@enduml'))
+          ..addAll(_lines)
+          ..add('')
+          ..add('@enduml'))
         .join('\n');
     printer(content);
   }
