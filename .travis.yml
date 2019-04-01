@@ -1,0 +1,8 @@
+language: dart
+dart:
+  - 2.2.0
+  - stable
+  - dev
+script:
+  - ./tool/format.sh
+  - ./tool/check.sh
