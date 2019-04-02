@@ -32,10 +32,14 @@ Future<Null> main(Iterable<String> arguments) async {
 
   final libraries = await findLibraries(packagePath: config.packagePath);
 
-  buildUml(
+  buildDiagram(
     builder: config.builder,
     libraries: libraries,
+    excludePrivateClasses: config.excludePrivateClasses,
+    excludePrivateFields: config.excludePrivateFields,
+    excludePrivateMethods: config.excludePrivateMethods,
     excludes: config.typeExcludes,
+    exportedOnly: config.exportedOnly,
     includes: config.typeIncludes,
   );
 

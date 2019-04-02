@@ -1,11 +1,11 @@
 import 'package:args/args.dart';
 import 'package:dcdg/src/uml_builder_factories.dart';
 import 'package:dcdg/src/command_line.dart';
-import 'package:dcdg/src/uml_builder.dart';
+import 'package:dcdg/src/diagram_builder.dart';
 import 'package:meta/meta.dart';
 
 abstract class Configuration {
-  UmlBuilder get builder;
+  DiagramBuilder get builder;
 
   String get builderName;
 
@@ -61,7 +61,7 @@ abstract class Configuration {
 
 class ConfigurationImpl implements Configuration {
   @override
-  final UmlBuilder builder;
+  final DiagramBuilder builder;
 
   @override
   final String builderName;

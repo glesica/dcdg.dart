@@ -2,33 +2,29 @@ import 'dart:io';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:dcdg/src/constants.dart';
-import 'package:dcdg/src/uml_builder.dart';
+import 'package:dcdg/src/diagram_builder.dart';
 
-class PlantUmlBuilder implements UmlBuilder {
+class PlantUmlBuilder implements DiagramBuilder {
   final Set<String> _classesSeen = {};
+  String _currentClass;
 
   final List<String> _lines = [
     '@startuml',
     'set namespaceSeparator $namespaceSeparator',
   ];
 
-  void addBlank() {
-    _lines.add('');
-  }
-
   void addClass(ClassElement element) {
-    final fullClassName = getFullTypeName(element);
-
-    if (_classesSeen.contains(fullClassName)) {
+    if (_classesSeen.contains(_currentClass)) {
       return;
     }
 
     final decl = element.isAbstract ? 'abstract class' : 'class';
+    _lines.add('$decl $_currentClass {');
 
-    _lines.add('$decl $fullClassName {');
-    _classesSeen.add(fullClassName);
+    _classesSeen.add(_currentClass);
   }
 
+  @override
   void addField(FieldElement element) {
     final visibilityPrefix = getVisibility(element);
     final staticPrefix = element.isStatic ? '{static} ' : '';
@@ -45,20 +41,9 @@ class PlantUmlBuilder implements UmlBuilder {
 
     for (final interface in element.interfaces) {
       final interfaceElement = interface.element;
-
-      final fullClassName = getFullTypeName(element);
-      final fullInterfaceClassName = getFullTypeName(interfaceElement);
-
-      _lines.add('$fullInterfaceClassName <|-- $fullClassName');
+      final interfaceClass = getNamespacedTypeName(interfaceElement);
+      _lines.add('$interfaceClass <|-- $_currentClass');
     }
-  }
-
-  void addMethod(MethodElement element) {
-    final visibilityPrefix = getVisibility(element);
-    final staticPrefix = element.isStatic ? '{static} ' : '';
-    final name = element.name;
-    final type = element.returnType.name;
-    _lines.add('  $staticPrefix$visibilityPrefix$type $name()');
   }
 
   void addMixins(ClassElement element) {
@@ -68,11 +53,8 @@ class PlantUmlBuilder implements UmlBuilder {
 
     for (final mixin in element.mixins) {
       final mixinElement = mixin.element;
-
-      final fullClassName = getFullTypeName(element);
-      final fullInterfaceClassName = getFullTypeName(mixinElement);
-
-      _lines.add('$fullInterfaceClassName <|-- $fullClassName');
+      final mixinClass = getNamespacedTypeName(mixinElement);
+      _lines.add('$mixinClass <|-- $_currentClass');
     }
   }
 
@@ -83,13 +65,34 @@ class PlantUmlBuilder implements UmlBuilder {
       return;
     }
 
-    final fullClassName = getFullTypeName(element);
-    final fullSuperClassName = getFullTypeName(superElement);
-
-    _lines.add('$fullSuperClassName <|-- $fullClassName');
+    final superClass = getNamespacedTypeName(superElement);
+    _lines.add('$superClass <|-- $_currentClass');
   }
 
-  String getFullTypeName(Element element) {
+  @override
+  void addMethod(MethodElement element) {
+    final visibilityPrefix = getVisibility(element);
+    final staticPrefix = element.isStatic ? '{static} ' : '';
+    final name = element.name;
+    final type = element.returnType.name;
+    _lines.add('  $staticPrefix$visibilityPrefix$type $name()');
+  }
+
+  @override
+  void finishClass(ClassElement element) {
+    _lines.add('}');
+    _lines.add('');
+
+    addInterfaces(element);
+    addMixins(element);
+    addSuper(element);
+
+    _lines.add('');
+
+    _currentClass = null;
+  }
+
+  String getNamespacedTypeName(Element element) {
     final namespace = element.library.identifier
         .replaceFirst('package:', '')
         .replaceFirst('dart:', 'dart::')
@@ -103,17 +106,6 @@ class PlantUmlBuilder implements UmlBuilder {
     return element.isPrivate ? '-' : element.hasProtected ? '#' : '+';
   }
 
-  void hasA(Element container, Element contained) {
-    if (contained.library.identifier.startsWith('dart:core')) {
-      return;
-    }
-
-    final containerFullName = getFullTypeName(container);
-    final containedFullName = getFullTypeName(contained);
-
-    _lines.add('$containerFullName *- $containedFullName');
-  }
-
   @override
   void printContent(void printer(String content)) {
     final content = ([]
@@ -125,31 +117,11 @@ class PlantUmlBuilder implements UmlBuilder {
   }
 
   @override
-  void processClass(ClassElement element) {
-    addBlank();
+  void startClass(ClassElement element) {
+    _currentClass = getNamespacedTypeName(element);
+
+    _lines.add('');
     addClass(element);
-
-    for (final field in element.fields) {
-      addField(field);
-    }
-
-    for (final method in element.methods) {
-      if (method.isPrivate || method.hasProtected) {
-        continue;
-      }
-      addMethod(method);
-    }
-
-    _lines.add('}');
-    addBlank();
-
-    addSuper(element);
-    addInterfaces(element);
-    addMixins(element);
-
-    for (final field in element.fields) {
-      hasA(element, field.type.element);
-    }
   }
 
   @override

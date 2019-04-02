@@ -26,7 +26,7 @@ void main() {
 
       test('should concatenate package and class name', () {
         when(library.identifier).thenReturn('package:pkg/entry.dart');
-        final fullName = visitor.getFullTypeName(element);
+        final fullName = visitor.getNamespacedTypeName(element);
         expect(
           fullName,
           [
@@ -39,7 +39,7 @@ void main() {
 
       test('should convert a dart:core prefix to dart::core', () {
         when(library.identifier).thenReturn('dart:core/entry.dart');
-        final fullName = visitor.getFullTypeName(element);
+        final fullName = visitor.getNamespacedTypeName(element);
         expect(
           fullName,
           [

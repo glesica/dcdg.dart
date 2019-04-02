@@ -1,1 +1,1 @@
-export 'src/build_uml.dart' show buildUml;
+export 'src/build_diagram.dart' show buildDiagram;

@@ -1,5 +1,5 @@
 import 'package:dcdg/src/plant_uml_builder.dart';
-import 'package:dcdg/src/uml_builder.dart';
+import 'package:dcdg/src/diagram_builder.dart';
 import 'package:meta/meta.dart';
 
 /// A collection of available builders parameterized in different ways
@@ -15,7 +15,7 @@ final Map<String, UmlBuilderFactory> _factories = {
   ),
 };
 
-typedef UmlBuilderFactoryCallback = UmlBuilder Function();
+typedef UmlBuilderFactoryCallback = DiagramBuilder Function();
 
 class UmlBuilderFactory {
   final UmlBuilderFactoryCallback callback;
@@ -36,4 +36,4 @@ class UmlBuilderFactory {
 
 Iterable<String> availableBuilders() => _factories.keys;
 
-UmlBuilder getBuilder(String name) => _factories[name]?.callback();
+DiagramBuilder getBuilder(String name) => _factories[name]?.callback();
