@@ -9,6 +9,14 @@ abstract class Configuration {
 
   String get builderName;
 
+  bool get exportedOnly;
+
+  bool get excludePrivateClasses;
+
+  bool get excludePrivateFields;
+
+  bool get excludePrivateMethods;
+
   String get outputPath;
 
   String get packagePath;
@@ -19,15 +27,31 @@ abstract class Configuration {
 
   Iterable<String> get typeIncludes;
 
-  factory Configuration.fromArgResults(ArgResults results) => ConfigurationImpl(
-        builder: getBuilder(results[builderOption]),
-        builderName: results[builderOption],
-        outputPath: results[outputPathOption],
-        packagePath: results[packagePathOption],
-        shouldShowHelp: results[helpOption],
-        typeExcludes: results[excludeOption],
-        typeIncludes: results[includeOption],
-      );
+  factory Configuration.fromArgResults(ArgResults results) {
+    final excludePrivateValues =
+        results[excludePrivateOption] as Iterable<String>;
+    final excludePrivateAll = excludePrivateValues.contains('all');
+    final excludePrivateClasses =
+        excludePrivateAll || excludePrivateValues.contains('class');
+    final excludePrivateFields =
+        excludePrivateAll || excludePrivateValues.contains('field');
+    final excludePrivateMethods =
+        excludePrivateAll || excludePrivateValues.contains('method');
+
+    return ConfigurationImpl(
+      builder: getBuilder(results[builderOption]),
+      builderName: results[builderOption],
+      excludePrivateClasses: excludePrivateClasses,
+      excludePrivateFields: excludePrivateFields,
+      excludePrivateMethods: excludePrivateMethods,
+      exportedOnly: results[exportedOnlyOption],
+      outputPath: results[outputPathOption],
+      packagePath: results[packagePathOption],
+      shouldShowHelp: results[helpOption],
+      typeExcludes: results[excludeOption],
+      typeIncludes: results[includeOption],
+    );
+  }
 
   factory Configuration.fromCommandLine(List<String> arguments) {
     final results = argParser.parse(arguments);
@@ -41,6 +65,18 @@ class ConfigurationImpl implements Configuration {
 
   @override
   final String builderName;
+
+  @override
+  final bool excludePrivateClasses;
+
+  @override
+  final bool excludePrivateFields;
+
+  @override
+  final bool excludePrivateMethods;
+
+  @override
+  final bool exportedOnly;
 
   @override
   final String outputPath;
@@ -60,6 +96,10 @@ class ConfigurationImpl implements Configuration {
   ConfigurationImpl({
     @required this.builder,
     @required this.builderName,
+    @required this.exportedOnly,
+    @required this.excludePrivateClasses,
+    @required this.excludePrivateFields,
+    @required this.excludePrivateMethods,
     @required this.outputPath,
     @required this.packagePath,
     @required this.shouldShowHelp,

@@ -9,7 +9,15 @@ void _defaultOnClass(ClassElement element) {
 }
 
 class UmlVisitor extends RecursiveElementVisitor<void> {
+  final bool _excludePrivateClasses;
+
+  final bool _excludePrivateFields;
+
+  final bool _excludePrivateMethods;
+
   final Set<String> _excludes;
+
+  final bool _exportedOnly;
 
   final Set<String> _includes;
 
@@ -17,9 +25,17 @@ class UmlVisitor extends RecursiveElementVisitor<void> {
 
   UmlVisitor({
     @required OnClassHandler onClass,
+    bool excludePrivateClasses,
+    bool excludePrivateFields,
+    bool excludePrivateMethods,
     Iterable<String> excludes,
+    bool exportedOnly,
     Iterable<String> includes,
-  })  : _excludes = Set.from(excludes ?? []),
+  })  : _excludePrivateClasses = excludePrivateClasses ?? false,
+        _excludePrivateFields = excludePrivateFields ?? false,
+        _excludePrivateMethods = excludePrivateMethods ?? false,
+        _excludes = Set.from(excludes ?? []),
+        _exportedOnly = exportedOnly ?? false,
         _includes = Set.from(includes ?? []),
         _onClassElement = onClass ?? _defaultOnClass;
 
@@ -27,7 +43,13 @@ class UmlVisitor extends RecursiveElementVisitor<void> {
   ///
   /// When both an excludes list and an includes list are provided,
   /// the excludes list takes precedence.
+  ///
+  /// TODO: Figure out how to make this work for fields and methods
   bool shouldProcess(ClassElement element) {
+    if (_excludePrivateClasses && element.isPrivate) {
+      return false;
+    }
+
     if (_excludes.contains(element.name)) {
       return false;
     }

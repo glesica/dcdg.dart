@@ -1,18 +1,38 @@
 import 'package:args/args.dart';
 import 'package:dcdg/src/uml_builder_factories.dart';
 
-const excludeOption = 'exclude';
 const builderOption = 'builder';
+const excludeOption = 'exclude';
+const excludePrivateOption = 'exclude-private';
+const exportedOnlyOption = 'exported-only';
 const helpOption = 'help';
+const includeOption = 'include';
 const outputPathOption = 'output';
 const packagePathOption = 'package';
-const includeOption = 'include';
 
 final argParser = ArgParser(usageLineLength: 80)
+  ..addOption(
+    builderOption,
+    abbr: 'b',
+    help: 'Builder to use to construct a class diagram',
+    valueHelp: 'NAME',
+    defaultsTo: availableBuilders().first,
+  )
   ..addMultiOption(
     excludeOption,
     abbr: 'e',
     help: 'Class / type names to ignore',
+    valueHelp: 'TYPE',
+  )
+  ..addMultiOption(
+    excludePrivateOption,
+    help: 'Exclude private entities (field, method, class, or all)',
+    valueHelp: 'KIND',
+  )
+  ..addFlag(
+    exportedOnlyOption,
+    help: 'Include only classes exported from the Dart package',
+    negatable: false,
   )
   ..addFlag(
     helpOption,
@@ -20,12 +40,11 @@ final argParser = ArgParser(usageLineLength: 80)
     help: 'Show usage information',
     negatable: false,
   )
-  ..addOption(
-    builderOption,
-    abbr: 'b',
-    help: 'Builder to use to construct a UML diagram',
-    valueHelp: 'NAME',
-    defaultsTo: availableBuilders().first,
+  ..addMultiOption(
+    includeOption,
+    abbr: 'i',
+    help: 'Class / type names to include',
+    valueHelp: 'TYPE',
   )
   ..addOption(
     outputPathOption,
@@ -40,11 +59,6 @@ final argParser = ArgParser(usageLineLength: 80)
     help: 'Path to the root of the Dart package to scan',
     valueHelp: 'DIR',
     defaultsTo: '.',
-  )
-  ..addMultiOption(
-    includeOption,
-    abbr: 'i',
-    help: 'Class / type names to include',
   );
 
 String makeHelp() {
