@@ -31,7 +31,7 @@ final argParser = ArgParser(usageLineLength: 80)
   )
   ..addFlag(
     exportedOnlyOption,
-    help: 'Include only classes exported from the Dart package',
+    help: 'Include only classes exported from the Dart package (coming soon)',
     negatable: false,
   )
   ..addFlag(
