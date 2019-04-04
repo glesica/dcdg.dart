@@ -3,6 +3,8 @@ description: Dart class diagram generator.
 version: 1.0.0
 homepage: https://github.com/glesica/dcdg
 author: George Lesica <george@lesica.com>
+executables:
+  dcdg:
 
 environment:
   sdk: '>=2.2.0 <3.0.0'
