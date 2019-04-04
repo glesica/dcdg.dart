@@ -1,7 +1,7 @@
 import 'package:args/args.dart';
-import 'package:dcdg/src/uml_builder_factories.dart';
+import 'package:dcdg/src/builder_factories.dart';
 import 'package:dcdg/src/command_line.dart';
-import 'package:dcdg/src/diagram_builder.dart';
+import 'package:dcdg/src/builders/diagram_builder.dart';
 import 'package:meta/meta.dart';
 
 abstract class Configuration {

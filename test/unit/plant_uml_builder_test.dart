@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:dcdg/src/constants.dart';
-import 'package:dcdg/src/plant_uml_builder.dart';
+import 'package:dcdg/src/builders/plant_uml_builder.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 

@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:dcdg/src/constants.dart';
-import 'package:dcdg/src/diagram_builder.dart';
+import 'package:dcdg/src/builders/diagram_builder.dart';
 
 class PlantUmlBuilder implements DiagramBuilder {
-  final Set<String> _classesSeen = {};
   String _currentClass;
 
   final List<String> _lines = [
@@ -14,14 +13,8 @@ class PlantUmlBuilder implements DiagramBuilder {
   ];
 
   void addClass(ClassElement element) {
-    if (_classesSeen.contains(_currentClass)) {
-      return;
-    }
-
     final decl = element.isAbstract ? 'abstract class' : 'class';
     _lines.add('$decl $_currentClass {');
-
-    _classesSeen.add(_currentClass);
   }
 
   @override

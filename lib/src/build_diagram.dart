@@ -1,5 +1,5 @@
 import 'package:analyzer/dart/element/element.dart';
-import 'package:dcdg/src/diagram_builder.dart';
+import 'package:dcdg/src/builders/diagram_builder.dart';
 import 'package:dcdg/src/diagram_visitor.dart';
 import 'package:meta/meta.dart';
 

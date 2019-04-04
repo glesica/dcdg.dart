@@ -1,5 +1,5 @@
 import 'package:args/args.dart';
-import 'package:dcdg/src/uml_builder_factories.dart';
+import 'package:dcdg/src/builder_factories.dart';
 
 const builderOption = 'builder';
 const excludeOption = 'exclude';
@@ -16,7 +16,7 @@ final argParser = ArgParser(usageLineLength: 80)
     abbr: 'b',
     help: 'Builder to use to construct a class diagram',
     valueHelp: 'NAME',
-    defaultsTo: availableBuilders().first,
+    defaultsTo: availableBuilders().first.name,
   )
   ..addMultiOption(
     excludeOption,
