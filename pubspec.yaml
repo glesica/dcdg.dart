@@ -1,7 +1,7 @@
 name: dcdg
 description: Dart class diagram generator.
 version: 1.0.0
-homepage: https://github.com/glesica/dcdg
+homepage: https://github.com/glesica/dcdg.dart
 author: George Lesica <george@lesica.com>
 executables:
   dcdg:
