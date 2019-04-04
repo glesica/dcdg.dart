@@ -21,7 +21,7 @@ final argParser = ArgParser(usageLineLength: 80)
   ..addMultiOption(
     excludeOption,
     abbr: 'e',
-    help: 'Class / type names to ignore',
+    help: 'Class / type names to exclude, can be a regular expression',
     valueHelp: 'TYPE',
   )
   ..addMultiOption(
@@ -43,7 +43,7 @@ final argParser = ArgParser(usageLineLength: 80)
   ..addMultiOption(
     includeOption,
     abbr: 'i',
-    help: 'Class / type names to include',
+    help: 'Class / type names to include, can be a regular expression',
     valueHelp: 'TYPE',
   )
   ..addOption(

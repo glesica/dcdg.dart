@@ -9,9 +9,9 @@ void buildDiagram({
   bool excludePrivateClasses,
   bool excludePrivateFields,
   bool excludePrivateMethods,
-  Iterable<String> excludes,
+  Iterable<RegExp> excludes,
   bool exportedOnly,
-  Iterable<String> includes,
+  Iterable<RegExp> includes,
 }) {
   final visitor = DiagramVisitor(
     onField: builder.addField,

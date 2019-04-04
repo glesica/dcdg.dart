@@ -38,9 +38,9 @@ Future<Null> main(Iterable<String> arguments) async {
     excludePrivateClasses: config.excludePrivateClasses,
     excludePrivateFields: config.excludePrivateFields,
     excludePrivateMethods: config.excludePrivateMethods,
-    excludes: config.typeExcludes,
+    excludes: config.excludeExpressions,
     exportedOnly: config.exportedOnly,
-    includes: config.typeIncludes,
+    includes: config.includeExpressions,
   );
 
   if (config.outputPath == '') {

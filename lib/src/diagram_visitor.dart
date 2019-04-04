@@ -17,11 +17,11 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
 
   final bool _excludePrivateMethods;
 
-  final Set<String> _excludes;
+  final Iterable<RegExp> _excludes;
 
   final bool _exportedOnly;
 
-  final Set<String> _includes;
+  final Iterable<RegExp> _includes;
 
   final OnElementHandler<FieldElement> _onFieldElement;
 
@@ -36,29 +36,32 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     bool excludePrivateClasses,
     bool excludePrivateFields,
     bool excludePrivateMethods,
-    Iterable<String> excludes,
+    Iterable<RegExp> excludes,
     bool exportedOnly,
-    Iterable<String> includes,
+    Iterable<RegExp> includes,
     OnElementHandler<FieldElement> onField,
     OnElementHandler<ClassElement> onFinishClass,
     OnElementHandler<MethodElement> onMethod,
   })  : _excludePrivateClasses = excludePrivateClasses ?? false,
         _excludePrivateFields = excludePrivateFields ?? false,
         _excludePrivateMethods = excludePrivateMethods ?? false,
-        _excludes = Set.from(excludes ?? []),
+        _excludes = excludes ?? <RegExp>[],
         _exportedOnly = exportedOnly ?? false,
-        _includes = Set.from(includes ?? []),
+        _includes = includes ?? <RegExp>[],
         _onFieldElement = onField ?? _noopOnElement,
         _onFinishClassElement = onFinishClass ?? _noopOnElement,
         _onMethodElement = onMethod ?? _noopOnElement,
         _onStartClassElement = onStartClass ?? _defaultOnClass;
 
-  bool _shouldInclude(Element element) {
-    if (_excludes.contains(element.name)) {
+  /// Whether an element should be included based on the `includes`
+  /// and `excludes` lists alone, assuming it isn't excluded for
+  /// any other reason.
+  bool shouldInclude(Element element) {
+    if (_excludes.any((r) => r.hasMatch(element.name))) {
       return false;
     }
 
-    if (_includes.contains(element.name)) {
+    if (_includes.any((r) => r.hasMatch(element.name))) {
       return true;
     }
 
@@ -75,7 +78,7 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
       return false;
     }
 
-    return _shouldInclude(element);
+    return shouldInclude(element);
   }
 
   bool shouldIncludeField(FieldElement element) {
@@ -83,7 +86,7 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
       return false;
     }
 
-    return _shouldInclude(element);
+    return shouldInclude(element);
   }
 
   bool shouldIncludeMethod(MethodElement element) {
@@ -91,7 +94,7 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
       return false;
     }
 
-    return _shouldInclude(element);
+    return shouldInclude(element);
   }
 
   @override
