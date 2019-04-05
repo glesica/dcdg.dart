@@ -30,16 +30,18 @@ Future<Null> main(Iterable<String> arguments) async {
     exit(1);
   }
 
-  final libraries = await findLibraries(packagePath: config.packagePath);
+  final classes = await findClassElements(
+    exportOnly: config.exportedOnly,
+    packagePath: config.packagePath,
+  );
 
   buildDiagram(
     builder: config.builder,
-    libraries: libraries,
+    classElements: classes,
     excludePrivateClasses: config.excludePrivateClasses,
     excludePrivateFields: config.excludePrivateFields,
     excludePrivateMethods: config.excludePrivateMethods,
     excludes: config.excludeExpressions,
-    exportedOnly: config.exportedOnly,
     includes: config.includeExpressions,
   );
 

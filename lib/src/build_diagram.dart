@@ -5,12 +5,11 @@ import 'package:meta/meta.dart';
 
 void buildDiagram({
   @required DiagramBuilder builder,
-  @required Iterable<LibraryElement> libraries,
+  @required Iterable<ClassElement> classElements,
   bool excludePrivateClasses,
   bool excludePrivateFields,
   bool excludePrivateMethods,
   Iterable<RegExp> excludes,
-  bool exportedOnly,
   Iterable<RegExp> includes,
 }) {
   final visitor = DiagramVisitor(
@@ -22,11 +21,10 @@ void buildDiagram({
     excludePrivateFields: excludePrivateMethods,
     excludePrivateMethods: excludePrivateMethods,
     excludes: excludes,
-    exportedOnly: exportedOnly,
     includes: includes,
   );
 
-  for (final library in libraries) {
-    library.accept(visitor);
+  for (final element in classElements) {
+    element.accept(visitor);
   }
 }

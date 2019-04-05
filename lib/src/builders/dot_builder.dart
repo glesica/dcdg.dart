@@ -11,8 +11,6 @@ class DotBuilder implements DiagramBuilder {
     '',
   ];
 
-  final Set<String> _namesSeen = {};
-
   @override
   void addField(FieldElement element) {
     // TODO: implement addField

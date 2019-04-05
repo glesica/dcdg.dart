@@ -19,8 +19,6 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
 
   final Iterable<RegExp> _excludes;
 
-  final bool _exportedOnly;
-
   final Iterable<RegExp> _includes;
 
   final OnElementHandler<FieldElement> _onFieldElement;
@@ -37,7 +35,6 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     bool excludePrivateFields,
     bool excludePrivateMethods,
     Iterable<RegExp> excludes,
-    bool exportedOnly,
     Iterable<RegExp> includes,
     OnElementHandler<FieldElement> onField,
     OnElementHandler<ClassElement> onFinishClass,
@@ -46,7 +43,6 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
         _excludePrivateFields = excludePrivateFields ?? false,
         _excludePrivateMethods = excludePrivateMethods ?? false,
         _excludes = excludes ?? <RegExp>[],
-        _exportedOnly = exportedOnly ?? false,
         _includes = includes ?? <RegExp>[],
         _onFieldElement = onField ?? _noopOnElement,
         _onFinishClassElement = onFinishClass ?? _noopOnElement,
