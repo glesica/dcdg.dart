@@ -40,9 +40,10 @@ Future<Iterable<ClassElement>> findClassElements({
     final filePath = path.normalize(path.absolute(file.path));
     final context = contextCollection.contextFor(filePath);
 
-    final libraryResult =
-        await context.currentSession.getResolvedLibrary(filePath);
-    libraryResult.element.accept(collector);
+    final unitResult = await context.currentSession.getResolvedUnit(filePath);
+    if (!unitResult.isPart) {
+      unitResult.libraryElement.accept(collector);
+    }
   }
 
   return collector.classElements;

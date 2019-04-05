@@ -9,6 +9,7 @@ void main() {
       expect(result.exitCode, 0);
       expect(result.stdout, contains('ExternalClass'));
       expect(result.stdout, contains('InternalClass'));
+      expect(result.stdout, contains('InternalClassInPart'));
     });
 
     test('should ignore excluded classes', () {
