@@ -29,8 +29,9 @@ Future<Iterable<ClassElement>> findClassElements({
   );
 
   // TODO: Allow the starting point to be customized on the command line
-  final dartFiles =
-      Directory(makePackageSubPath('lib')).listSync(recursive: true);
+  final dartFiles = Directory(makePackageSubPath('lib'))
+      .listSync(recursive: true)
+      .where((file) => path.extension(file.path) == '.dart');
 
   final collector = ClassElementCollector(
     exportOnly: exportOnly,
@@ -39,9 +40,10 @@ Future<Iterable<ClassElement>> findClassElements({
     final filePath = path.normalize(path.absolute(file.path));
     final context = contextCollection.contextFor(filePath);
 
-    final libraryResult =
-        await context.currentSession.getResolvedLibrary(filePath);
-    libraryResult.element.accept(collector);
+    final unitResult = await context.currentSession.getResolvedUnit(filePath);
+    if (!unitResult.isPart) {
+      unitResult.libraryElement.accept(collector);
+    }
   }
 
   return collector.classElements;
