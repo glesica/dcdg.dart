@@ -14,8 +14,8 @@ class ClassElementCollector extends RecursiveElementVisitor<void> {
   final bool _exportOnly;
 
   ClassElementCollector({
-    bool exportOnly,
-  }) : _exportOnly = exportOnly ?? false;
+    bool exportedOnly,
+  }) : _exportOnly = exportedOnly ?? false;
 
   Iterable<ClassElement> get classElements => _classElements;
 
@@ -40,7 +40,7 @@ class ClassElementCollector extends RecursiveElementVisitor<void> {
     }
 
     final collector = ClassElementCollector(
-      exportOnly: _exportOnly,
+      exportedOnly: _exportOnly,
     );
     element.exportedLibrary.accept(collector);
 

@@ -22,6 +22,7 @@ void main() {
       expect(result.exitCode, 0);
       expect(result.stdout, contains('ExternalClass'));
       expect(result.stdout, isNot(contains('InternalClass')));
+      expect(result.stdout, isNot(contains('InternalClassInPart')));
     });
 
     test('should ignore excluded classes based on a regex', () {
@@ -34,6 +35,7 @@ void main() {
       expect(result.exitCode, 0);
       expect(result.stdout, contains('ExternalClass'));
       expect(result.stdout, isNot(contains('InternalClass')));
+      expect(result.stdout, isNot(contains('InternalClassInPart')));
     });
 
     test('should limit to included classes', () {
@@ -46,6 +48,7 @@ void main() {
       expect(result.exitCode, 0);
       expect(result.stdout, isNot(contains('ExternalClass')));
       expect(result.stdout, contains('InternalClass'));
+      expect(result.stdout, contains('InternalClassInPart'));
     });
 
     test('should limit to included classes based on a regex', () {
@@ -58,6 +61,19 @@ void main() {
       expect(result.exitCode, 0);
       expect(result.stdout, isNot(contains('ExternalClass')));
       expect(result.stdout, contains('InternalClass'));
+      expect(result.stdout, contains('InternalClassInPart'));
+    });
+
+    test('should ignore unexported classes', () {
+      final result = runWith([
+        '--exported-only',
+        '-p',
+        'test/fixtures/simple/',
+      ]);
+      expect(result.exitCode, 0);
+      expect(result.stdout, contains('ExternalClass'));
+      expect(result.stdout, isNot(contains('InternalClass')));
+      expect(result.stdout, isNot(contains('InternalClassInPart')));
     });
   });
 }

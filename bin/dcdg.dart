@@ -7,7 +7,7 @@ import 'package:path/path.dart' as path;
 // TODO: Export the necessary stuff
 import 'package:dcdg/src/command_line.dart';
 import 'package:dcdg/src/configuration.dart';
-import 'package:dcdg/src/find_libraries.dart';
+import 'package:dcdg/src/find_class_elements.dart';
 
 Future<Null> main(Iterable<String> arguments) async {
   final config = Configuration.fromCommandLine(arguments);
@@ -31,7 +31,7 @@ Future<Null> main(Iterable<String> arguments) async {
   }
 
   final classes = await findClassElements(
-    exportOnly: config.exportedOnly,
+    exportedOnly: config.exportedOnly,
     packagePath: config.packagePath,
   );
 
