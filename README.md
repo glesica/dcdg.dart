@@ -10,7 +10,7 @@ A small command line utility to generate a class (UML or similar) diagram from a
 
 `pub global activate dcdg`
 
-**Install from clone**:
+**Install from clone:**
 
 `pub global activate -s path .`
 
