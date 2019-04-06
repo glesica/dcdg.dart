@@ -4,6 +4,13 @@
 
 A small command line utility to generate a class (UML or similar) diagram from a Dart package.
 
+## Examples
+
+Below is a UML diagram created with dcdg. You can find the PlantUML source in the `example/`
+directory.
+
+![Example UML Diagram](example/dcdg.png)
+
 ## Installation
 
 **Install from pub:**

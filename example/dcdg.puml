@@ -1,0 +1,128 @@
+@startuml
+set namespaceSeparator ::
+
+abstract class dcdg::src::configuration.dart::Configuration {
+  +DiagramBuilder builder
+  +String builderName
+  +Iterable excludeExpressions
+  +bool exportedOnly
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +Iterable includeExpressions
+  +String outputPath
+  +String packagePath
+  +bool shouldShowHelp
+}
+
+
+
+class dcdg::src::configuration.dart::ConfigurationImpl {
+  +DiagramBuilder builder
+  +String builderName
+  +Iterable excludeExpressions
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +bool exportedOnly
+  +Iterable includeExpressions
+  +String outputPath
+  +String packagePath
+  +bool shouldShowHelp
+}
+
+dcdg::src::configuration.dart::Configuration <|-- dcdg::src::configuration.dart::ConfigurationImpl
+
+
+class dcdg::src::diagram_visitor.dart::DiagramVisitor {
+  -bool _excludePrivateClasses
+  -bool _excludePrivateFields
+  -bool _excludePrivateMethods
+  -Iterable _excludes
+  -Iterable _includes
+  -null _onFieldElement
+  -null _onFinishClassElement
+  -null _onMethodElement
+  -null _onStartClassElement
+  +bool shouldInclude()
+  +bool shouldIncludeClass()
+  +bool shouldIncludeField()
+  +bool shouldIncludeMethod()
+  +void visitClassElement()
+  +void visitFieldElement()
+  +void visitMethodElement()
+}
+
+analyzer::dart::element::visitor.dart::RecursiveElementVisitor <|-- dcdg::src::diagram_visitor.dart::DiagramVisitor
+
+
+class dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder {
+  -String _currentClass
+  -List _lines
+  +void addClass()
+  +void addField()
+  +void addInterfaces()
+  +void addMixins()
+  +void addSuper()
+  +void addMethod()
+  +void finishClass()
+  +String getNamespacedTypeName()
+  +String getVisibility()
+  +void printContent()
+  +void startClass()
+  +void writeContent()
+}
+
+dcdg::src::builders::diagram_builder.dart::DiagramBuilder <|-- dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder
+
+
+class dcdg::src::builders::dot_builder.dart::DotBuilder {
+  -String _currentClass
+  -List _lines
+  +void addField()
+  +void addInterfaces()
+  +void addMethod()
+  +void addMixins()
+  +void addSuper()
+  +void finishClass()
+  +String getNamespacedTypeName()
+  +void printContent()
+  +void startClass()
+  +void writeContent()
+}
+
+dcdg::src::builders::diagram_builder.dart::DiagramBuilder <|-- dcdg::src::builders::dot_builder.dart::DotBuilder
+
+
+abstract class dcdg::src::builders::diagram_builder.dart::DiagramBuilder {
+  +void addField()
+  +void addMethod()
+  +void finishClass()
+  +void printContent()
+  +void startClass()
+  +void writeContent()
+}
+
+
+
+class dcdg::src::builder_factories.dart::UmlBuilderFactory {
+  +null callback
+  +String description
+  +String name
+  +String toString()
+}
+
+
+
+class dcdg::src::class_element_collector.dart::ClassElementCollector {
+  -List _classElements
+  -bool _exportOnly
+  +Iterable classElements
+  +void visitClassElement()
+  +void visitExportElement()
+}
+
+analyzer::dart::element::visitor.dart::RecursiveElementVisitor <|-- dcdg::src::class_element_collector.dart::ClassElementCollector
+
+
+@enduml
