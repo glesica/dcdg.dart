@@ -6,8 +6,8 @@ A small command line utility to generate a class (UML or similar) diagram from a
 
 ## Examples
 
-Below is a UML diagram created with dcdg. You can find the PlantUML source in the `example/`
-directory.
+Below is a UML diagram of the dcdg source code, created with dcdg. You can find the PlantUML source
+in the `example/` directory.
 
 ![Example UML Diagram](example/dcdg.png)
 
@@ -29,7 +29,8 @@ From inside a Dart package repository:
 
 This will dump a PlantUML file to stdout. You can save it to a file instead with the `-o` option.
 
-See `--help` for more options, including ways to filter what ends up in the output.
+See `--help` for more options, including ways to filter what ends up in the output. You can find the
+help contents in [USAGE.txt](USAGE.txt) as well.
 
 ## Contributing
 
