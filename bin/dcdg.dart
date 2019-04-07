@@ -4,11 +4,6 @@ import 'dart:io';
 import 'package:dcdg/dcdg.dart';
 import 'package:path/path.dart' as path;
 
-// TODO: Export the necessary stuff
-import 'package:dcdg/src/command_line.dart';
-import 'package:dcdg/src/configuration.dart';
-import 'package:dcdg/src/find_class_elements.dart';
-
 Future<Null> main(Iterable<String> arguments) async {
   final config = Configuration.fromCommandLine(arguments);
 

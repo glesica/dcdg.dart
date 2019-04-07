@@ -6,4 +6,5 @@
 1.0.3 - add changelog and expand description
 1.0.4 - fix bug where --exported-only didn't work
 1.0.5 - improve documentation
+1.0.6 - export the necessary symbols
 
