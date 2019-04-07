@@ -3,6 +3,8 @@ import 'package:dcdg/src/builders/diagram_builder.dart';
 import 'package:dcdg/src/diagram_visitor.dart';
 import 'package:meta/meta.dart';
 
+/// Build a diagram using the given builder from the given class
+/// elements.
 void buildDiagram({
   @required DiagramBuilder builder,
   @required Iterable<ClassElement> classElements,

@@ -6,6 +6,8 @@ import 'package:dcdg/src/class_element_collector.dart';
 import 'package:meta/meta.dart';
 import 'package:path/path.dart' as path;
 
+/// Fetch and return the desired class elements from the package
+/// rooted at the given path.
 Future<Iterable<ClassElement>> findClassElements({
   @required String packagePath,
   bool exportedOnly,

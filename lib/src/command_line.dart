@@ -61,6 +61,8 @@ final argParser = ArgParser(usageLineLength: 80)
     defaultsTo: '.',
   );
 
+/// Return a string that contains the usage and help information
+/// based on the arguments defined and the available builders.
 String makeHelp() {
   final usage = argParser.usage;
   return '''Usage: dcdg [options]

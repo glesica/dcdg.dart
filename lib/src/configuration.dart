@@ -4,6 +4,8 @@ import 'package:dcdg/src/command_line.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
 import 'package:meta/meta.dart';
 
+/// A full configuration to allow fetching classes and running
+/// a builder against a Dart package.
 abstract class Configuration {
   DiagramBuilder get builder;
 
