@@ -1,3 +1,5 @@
 part 'part.dart';
 
-class InternalClass {}
+class PublicInternalPublic {}
+
+class _PrivateInternalPrivate {}

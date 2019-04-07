@@ -7,61 +7,76 @@ void main() {
     test('should produce plantuml output by default', () {
       final result = runWith(['-p', 'test/fixtures/simple/']);
       expect(result.exitCode, 0);
-      expect(result.stdout, contains('ExternalClass'));
-      expect(result.stdout, contains('InternalClass'));
-      expect(result.stdout, contains('InternalClassInPart'));
+      expect(result.stdout, contains('PublicExternalPublic'));
+      expect(result.stdout, contains('_PrivateExternalPrivate'));
+      expect(result.stdout, contains('PublicInternalPublic'));
+      expect(result.stdout, contains('_PrivateInternalPrivate'));
+      expect(result.stdout, contains('PublicPartInternalPartPublic'));
+      expect(result.stdout, contains('_PrivatePartInternalPartPrivate'));
     });
 
     test('should ignore excluded classes', () {
       final result = runWith([
         '-e',
-        'InternalClass',
+        'PublicInternalPublic',
         '-p',
         'test/fixtures/simple/',
       ]);
       expect(result.exitCode, 0);
-      expect(result.stdout, contains('ExternalClass'));
-      expect(result.stdout, isNot(contains('InternalClass')));
-      expect(result.stdout, isNot(contains('InternalClassInPart')));
+      expect(result.stdout, contains('PublicExternalPublic'));
+      expect(result.stdout, contains('_PrivateExternalPrivate'));
+      expect(result.stdout, isNot(contains('PublicInternalPublic')));
+      expect(result.stdout, contains('_PrivateInternalPrivate'));
+      expect(result.stdout, contains('PublicPartInternalPartPublic'));
+      expect(result.stdout, contains('_PrivatePartInternalPartPrivate'));
     });
 
     test('should ignore excluded classes based on a regex', () {
       final result = runWith([
         '-e',
-        'Internal.*',
+        '.*Internal.*',
         '-p',
         'test/fixtures/simple/',
       ]);
       expect(result.exitCode, 0);
-      expect(result.stdout, contains('ExternalClass'));
-      expect(result.stdout, isNot(contains('InternalClass')));
-      expect(result.stdout, isNot(contains('InternalClassInPart')));
+      expect(result.stdout, contains('PublicExternalPublic'));
+      expect(result.stdout, contains('_PrivateExternalPrivate'));
+      expect(result.stdout, isNot(contains('PublicInternalPublic')));
+      expect(result.stdout, isNot(contains('_PrivateInternalPrivate')));
+      expect(result.stdout, isNot(contains('PublicPartInternalPartPublic')));
+      expect(result.stdout, isNot(contains('_PrivatePartInternalPartPrivate')));
     });
 
     test('should limit to included classes', () {
       final result = runWith([
         '-i',
-        'InternalClass',
+        'PublicInternalPublic',
         '-p',
         'test/fixtures/simple/',
       ]);
       expect(result.exitCode, 0);
-      expect(result.stdout, isNot(contains('ExternalClass')));
-      expect(result.stdout, contains('InternalClass'));
-      expect(result.stdout, contains('InternalClassInPart'));
+      expect(result.stdout, isNot(contains('PublicExternalPublic')));
+      expect(result.stdout, isNot(contains('_PrivateExternalPrivate')));
+      expect(result.stdout, contains('PublicInternalPublic'));
+      expect(result.stdout, isNot(contains('_PrivateInternalPrivate')));
+      expect(result.stdout, isNot(contains('PublicPartInternalPartPublic')));
+      expect(result.stdout, isNot(contains('_PrivatePartInternalPartPrivate')));
     });
 
     test('should limit to included classes based on a regex', () {
       final result = runWith([
         '-i',
-        'Internal.*',
+        '.*Internal.*',
         '-p',
         'test/fixtures/simple/',
       ]);
       expect(result.exitCode, 0);
-      expect(result.stdout, isNot(contains('ExternalClass')));
-      expect(result.stdout, contains('InternalClass'));
-      expect(result.stdout, contains('InternalClassInPart'));
+      expect(result.stdout, isNot(contains('PublicExternalPublic')));
+      expect(result.stdout, isNot(contains('_PrivateExternalPrivate')));
+      expect(result.stdout, contains('PublicInternalPublic'));
+      expect(result.stdout, contains('_PrivateInternalPrivate'));
+      expect(result.stdout, contains('PublicPartInternalPartPublic'));
+      expect(result.stdout, contains('_PrivatePartInternalPartPrivate'));
     });
 
     test('should ignore unexported classes', () {
@@ -71,9 +86,28 @@ void main() {
         'test/fixtures/simple/',
       ]);
       expect(result.exitCode, 0);
-      expect(result.stdout, contains('ExternalClass'));
-      expect(result.stdout, isNot(contains('InternalClass')));
-      expect(result.stdout, isNot(contains('InternalClassInPart')));
+      expect(result.stdout, contains('PublicExternalPublic'));
+      expect(result.stdout, isNot(contains('_PrivateInternalPrivate')));
+      expect(result.stdout, isNot(contains('PublicInternalPublic')));
+      expect(result.stdout, isNot(contains('_PrivateInternalPrivate')));
+      expect(result.stdout, isNot(contains('PublicPartInternalPartPublic')));
+      expect(result.stdout, isNot(contains('_PrivatePartInternalPartPrivate')));
+    });
+
+    test('should exclude private classes', () {
+      final result = runWith([
+        '--exclude-private',
+        'class',
+        '-p',
+        'test/fixtures/simple/',
+      ]);
+      expect(result.exitCode, 0);
+      expect(result.stdout, contains('PublicExternalPublic'));
+      expect(result.stdout, isNot(contains('_PrivateInternalPrivate')));
+      expect(result.stdout, contains('PublicInternalPublic'));
+      expect(result.stdout, isNot(contains('_PrivateInternalPrivate')));
+      expect(result.stdout, contains('PublicPartInternalPartPublic'));
+      expect(result.stdout, isNot(contains('_PrivatePartInternalPartPrivate')));
     });
   });
 }

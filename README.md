@@ -39,3 +39,10 @@ format. Take a look at the DOT format implementation in `lib/src/builders` for a
 
 If you have found a bug or have a feature request please open an issue.
 
+## Development
+
+Format code using the `tool/format.sh` script. It will have a non-zero exit code if
+the formatting changed. That's fine, it does that so it can be used in CI. Run the full
+test suite (including unit and functional tests) with `tool/check.sh`. If you change
+the user interface or add features you should run `tool/docs.sh` to regenerate automated
+documentation and other resources. This script requires [PlantUML](http://plantuml.com/).
