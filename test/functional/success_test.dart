@@ -109,5 +109,17 @@ void main() {
       expect(result.stdout, contains('PublicPartInternalPartPublic'));
       expect(result.stdout, isNot(contains('_PrivatePartInternalPartPrivate')));
     });
+
+    test('should search a subdirectory', () {
+      final result = runWith([
+        '-s',
+        'lib/src/sub',
+        '-p',
+        'test/fixtures/subdir/',
+      ]);
+      expect(result.exitCode, 0);
+      expect(result.stdout, contains('Sub'));
+      expect(result.stdout, isNot(contains('NonSub')));
+    });
   });
 }

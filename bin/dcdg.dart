@@ -28,6 +28,7 @@ Future<Null> main(Iterable<String> arguments) async {
   final classes = await findClassElements(
     exportedOnly: config.exportedOnly,
     packagePath: config.packagePath,
+    searchPath: config.searchPath,
   );
 
   buildDiagram(

@@ -8,29 +8,29 @@ import 'package:meta/meta.dart';
 ///
 /// If you add a new builder, or would like a new option on the command
 /// line to parameterize an existing builder differently, add it here.
-final Map<String, UmlBuilderFactory> _factories = {
-  'plantuml': UmlBuilderFactory(
+final Map<String, BuilderFactory> _factories = {
+  'plantuml': BuilderFactory(
     callback: () => PlantUmlBuilder(),
     description: 'PlantUML builder that attempts to be feature-complete',
     name: 'plantuml',
   ),
-  'dot': UmlBuilderFactory(
+  'dot': BuilderFactory(
     callback: () => DotBuilder(),
     description: 'Graphviz builder that only handles inheritance',
     name: 'dot',
   ),
 };
 
-typedef UmlBuilderFactoryCallback = DiagramBuilder Function();
+typedef BuilderFactoryCallback = DiagramBuilder Function();
 
-class UmlBuilderFactory {
-  final UmlBuilderFactoryCallback callback;
+class BuilderFactory {
+  final BuilderFactoryCallback callback;
 
   final String description;
 
   final String name;
 
-  UmlBuilderFactory({
+  BuilderFactory({
     @required this.callback,
     @required this.description,
     @required this.name,
@@ -40,6 +40,6 @@ class UmlBuilderFactory {
   String toString() => '$name - $description';
 }
 
-Iterable<UmlBuilderFactory> availableBuilders() => _factories.values;
+Iterable<BuilderFactory> availableBuilders() => _factories.values;
 
 DiagramBuilder getBuilder(String name) => _factories[name]?.callback();

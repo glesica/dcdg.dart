@@ -9,6 +9,7 @@ const helpOption = 'help';
 const includeOption = 'include';
 const outputPathOption = 'output';
 const packagePathOption = 'package';
+const searchPathOption = 'search-path';
 
 final argParser = ArgParser(usageLineLength: 80)
   ..addOption(
@@ -59,6 +60,13 @@ final argParser = ArgParser(usageLineLength: 80)
     help: 'Path to the root of the Dart package to scan',
     valueHelp: 'DIR',
     defaultsTo: '.',
+  )
+  ..addOption(
+    searchPathOption,
+    abbr: 's',
+    help: 'Directory relative to the package root to search for classes',
+    valueHelp: 'DIR',
+    defaultsTo: null,
   );
 
 /// Return a string that contains the usage and help information

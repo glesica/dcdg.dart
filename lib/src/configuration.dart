@@ -27,6 +27,8 @@ abstract class Configuration {
 
   String get packagePath;
 
+  String get searchPath;
+
   bool get shouldShowHelp;
 
   factory Configuration.fromArgResults(ArgResults results) {
@@ -56,6 +58,7 @@ abstract class Configuration {
       includeExpressions: includeExpressions,
       outputPath: results[outputPathOption],
       packagePath: results[packagePathOption],
+      searchPath: results[searchPathOption],
       shouldShowHelp: results[helpOption],
     );
   }
@@ -98,6 +101,9 @@ class ConfigurationImpl implements Configuration {
   final String packagePath;
 
   @override
+  final String searchPath;
+
+  @override
   final bool shouldShowHelp;
 
   ConfigurationImpl({
@@ -111,6 +117,7 @@ class ConfigurationImpl implements Configuration {
     @required this.includeExpressions,
     @required this.outputPath,
     @required this.packagePath,
+    @required this.searchPath,
     @required this.shouldShowHelp,
   });
 }

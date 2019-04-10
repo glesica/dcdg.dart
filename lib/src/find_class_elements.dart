@@ -11,6 +11,7 @@ import 'package:path/path.dart' as path;
 Future<Iterable<ClassElement>> findClassElements({
   @required String packagePath,
   bool exportedOnly,
+  String searchPath,
 }) async {
   String makePackageSubPath(String part0, [String part1]) => path.normalize(
         path.absolute(
@@ -30,8 +31,7 @@ Future<Iterable<ClassElement>> findClassElements({
     ],
   );
 
-  // TODO: Allow the starting point to be customized on the command line
-  final dartFiles = Directory(makePackageSubPath('lib'))
+  final dartFiles = Directory(makePackageSubPath(searchPath ?? 'lib'))
       .listSync(recursive: true)
       .where((file) => path.extension(file.path) == '.dart')
       .where((file) => !exportedOnly || !file.path.contains('lib/src/'));

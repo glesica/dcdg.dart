@@ -23,6 +23,9 @@ Usage: dcdg [options]
 -p, --package=<DIR>             Path to the root of the Dart package to scan
                                 (defaults to ".")
 
+-s, --search-path=<DIR>         Directory relative to the package root to search
+                                for classes
+
 Available builders:
   * plantuml - PlantUML builder that attempts to be feature-complete
   * dot - Graphviz builder that only handles inheritance

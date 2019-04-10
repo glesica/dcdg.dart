@@ -8,4 +8,5 @@
 1.0.5 - improve documentation
 1.0.6 - export the necessary symbols
 1.0.7 - add documentation comments
+1.1.0 - add --search option
 
