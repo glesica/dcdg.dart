@@ -26,16 +26,16 @@ class ClassElementCollector extends RecursiveElementVisitor<void> {
 
   @override
   void visitExportElement(ExportElement element) {
-    final Set<String> _hiddenNames = {};
-    final Set<String> _shownNames = {};
+    final Set<String> hiddenNames = {};
+    final Set<String> shownNames = {};
 
     for (final combinator in element.combinators) {
-      if (combinator is HideElementCombinator) {
-        _hiddenNames.addAll(combinator.hiddenNames);
+      if (combinator is ShowElementCombinator) {
+        shownNames.addAll(combinator.shownNames);
       }
 
-      if (combinator is ShowElementCombinator) {
-        _shownNames.addAll(combinator.shownNames);
+      if (combinator is HideElementCombinator) {
+        hiddenNames.addAll(combinator.hiddenNames);
       }
     }
 
@@ -47,15 +47,15 @@ class ClassElementCollector extends RecursiveElementVisitor<void> {
     final exportedElements = collector.classElements
         .where(
           (e) =>
-              _exportOnly &&
-              _shownNames.isNotEmpty &&
-              _shownNames.contains(e.name),
+              !_exportOnly ||
+              shownNames.isEmpty ||
+              shownNames.contains(e.name),
         )
         .where(
           (e) =>
-              _exportOnly &&
-              _hiddenNames.isNotEmpty &&
-              !_hiddenNames.contains(e.name),
+              !_exportOnly ||
+              hiddenNames.isEmpty ||
+              !hiddenNames.contains(e.name),
         );
     _classElements.addAll(exportedElements);
   }
