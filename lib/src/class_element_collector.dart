@@ -44,19 +44,18 @@ class ClassElementCollector extends RecursiveElementVisitor<void> {
     );
     element.exportedLibrary.accept(collector);
 
-    final exportedElements = collector.classElements
-        .where(
-          (e) =>
-              _exportOnly &&
-              _shownNames.isNotEmpty &&
-              _shownNames.contains(e.name),
-        )
-        .where(
-          (e) =>
-              _exportOnly &&
-              _hiddenNames.isNotEmpty &&
-              !_hiddenNames.contains(e.name),
-        );
-    _classElements.addAll(exportedElements);
+    bool shouldInclude(ClassElement element) {
+      if (_shownNames.isEmpty && _hiddenNames.isEmpty) {
+        return true;
+      }
+
+      final shouldShow =
+          _shownNames.isNotEmpty && _shownNames.contains(element.name);
+      final shouldHide =
+          _hiddenNames.isNotEmpty && _hiddenNames.contains(element.name);
+      return _exportOnly ? shouldShow && !shouldHide : true;
+    }
+
+    collector.classElements.where(shouldInclude).forEach(visitClassElement);
   }
 }
