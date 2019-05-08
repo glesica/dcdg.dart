@@ -5,4 +5,4 @@ dart:
   - dev
 script:
   - ./tool/format.sh
-  - ./tool/check.sh
+  - ./tool/check.sh --reporter=expanded
