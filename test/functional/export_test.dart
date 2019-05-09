@@ -27,8 +27,6 @@ void main() {
         '-p',
         'test/fixtures/exports/',
       ]);
-      print(result.stdout);
-      print(result.stderr);
       expect(result.exitCode, 0);
       expect(result.stdout, contains('PathExportedClass'));
       expect(result.stdout, isNot(contains('PathHiddenClass')));

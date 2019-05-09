@@ -1,3 +1,4 @@
+import 'package:dcdg/src/constants.dart';
 import 'package:test/test.dart';
 
 import 'utils.dart';
@@ -15,6 +16,14 @@ void main() {
       expect(result.stdout, contains('_PrivateInternalPrivate'));
       expect(result.stdout, contains('PublicPartInternalPartPublic'));
       expect(result.stdout, contains('_PrivatePartInternalPartPrivate'));
+    });
+
+    test('should not yield empty namespaces', () {
+      final result = runWith(['-p', 'test/fixtures/simple/']);
+      expect(result.exitCode, 0);
+      expect(result.stdout, contains(namespaceSeparator));
+      expect(result.stdout,
+          isNot(contains(namespaceSeparator + namespaceSeparator)));
     });
 
     test('should search a subdirectory', () {
