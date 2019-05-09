@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:meta/meta.dart';
 
@@ -19,7 +20,11 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
 
   final Iterable<RegExp> _excludes;
 
+  final Iterable<RegExp> _hasA;
+
   final Iterable<RegExp> _includes;
+
+  final Iterable<RegExp> _isA;
 
   final OnElementHandler<FieldElement> _onFieldElement;
 
@@ -35,19 +40,61 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     bool excludePrivateFields,
     bool excludePrivateMethods,
     Iterable<RegExp> excludes,
+    Iterable<RegExp> hasA,
     Iterable<RegExp> includes,
+    Iterable<RegExp> isA,
     OnElementHandler<FieldElement> onField,
     OnElementHandler<ClassElement> onFinishClass,
     OnElementHandler<MethodElement> onMethod,
   })  : _excludePrivateClasses = excludePrivateClasses ?? false,
         _excludePrivateFields = excludePrivateFields ?? false,
         _excludePrivateMethods = excludePrivateMethods ?? false,
-        _excludes = excludes ?? <RegExp>[],
-        _includes = includes ?? <RegExp>[],
+        _excludes = excludes ?? const <RegExp>[],
+        _hasA = hasA ?? const <RegExp>[],
+        _includes = includes ?? const <RegExp>[],
+        _isA = isA ?? const <RegExp>[],
         _onFieldElement = onField ?? _noopOnElement,
         _onFinishClassElement = onFinishClass ?? _noopOnElement,
         _onMethodElement = onMethod ?? _noopOnElement,
         _onStartClassElement = onStartClass ?? _defaultOnClass;
+
+  /// Whether the given class contains a field whose type matches
+  /// one of those provided in the `hasA` constructor parameter.
+  bool hasA(ClassElement element) {
+    for (final field in element.fields) {
+      final typeName = field.type.name;
+
+      if (typeName == null) {
+        // Some types, like typedefs, don't have a string
+        // representation that we can use.
+        continue;
+      }
+
+      if (_hasA.any((r) => r.hasMatch(typeName))) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /// Whether the given class inherits from or implements any of
+  /// the classes named in the iterable provided to the `isA`
+  /// constructor parameter.
+  bool isA(ClassElement element) {
+    //
+    InterfaceType current = element.type;
+    while (current != null) {
+      //
+      if (_isA.any((r) => r.hasMatch(current.name))) {
+        return true;
+      }
+
+      current = current.superclass;
+    }
+
+    return false;
+  }
 
   /// Whether an element should be included based on the `includes`
   /// and `excludes` lists alone, assuming it isn't excluded for
@@ -85,6 +132,22 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     return shouldInclude(element);
   }
 
+  bool shouldIncludeHasA(ClassElement element) {
+    if (_hasA.isEmpty) {
+      return true;
+    }
+
+    return hasA(element);
+  }
+
+  bool shouldIncludeIsA(ClassElement element) {
+    if (_isA.isEmpty) {
+      return true;
+    }
+
+    return isA(element);
+  }
+
   bool shouldIncludeMethod(MethodElement element) {
     if (_excludePrivateMethods && element.isPrivate) {
       return false;
@@ -96,6 +159,14 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
   @override
   void visitClassElement(ClassElement element) {
     if (!shouldIncludeClass(element)) {
+      return;
+    }
+
+    if (!shouldIncludeHasA(element)) {
+      return;
+    }
+
+    if (!shouldIncludeIsA(element)) {
       return;
     }
 

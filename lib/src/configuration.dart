@@ -21,7 +21,11 @@ abstract class Configuration {
 
   bool get excludePrivateMethods;
 
+  Iterable<RegExp> get hasAExpressions;
+
   Iterable<RegExp> get includeExpressions;
+
+  Iterable<RegExp> get isAExpressions;
 
   String get outputPath;
 
@@ -47,6 +51,11 @@ abstract class Configuration {
     final includeExpressions =
         (results[includeOption] as Iterable<String>).map((s) => RegExp(s));
 
+    final hasAExpressions =
+        (results[hasAOption] as Iterable<String>).map((s) => RegExp(s));
+    final isAExpressions =
+        (results[isAOption] as Iterable<String>).map((s) => RegExp(s));
+
     return ConfigurationImpl(
       builder: getBuilder(results[builderOption]),
       builderName: results[builderOption],
@@ -55,7 +64,9 @@ abstract class Configuration {
       excludePrivateFields: excludePrivateFields,
       excludePrivateMethods: excludePrivateMethods,
       exportedOnly: results[exportedOnlyOption],
+      hasAExpressions: hasAExpressions,
       includeExpressions: includeExpressions,
+      isAExpressions: isAExpressions,
       outputPath: results[outputPathOption],
       packagePath: results[packagePathOption],
       searchPath: results[searchPathOption],
@@ -92,7 +103,13 @@ class ConfigurationImpl implements Configuration {
   final bool exportedOnly;
 
   @override
+  Iterable<RegExp> hasAExpressions;
+
+  @override
   final Iterable<RegExp> includeExpressions;
+
+  @override
+  Iterable<RegExp> isAExpressions;
 
   @override
   final String outputPath;
@@ -114,7 +131,9 @@ class ConfigurationImpl implements Configuration {
     @required this.excludePrivateFields,
     @required this.excludePrivateMethods,
     @required this.exportedOnly,
+    @required this.hasAExpressions,
     @required this.includeExpressions,
+    @required this.isAExpressions,
     @required this.outputPath,
     @required this.packagePath,
     @required this.searchPath,
