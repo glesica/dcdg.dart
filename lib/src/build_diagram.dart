@@ -12,7 +12,9 @@ void buildDiagram({
   bool excludePrivateFields,
   bool excludePrivateMethods,
   Iterable<RegExp> excludes,
+  Iterable<RegExp> hasA,
   Iterable<RegExp> includes,
+  Iterable<RegExp> isA,
 }) {
   final visitor = DiagramVisitor(
     onField: builder.addField,
@@ -23,7 +25,9 @@ void buildDiagram({
     excludePrivateFields: excludePrivateMethods,
     excludePrivateMethods: excludePrivateMethods,
     excludes: excludes,
+    hasA: hasA,
     includes: includes,
+    isA: isA,
   );
 
   for (final element in classElements) {

@@ -5,8 +5,10 @@ const builderOption = 'builder';
 const excludeOption = 'exclude';
 const excludePrivateOption = 'exclude-private';
 const exportedOnlyOption = 'exported-only';
+const hasAOption = 'has-a';
 const helpOption = 'help';
 const includeOption = 'include';
+const isAOption = 'is-a';
 const outputPathOption = 'output';
 const packagePathOption = 'package';
 const searchPathOption = 'search-path';
@@ -34,6 +36,18 @@ final argParser = ArgParser(usageLineLength: 80)
     exportedOnlyOption,
     help: 'Include only classes exported from the Dart package',
     negatable: false,
+  )
+  ..addMultiOption(
+    hasAOption,
+    help:
+        'Include only classes with a has-a relationship to any of the named classes',
+    valueHelp: 'CLASS',
+  )
+  ..addMultiOption(
+    isAOption,
+    help:
+        'Include only classes with an is-a relationship to any of the named classes',
+    valueHelp: 'CLASS',
   )
   ..addFlag(
     helpOption,
@@ -79,6 +93,9 @@ $usage
 
 Available builders:
   * ${availableBuilders().join('\n  * ')}
+
+The --$includeOption, --$excludeOption, --$hasAOption, and --$isAOption
+options accept regular expressions.
 
 Note: If both excludes and includes are supplied, types that are in
 both lists will be removed from the includes list and then the
