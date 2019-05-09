@@ -1,6 +1,112 @@
 @startuml
 set namespaceSeparator ::
 
+abstract class dcdg::src::configuration.dart::Configuration {
+  +DiagramBuilder builder
+  +String builderName
+  +Iterable excludeExpressions
+  +bool exportedOnly
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +Iterable hasAExpressions
+  +Iterable includeExpressions
+  +Iterable isAExpressions
+  +String outputPath
+  +String packagePath
+  +String searchPath
+  +bool shouldShowHelp
+}
+
+
+
+class dcdg::src::configuration.dart::ConfigurationImpl {
+  +DiagramBuilder builder
+  +String builderName
+  +Iterable excludeExpressions
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +bool exportedOnly
+  +Iterable hasAExpressions
+  +Iterable includeExpressions
+  +Iterable isAExpressions
+  +String outputPath
+  +String packagePath
+  +String searchPath
+  +bool shouldShowHelp
+}
+
+dcdg::src::configuration.dart::Configuration <|-- dcdg::src::configuration.dart::ConfigurationImpl
+
+
+abstract class dcdg::src::configuration.dart::Configuration {
+  +DiagramBuilder builder
+  +String builderName
+  +Iterable excludeExpressions
+  +bool exportedOnly
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +Iterable hasAExpressions
+  +Iterable includeExpressions
+  +Iterable isAExpressions
+  +String outputPath
+  +String packagePath
+  +String searchPath
+  +bool shouldShowHelp
+}
+
+
+
+class dcdg::src::configuration.dart::ConfigurationImpl {
+  +DiagramBuilder builder
+  +String builderName
+  +Iterable excludeExpressions
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +bool exportedOnly
+  +Iterable hasAExpressions
+  +Iterable includeExpressions
+  +Iterable isAExpressions
+  +String outputPath
+  +String packagePath
+  +String searchPath
+  +bool shouldShowHelp
+}
+
+dcdg::src::configuration.dart::Configuration <|-- dcdg::src::configuration.dart::ConfigurationImpl
+
+
+class dcdg::src::diagram_visitor.dart::DiagramVisitor {
+  -bool _excludePrivateClasses
+  -bool _excludePrivateFields
+  -bool _excludePrivateMethods
+  -Iterable _excludes
+  -Iterable _hasA
+  -Iterable _includes
+  -Iterable _isA
+  -null _onFieldElement
+  -null _onFinishClassElement
+  -null _onMethodElement
+  -null _onStartClassElement
+  +bool hasA()
+  +bool isA()
+  +bool shouldInclude()
+  +bool shouldIncludeClass()
+  +bool shouldIncludeField()
+  +bool shouldIncludeHasA()
+  +bool shouldIncludeIsA()
+  +bool shouldIncludeMethod()
+  +void visitClassElement()
+  +void visitFieldElement()
+  +void visitMethodElement()
+}
+
+analyzer::dart::element::visitor.dart::RecursiveElementVisitor <|-- dcdg::src::diagram_visitor.dart::DiagramVisitor
+
+
 class dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder {
   -String _currentClass
   -List _lines
@@ -57,63 +163,6 @@ class dcdg::src::builder_factories.dart::BuilderFactory {
   +String toString()
 }
 
-
-
-abstract class dcdg::src::configuration.dart::Configuration {
-  +DiagramBuilder builder
-  +String builderName
-  +Iterable excludeExpressions
-  +bool exportedOnly
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +Iterable includeExpressions
-  +String outputPath
-  +String packagePath
-  +String searchPath
-  +bool shouldShowHelp
-}
-
-
-
-class dcdg::src::configuration.dart::ConfigurationImpl {
-  +DiagramBuilder builder
-  +String builderName
-  +Iterable excludeExpressions
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +bool exportedOnly
-  +Iterable includeExpressions
-  +String outputPath
-  +String packagePath
-  +String searchPath
-  +bool shouldShowHelp
-}
-
-dcdg::src::configuration.dart::Configuration <|-- dcdg::src::configuration.dart::ConfigurationImpl
-
-
-class dcdg::src::diagram_visitor.dart::DiagramVisitor {
-  -bool _excludePrivateClasses
-  -bool _excludePrivateFields
-  -bool _excludePrivateMethods
-  -Iterable _excludes
-  -Iterable _includes
-  -null _onFieldElement
-  -null _onFinishClassElement
-  -null _onMethodElement
-  -null _onStartClassElement
-  +bool shouldInclude()
-  +bool shouldIncludeClass()
-  +bool shouldIncludeField()
-  +bool shouldIncludeMethod()
-  +void visitClassElement()
-  +void visitFieldElement()
-  +void visitMethodElement()
-}
-
-analyzer::dart::element::visitor.dart::RecursiveElementVisitor <|-- dcdg::src::diagram_visitor.dart::DiagramVisitor
 
 
 class dcdg::src::class_element_collector.dart::ClassElementCollector {

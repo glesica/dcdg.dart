@@ -12,6 +12,12 @@ Usage: dcdg [options]
     --exported-only             Include only classes exported from the Dart
                                 package
 
+    --has-a=<CLASS>             Include only classes with a has-a relationship
+                                to any of the named classes
+
+    --is-a=<CLASS>              Include only classes with an is-a relationship
+                                to any of the named classes
+
 -h, --help                      Show usage information
 -i, --include=<TYPE>            Class / type names to include, can be a regular
                                 expression
@@ -29,6 +35,9 @@ Usage: dcdg [options]
 Available builders:
   * plantuml - PlantUML builder that attempts to be feature-complete
   * dot - Graphviz builder that only handles inheritance
+
+The --include, --exclude, --has-a, and --is-a
+options accept regular expressions.
 
 Note: If both excludes and includes are supplied, types that are in
 both lists will be removed from the includes list and then the

@@ -9,4 +9,5 @@
 1.0.6 - export the necessary symbols
 1.0.7 - add documentation comments
 1.1.0 - add --search option
+1.2.0 - fix --exported-only, add --has-a and --is-a
 
