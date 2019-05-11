@@ -13,6 +13,10 @@ abstract class Configuration {
 
   Iterable<RegExp> get excludeExpressions;
 
+  bool get excludeHasA;
+
+  bool get excludeIsA;
+
   bool get exportedOnly;
 
   bool get excludePrivateClasses;
@@ -46,6 +50,9 @@ abstract class Configuration {
     final excludePrivateMethods =
         excludePrivateAll || excludePrivateValues.contains('method');
 
+    final excludeHasA = results[excludeHasAOption];
+    final excludeIsA = results[excludeIsAOption];
+
     final excludeExpressions =
         (results[excludeOption] as Iterable<String>).map((s) => RegExp(s));
     final includeExpressions =
@@ -56,10 +63,20 @@ abstract class Configuration {
     final isAExpressions =
         (results[isAOption] as Iterable<String>).map((s) => RegExp(s));
 
+    final builderName = results[builderOption];
+    final builder = getBuilder(builderName)
+      ..excludeHasA = excludeHasA
+      ..excludeIsA = excludeIsA
+      ..excludePrivateClasses = excludePrivateClasses
+      ..excludePrivateFields = excludePrivateFields
+      ..excludePrivateMethods = excludePrivateMethods;
+
     return ConfigurationImpl(
-      builder: getBuilder(results[builderOption]),
-      builderName: results[builderOption],
+      builder: builder,
+      builderName: builderName,
       excludeExpressions: excludeExpressions,
+      excludeHasA: excludeHasA,
+      excludeIsA: excludeIsA,
       excludePrivateClasses: excludePrivateClasses,
       excludePrivateFields: excludePrivateFields,
       excludePrivateMethods: excludePrivateMethods,
@@ -89,6 +106,12 @@ class ConfigurationImpl implements Configuration {
 
   @override
   final Iterable<RegExp> excludeExpressions;
+
+  @override
+  final bool excludeHasA;
+
+  @override
+  final bool excludeIsA;
 
   @override
   final bool excludePrivateClasses;
@@ -127,6 +150,8 @@ class ConfigurationImpl implements Configuration {
     @required this.builder,
     @required this.builderName,
     @required this.excludeExpressions,
+    @required this.excludeHasA,
+    @required this.excludeIsA,
     @required this.excludePrivateClasses,
     @required this.excludePrivateFields,
     @required this.excludePrivateMethods,

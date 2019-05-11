@@ -7,11 +7,13 @@ void main() {
 
   group('dcdg tool (export cases)', () {
     test('should ignore unexported classes', () {
-      final result = runWith([
-        '--exported-only',
-        '-p',
+      final result = runWith(
+        [
+          '--exported-only',
+        ],
         'test/fixtures/simple/',
-      ]);
+      );
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, contains('PublicExternalPublic'));
       expect(result.stdout, isNot(contains('_PrivateInternalPrivate')));
@@ -22,11 +24,13 @@ void main() {
     });
 
     test('should handle show and hide exports', () {
-      final result = runWith([
-        '--exported-only',
-        '-p',
+      final result = runWith(
+        [
+          '--exported-only',
+        ],
         'test/fixtures/exports/',
-      ]);
+      );
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, contains('PathExportedClass'));
       expect(result.stdout, isNot(contains('PathHiddenClass')));

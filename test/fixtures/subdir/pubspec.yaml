@@ -1,2 +1,5 @@
 name: subdir_fixture
 description: A test fixture with a subdirectory
+dev_dependencies:
+  dcdg:
+    path: ../../../

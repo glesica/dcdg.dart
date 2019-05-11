@@ -7,12 +7,14 @@ void main() {
 
   group('dcdg tool (exclude cases)', () {
     test('should ignore excluded classes', () {
-      final result = runWith([
-        '-e',
-        'PublicInternalPublic',
-        '-p',
+      final result = runWith(
+        [
+          '-e',
+          'PublicInternalPublic',
+        ],
         'test/fixtures/simple/',
-      ]);
+      );
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, contains('PublicExternalPublic'));
       expect(result.stdout, contains('_PrivateExternalPrivate'));
@@ -23,12 +25,14 @@ void main() {
     });
 
     test('should ignore excluded classes based on a regex', () {
-      final result = runWith([
-        '-e',
-        '.*Internal.*',
-        '-p',
+      final result = runWith(
+        [
+          '-e',
+          '.*Internal.*',
+        ],
         'test/fixtures/simple/',
-      ]);
+      );
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, contains('PublicExternalPublic'));
       expect(result.stdout, contains('_PrivateExternalPrivate'));
@@ -39,12 +43,14 @@ void main() {
     });
 
     test('should exclude private classes', () {
-      final result = runWith([
-        '--exclude-private',
-        'class',
-        '-p',
+      final result = runWith(
+        [
+          '--exclude-private',
+          'class',
+        ],
         'test/fixtures/simple/',
-      ]);
+      );
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, contains('PublicExternalPublic'));
       expect(result.stdout, isNot(contains('_PrivateInternalPrivate')));

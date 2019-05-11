@@ -5,6 +5,8 @@ abstract class dcdg::src::configuration.dart::Configuration {
   +DiagramBuilder builder
   +String builderName
   +Iterable excludeExpressions
+  +bool excludeHasA
+  +bool excludeIsA
   +bool exportedOnly
   +bool excludePrivateClasses
   +bool excludePrivateFields
@@ -18,12 +20,15 @@ abstract class dcdg::src::configuration.dart::Configuration {
   +bool shouldShowHelp
 }
 
+dcdg::src::configuration.dart::Configuration o-- dcdg::src::builders::diagram_builder.dart::DiagramBuilder
 
 
 class dcdg::src::configuration.dart::ConfigurationImpl {
   +DiagramBuilder builder
   +String builderName
   +Iterable excludeExpressions
+  +bool excludeHasA
+  +bool excludeIsA
   +bool excludePrivateClasses
   +bool excludePrivateFields
   +bool excludePrivateMethods
@@ -38,12 +43,31 @@ class dcdg::src::configuration.dart::ConfigurationImpl {
 }
 
 dcdg::src::configuration.dart::Configuration <|-- dcdg::src::configuration.dart::ConfigurationImpl
+dcdg::src::configuration.dart::ConfigurationImpl o-- dcdg::src::builders::diagram_builder.dart::DiagramBuilder
+
+
+abstract class dcdg::src::builders::diagram_builder.dart::DiagramBuilder {
+  +bool excludeHasA
+  +bool excludeIsA
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +void addField()
+  +void addMethod()
+  +void finishClass()
+  +void printContent()
+  +void startClass()
+  +void writeContent()
+}
+
 
 
 abstract class dcdg::src::configuration.dart::Configuration {
   +DiagramBuilder builder
   +String builderName
   +Iterable excludeExpressions
+  +bool excludeHasA
+  +bool excludeIsA
   +bool exportedOnly
   +bool excludePrivateClasses
   +bool excludePrivateFields
@@ -57,12 +81,15 @@ abstract class dcdg::src::configuration.dart::Configuration {
   +bool shouldShowHelp
 }
 
+dcdg::src::configuration.dart::Configuration o-- dcdg::src::builders::diagram_builder.dart::DiagramBuilder
 
 
 class dcdg::src::configuration.dart::ConfigurationImpl {
   +DiagramBuilder builder
   +String builderName
   +Iterable excludeExpressions
+  +bool excludeHasA
+  +bool excludeIsA
   +bool excludePrivateClasses
   +bool excludePrivateFields
   +bool excludePrivateMethods
@@ -77,6 +104,7 @@ class dcdg::src::configuration.dart::ConfigurationImpl {
 }
 
 dcdg::src::configuration.dart::Configuration <|-- dcdg::src::configuration.dart::ConfigurationImpl
+dcdg::src::configuration.dart::ConfigurationImpl o-- dcdg::src::builders::diagram_builder.dart::DiagramBuilder
 
 
 class dcdg::src::diagram_visitor.dart::DiagramVisitor {
@@ -110,6 +138,12 @@ analyzer::dart::element::visitor.dart::RecursiveElementVisitor <|-- dcdg::src::d
 class dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder {
   -String _currentClass
   -List _lines
+  +bool excludeHasA
+  +bool excludeIsA
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +void addAggregations()
   +void addClass()
   +void addField()
   +void addInterfaces()
@@ -130,6 +164,11 @@ dcdg::src::builders::diagram_builder.dart::DiagramBuilder <|-- dcdg::src::builde
 class dcdg::src::builders::dot_builder.dart::DotBuilder {
   -String _currentClass
   -List _lines
+  +bool excludeHasA
+  +bool excludeIsA
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
   +void addField()
   +void addInterfaces()
   +void addMethod()
@@ -146,6 +185,11 @@ dcdg::src::builders::diagram_builder.dart::DiagramBuilder <|-- dcdg::src::builde
 
 
 abstract class dcdg::src::builders::diagram_builder.dart::DiagramBuilder {
+  +bool excludeHasA
+  +bool excludeIsA
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
   +void addField()
   +void addMethod()
   +void finishClass()

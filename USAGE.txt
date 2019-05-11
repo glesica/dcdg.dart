@@ -9,6 +9,12 @@ Usage: dcdg [options]
     --exclude-private=<KIND>    Exclude private entities (field, method, class,
                                 or all)
 
+    --exclude-has-a             Exclude has-a / aggregation relationships from
+                                the diagram output
+
+    --exclude-is-a              Exclude is-a / extension relationships from the
+                                diagram output
+
     --exported-only             Include only classes exported from the Dart
                                 package
 

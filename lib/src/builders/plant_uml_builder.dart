@@ -12,6 +12,69 @@ class PlantUmlBuilder implements DiagramBuilder {
     'set namespaceSeparator $namespaceSeparator',
   ];
 
+  @override
+  bool excludeHasA = false;
+
+  @override
+  bool excludeIsA = false;
+
+  @override
+  bool excludePrivateClasses = false;
+
+  @override
+  bool excludePrivateFields = false;
+
+  @override
+  bool excludePrivateMethods = false;
+
+  void addAggregations(ClassElement element) {
+    if (excludeHasA) {
+      return;
+    }
+
+    if (element.fields.isEmpty) {
+      return;
+    }
+
+    for (final field in element.fields) {
+      if (excludePrivateFields && field.isPrivate) {
+        continue;
+      }
+
+      final type = field.type;
+
+      // We ignore certain types, such as those that don't exist
+      // statically, and those that are built-in.
+      if (type.isDartAsyncFuture ||
+          type.isDartAsyncFutureOr ||
+          type.isDartCoreBool ||
+          type.isDartCoreDouble ||
+          type.isDartCoreFunction ||
+          type.isDartCoreInt ||
+          type.isDartCoreNull ||
+          type.isDynamic ||
+          type.isObject ||
+          type.isUndefined ||
+          type.isVoid) {
+        continue;
+      }
+
+      // Ignore types that come out null (for now) since they just
+      // clutter the diagram.
+      if (type.name == null) {
+        continue;
+      }
+
+      final fieldType = getNamespacedTypeName(type.element);
+
+      if (fieldType.startsWith('dart::core')) {
+        continue;
+      }
+
+      _lines.add('$_currentClass o-- $fieldType');
+    }
+  }
+
   void addClass(ClassElement element) {
     final decl = element.isAbstract ? 'abstract class' : 'class';
     _lines.add('$decl $_currentClass {');
@@ -19,6 +82,10 @@ class PlantUmlBuilder implements DiagramBuilder {
 
   @override
   void addField(FieldElement element) {
+    if (excludePrivateFields && element.isPrivate) {
+      return;
+    }
+
     final visibilityPrefix = getVisibility(element);
     final staticPrefix = element.isStatic ? '{static} ' : '';
     final name = element.name;
@@ -28,6 +95,10 @@ class PlantUmlBuilder implements DiagramBuilder {
   }
 
   void addInterfaces(ClassElement element) {
+    if (excludeIsA) {
+      return;
+    }
+
     if (element.interfaces.isEmpty) {
       return;
     }
@@ -40,6 +111,10 @@ class PlantUmlBuilder implements DiagramBuilder {
   }
 
   void addMixins(ClassElement element) {
+    if (excludeIsA) {
+      return;
+    }
+
     if (element.mixins.isEmpty) {
       return;
     }
@@ -52,6 +127,10 @@ class PlantUmlBuilder implements DiagramBuilder {
   }
 
   void addSuper(ClassElement element) {
+    if (excludeIsA) {
+      return;
+    }
+
     final superElement = element.supertype.element;
 
     if (superElement.name == 'Object') {
@@ -64,6 +143,10 @@ class PlantUmlBuilder implements DiagramBuilder {
 
   @override
   void addMethod(MethodElement element) {
+    if (excludePrivateMethods && element.isPrivate) {
+      return;
+    }
+
     final visibilityPrefix = getVisibility(element);
     final staticPrefix = element.isStatic ? '{static} ' : '';
     final name = element.name;
@@ -79,6 +162,7 @@ class PlantUmlBuilder implements DiagramBuilder {
     addInterfaces(element);
     addMixins(element);
     addSuper(element);
+    addAggregations(element);
 
     _lines.add('');
 
