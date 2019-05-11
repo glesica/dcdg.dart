@@ -11,6 +11,7 @@ void main() {
         '-p',
         'test/fixtures/aggregation/',
       ]);
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout,
           contains('Bar o-- aggregation_fixture::aggregation.dart::Foo0'));
