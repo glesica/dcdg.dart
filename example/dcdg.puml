@@ -1,112 +1,6 @@
 @startuml
 set namespaceSeparator ::
 
-abstract class dcdg::src::configuration.dart::Configuration {
-  +DiagramBuilder builder
-  +String builderName
-  +Iterable excludeExpressions
-  +bool excludeHasA
-  +bool excludeIsA
-  +bool exportedOnly
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +Iterable hasAExpressions
-  +Iterable includeExpressions
-  +Iterable isAExpressions
-  +String outputPath
-  +String packagePath
-  +String searchPath
-  +bool shouldShowHelp
-}
-
-dcdg::src::configuration.dart::Configuration o-- dcdg::src::builders::diagram_builder.dart::DiagramBuilder
-
-
-class dcdg::src::configuration.dart::ConfigurationImpl {
-  +DiagramBuilder builder
-  +String builderName
-  +Iterable excludeExpressions
-  +bool excludeHasA
-  +bool excludeIsA
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +bool exportedOnly
-  +Iterable hasAExpressions
-  +Iterable includeExpressions
-  +Iterable isAExpressions
-  +String outputPath
-  +String packagePath
-  +String searchPath
-  +bool shouldShowHelp
-}
-
-dcdg::src::configuration.dart::Configuration <|-- dcdg::src::configuration.dart::ConfigurationImpl
-dcdg::src::configuration.dart::ConfigurationImpl o-- dcdg::src::builders::diagram_builder.dart::DiagramBuilder
-
-
-abstract class dcdg::src::builders::diagram_builder.dart::DiagramBuilder {
-  +bool excludeHasA
-  +bool excludeIsA
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +void addField()
-  +void addMethod()
-  +void finishClass()
-  +void printContent()
-  +void startClass()
-  +void writeContent()
-}
-
-
-
-abstract class dcdg::src::configuration.dart::Configuration {
-  +DiagramBuilder builder
-  +String builderName
-  +Iterable excludeExpressions
-  +bool excludeHasA
-  +bool excludeIsA
-  +bool exportedOnly
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +Iterable hasAExpressions
-  +Iterable includeExpressions
-  +Iterable isAExpressions
-  +String outputPath
-  +String packagePath
-  +String searchPath
-  +bool shouldShowHelp
-}
-
-dcdg::src::configuration.dart::Configuration o-- dcdg::src::builders::diagram_builder.dart::DiagramBuilder
-
-
-class dcdg::src::configuration.dart::ConfigurationImpl {
-  +DiagramBuilder builder
-  +String builderName
-  +Iterable excludeExpressions
-  +bool excludeHasA
-  +bool excludeIsA
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +bool exportedOnly
-  +Iterable hasAExpressions
-  +Iterable includeExpressions
-  +Iterable isAExpressions
-  +String outputPath
-  +String packagePath
-  +String searchPath
-  +bool shouldShowHelp
-}
-
-dcdg::src::configuration.dart::Configuration <|-- dcdg::src::configuration.dart::ConfigurationImpl
-dcdg::src::configuration.dart::ConfigurationImpl o-- dcdg::src::builders::diagram_builder.dart::DiagramBuilder
-
-
 class dcdg::src::diagram_visitor.dart::DiagramVisitor {
   -bool _excludePrivateClasses
   -bool _excludePrivateFields
@@ -135,6 +29,29 @@ class dcdg::src::diagram_visitor.dart::DiagramVisitor {
 analyzer::dart::element::visitor.dart::RecursiveElementVisitor <|-- dcdg::src::diagram_visitor.dart::DiagramVisitor
 
 
+class dcdg::src::builders::dot_builder.dart::DotBuilder {
+  -String _currentClass
+  -List _lines
+  +bool excludeHasA
+  +bool excludeIsA
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +void addField()
+  +void addInterfaces()
+  +void addMethod()
+  +void addMixins()
+  +void addSuper()
+  +void finishClass()
+  +String getNamespacedTypeName()
+  +void printContent()
+  +void startClass()
+  +void writeContent()
+}
+
+dcdg::src::builders::diagram_builder.dart::DiagramBuilder <|-- dcdg::src::builders::dot_builder.dart::DotBuilder
+
+
 class dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder {
   -String _currentClass
   -List _lines
@@ -161,29 +78,6 @@ class dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder {
 dcdg::src::builders::diagram_builder.dart::DiagramBuilder <|-- dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder
 
 
-class dcdg::src::builders::dot_builder.dart::DotBuilder {
-  -String _currentClass
-  -List _lines
-  +bool excludeHasA
-  +bool excludeIsA
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +void addField()
-  +void addInterfaces()
-  +void addMethod()
-  +void addMixins()
-  +void addSuper()
-  +void finishClass()
-  +String getNamespacedTypeName()
-  +void printContent()
-  +void startClass()
-  +void writeContent()
-}
-
-dcdg::src::builders::diagram_builder.dart::DiagramBuilder <|-- dcdg::src::builders::dot_builder.dart::DotBuilder
-
-
 abstract class dcdg::src::builders::diagram_builder.dart::DiagramBuilder {
   +bool excludeHasA
   +bool excludeIsA
@@ -198,6 +92,51 @@ abstract class dcdg::src::builders::diagram_builder.dart::DiagramBuilder {
   +void writeContent()
 }
 
+
+
+abstract class dcdg::src::configuration.dart::Configuration {
+  +DiagramBuilder builder
+  +String builderName
+  +Iterable excludeExpressions
+  +bool excludeHasA
+  +bool excludeIsA
+  +bool exportedOnly
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +Iterable hasAExpressions
+  +Iterable includeExpressions
+  +Iterable isAExpressions
+  +String outputPath
+  +String packagePath
+  +String searchPath
+  +bool shouldShowHelp
+}
+
+dcdg::src::configuration.dart::Configuration o-- dcdg::src::builders::diagram_builder.dart::DiagramBuilder
+
+
+class dcdg::src::configuration.dart::ConfigurationImpl {
+  +DiagramBuilder builder
+  +String builderName
+  +Iterable excludeExpressions
+  +bool excludeHasA
+  +bool excludeIsA
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +bool exportedOnly
+  +Iterable hasAExpressions
+  +Iterable includeExpressions
+  +Iterable isAExpressions
+  +String outputPath
+  +String packagePath
+  +String searchPath
+  +bool shouldShowHelp
+}
+
+dcdg::src::configuration.dart::Configuration <|-- dcdg::src::configuration.dart::ConfigurationImpl
+dcdg::src::configuration.dart::ConfigurationImpl o-- dcdg::src::builders::diagram_builder.dart::DiagramBuilder
 
 
 class dcdg::src::builder_factories.dart::BuilderFactory {

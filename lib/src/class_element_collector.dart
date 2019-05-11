@@ -26,6 +26,10 @@ class ClassElementCollector extends RecursiveElementVisitor<void> {
 
   @override
   void visitExportElement(ExportElement element) {
+    if (!_exportOnly) {
+      return;
+    }
+
     final Set<String> _hiddenNames = {};
     final Set<String> _shownNames = {};
 
