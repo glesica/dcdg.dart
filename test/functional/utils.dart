@@ -31,5 +31,13 @@ void pubGetFixtures() {
   _hasPubGetRun = true;
 }
 
-ProcessResult runWith(Iterable<String> arguments) =>
-    Process.runSync('pub', ['--trace', 'run', 'dcdg']..addAll(arguments));
+ProcessResult runWith(Iterable<String> arguments, String against) =>
+    Process.runSync(
+      'pub',
+      [
+        '--trace',
+        'run',
+        'dcdg',
+      ]..addAll(arguments),
+      workingDirectory: against,
+    );

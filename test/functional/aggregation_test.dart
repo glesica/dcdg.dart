@@ -7,10 +7,10 @@ void main() {
 
   group('dcdg tool (aggregation cases)', () {
     test('should include user-defined types and exclude core types', () {
-      final result = runWith([
-        '-p',
+      final result = runWith(
+        [],
         'test/fixtures/aggregation/',
-      ]);
+      );
       expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout,

@@ -7,12 +7,13 @@ void main() {
 
   group('dcdg tool (include cases)', () {
     test('should limit to included classes', () {
-      final result = runWith([
-        '-i',
-        'PublicInternalPublic',
-        '-p',
+      final result = runWith(
+        [
+          '-i',
+          'PublicInternalPublic',
+        ],
         'test/fixtures/simple/',
-      ]);
+      );
       expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, isNot(contains('PublicExternalPublic')));
@@ -24,12 +25,13 @@ void main() {
     });
 
     test('should limit to included classes based on a regex', () {
-      final result = runWith([
-        '-i',
-        '.*Internal.*',
-        '-p',
+      final result = runWith(
+        [
+          '-i',
+          '.*Internal.*',
+        ],
         'test/fixtures/simple/',
-      ]);
+      );
       expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, isNot(contains('PublicExternalPublic')));
