@@ -1,0 +1,19 @@
+# DCDG Roadmap
+
+A list of non-trivial projects I'd like to accomplish here.
+
+Refactor tests to rely less on (slow) functional tests and more on unit tests.
+Basically, get back into alignment with the test pyramid.
+
+Abstract inclusion / exclusion into some kind of unified middleware pattern.
+Right now some things are included / excluded when the source is traversed,
+other things aren't enforced until the builder gets hold of the elements. This
+will probably require a light abstraction over the top of the element structure
+itself so that we can, for example, remove private fields before we hit the
+builder.
+
+Replace numerous options with a simple query language. For example, instead of
+having to pass an `--is-a` option in order to filter down to subclasses of a
+particular class, pass a simple query that can encapsulate this idea along with
+other dimensions like class name, fields, etc.
+
