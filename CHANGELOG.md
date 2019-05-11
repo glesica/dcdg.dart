@@ -20,3 +20,5 @@
 
 1.2.0 - fix `--exported-only`, add `--has-a` and `--is-a`
 
+1.3.0 - add aggregation, --exclude-has-a, --exclude-is-a
+
