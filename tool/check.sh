@@ -1,3 +1,3 @@
 #!/bin/sh
 
-pub run test $@
+pub run test -j 1 $@

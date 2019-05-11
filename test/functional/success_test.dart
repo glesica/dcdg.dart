@@ -9,6 +9,7 @@ void main() {
   group('dcdg tool (success cases)', () {
     test('should produce plantuml output by default', () {
       final result = runWith(['-p', 'test/fixtures/simple/']);
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, contains('PublicExternalPublic'));
       expect(result.stdout, contains('_PrivateExternalPrivate'));
@@ -20,6 +21,7 @@ void main() {
 
     test('should not yield empty namespaces', () {
       final result = runWith(['-p', 'test/fixtures/simple/']);
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, contains(namespaceSeparator));
       expect(result.stdout,
@@ -33,6 +35,7 @@ void main() {
         '-p',
         'test/fixtures/subdir/',
       ]);
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, contains('Sub'));
       expect(result.stdout, isNot(contains('NonSub')));

@@ -13,6 +13,7 @@ void main() {
         '-p',
         'test/fixtures/simple/',
       ]);
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, isNot(contains('PublicExternalPublic')));
       expect(result.stdout, isNot(contains('_PrivateExternalPrivate')));
@@ -29,6 +30,7 @@ void main() {
         '-p',
         'test/fixtures/simple/',
       ]);
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, isNot(contains('PublicExternalPublic')));
       expect(result.stdout, isNot(contains('_PrivateExternalPrivate')));

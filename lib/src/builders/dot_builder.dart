@@ -12,6 +12,21 @@ class DotBuilder implements DiagramBuilder {
   ];
 
   @override
+  bool excludeHasA = false;
+
+  @override
+  bool excludeIsA = false;
+
+  @override
+  bool excludePrivateClasses = false;
+
+  @override
+  bool excludePrivateFields = false;
+
+  @override
+  bool excludePrivateMethods = false;
+
+  @override
   void addField(FieldElement element) {
     // TODO: implement addField
   }

@@ -12,6 +12,7 @@ void main() {
         '-p',
         'test/fixtures/simple/',
       ]);
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, contains('PublicExternalPublic'));
       expect(result.stdout, isNot(contains('_PrivateInternalPrivate')));
@@ -27,6 +28,7 @@ void main() {
         '-p',
         'test/fixtures/exports/',
       ]);
+      expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout, contains('PathExportedClass'));
       expect(result.stdout, isNot(contains('PathHiddenClass')));

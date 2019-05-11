@@ -3,6 +3,8 @@ import 'package:dcdg/src/builder_factories.dart';
 
 const builderOption = 'builder';
 const excludeOption = 'exclude';
+const excludeHasAOption = 'exclude-has-a';
+const excludeIsAOption = 'exclude-is-a';
 const excludePrivateOption = 'exclude-private';
 const exportedOnlyOption = 'exported-only';
 const hasAOption = 'has-a';
@@ -31,6 +33,16 @@ final argParser = ArgParser(usageLineLength: 80)
     excludePrivateOption,
     help: 'Exclude private entities (field, method, class, or all)',
     valueHelp: 'KIND',
+  )
+  ..addFlag(
+    excludeHasAOption,
+    help: 'Exclude has-a / aggregation relationships from the diagram output',
+    negatable: false,
+  )
+  ..addFlag(
+    excludeIsAOption,
+    help: 'Exclude is-a / extension relationships from the diagram output',
+    negatable: false,
   )
   ..addFlag(
     exportedOnlyOption,
