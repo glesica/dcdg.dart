@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
+import 'package:dcdg/src/builders/type_name.dart';
+import 'package:dcdg/src/builders/type_namespace.dart';
 import 'package:dcdg/src/constants.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
 
@@ -36,12 +39,20 @@ class PlantUmlBuilder implements DiagramBuilder {
       return;
     }
 
+    final observedTypes = Set<String>();
+
     for (final field in element.fields) {
       if (excludePrivateFields && field.isPrivate) {
         continue;
       }
 
       final type = field.type;
+
+      // We ignore parameter types since they're not meaningful
+      // until they're reified anyway.
+      if (type is TypeParameterType) {
+        continue;
+      }
 
       // We ignore certain types, such as those that don't exist
       // statically, and those that are built-in.
@@ -59,16 +70,18 @@ class PlantUmlBuilder implements DiagramBuilder {
         continue;
       }
 
-      // Ignore types that come out null (for now) since they just
-      // clutter the diagram.
-      if (type.name == null) {
+      final fieldType = namespacedTypeName(field);
+
+      // Ignore types in dart:core since they're everywhere and
+      // we generally don't care about them.
+      if (fieldType.contains('dart::core')) {
         continue;
       }
 
-      final fieldType = getNamespacedTypeName(type.element);
-
-      if (fieldType.startsWith('dart::core')) {
+      if (observedTypes.contains(fieldType)) {
         continue;
+      } else {
+        observedTypes.add(fieldType);
       }
 
       _lines.add('$_currentClass o-- $fieldType');
@@ -89,8 +102,7 @@ class PlantUmlBuilder implements DiagramBuilder {
     final visibilityPrefix = getVisibility(element);
     final staticPrefix = element.isStatic ? '{static} ' : '';
     final name = element.name;
-    // TODO: Make this work properly for typedefs (currently null)
-    final type = element.type.name;
+    final type = typeName(element);
     _lines.add('  $staticPrefix$visibilityPrefix$type $name');
   }
 
@@ -105,7 +117,7 @@ class PlantUmlBuilder implements DiagramBuilder {
 
     for (final interface in element.interfaces) {
       final interfaceElement = interface.element;
-      final interfaceClass = getNamespacedTypeName(interfaceElement);
+      final interfaceClass = namespacedTypeName(interfaceElement);
       _lines.add('$interfaceClass <|-- $_currentClass');
     }
   }
@@ -121,7 +133,7 @@ class PlantUmlBuilder implements DiagramBuilder {
 
     for (final mixin in element.mixins) {
       final mixinElement = mixin.element;
-      final mixinClass = getNamespacedTypeName(mixinElement);
+      final mixinClass = namespacedTypeName(mixinElement);
       _lines.add('$mixinClass <|-- $_currentClass');
     }
   }
@@ -133,11 +145,11 @@ class PlantUmlBuilder implements DiagramBuilder {
 
     final superElement = element.supertype.element;
 
-    if (superElement.name == 'Object') {
+    if (superElement.type.isObject) {
       return;
     }
 
-    final superClass = getNamespacedTypeName(superElement);
+    final superClass = namespacedTypeName(superElement);
     _lines.add('$superClass <|-- $_currentClass');
   }
 
@@ -169,15 +181,8 @@ class PlantUmlBuilder implements DiagramBuilder {
     _currentClass = null;
   }
 
-  String getNamespacedTypeName(Element element) {
-    final namespace = element.library.identifier
-        .replaceFirst('package:', '')
-        .replaceFirst('dart:', 'dart::')
-        .split('/')
-        .join(namespaceSeparator);
-    final className = element.name;
-    return '$namespace$namespaceSeparator$className';
-  }
+  String namespacedTypeName(Element element) =>
+      '"${typeNamespace(element)}${typeName(element)}"';
 
   String getVisibility(Element element) {
     return element.isPrivate ? '-' : element.hasProtected ? '#' : '+';
@@ -195,7 +200,7 @@ class PlantUmlBuilder implements DiagramBuilder {
 
   @override
   void startClass(ClassElement element) {
-    _currentClass = getNamespacedTypeName(element);
+    _currentClass = namespacedTypeName(element);
 
     _lines.add('');
     addClass(element);

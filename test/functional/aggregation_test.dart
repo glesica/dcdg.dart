@@ -14,9 +14,9 @@ void main() {
       expect(result.stderr, '');
       expect(result.exitCode, 0);
       expect(result.stdout,
-          contains('Bar o-- aggregation_fixture::aggregation.dart::Foo0'));
+          contains('Bar" o-- "aggregation_fixture::aggregation.dart::Foo0'));
       expect(result.stdout,
-          contains('Bar o-- aggregation_fixture::aggregation.dart::Foo1'));
+          contains('Bar" o-- "aggregation_fixture::aggregation.dart::Foo1'));
       expect(result.stdout, isNot(contains('::integer')));
       expect(result.stdout, isNot(contains('::boolean')));
     });

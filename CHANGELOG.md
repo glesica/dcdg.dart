@@ -23,3 +23,5 @@
 1.3.0 - add aggregation, --exclude-has-a, --exclude-is-a
         fix bug where exported classes were double-counted
 
+1.3.1 - improve type name output
+
