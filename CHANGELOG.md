@@ -25,3 +25,5 @@
 
 1.3.1 - improve type name output
 
+1.3.2 - widen dependency ranges for flutter users
+
