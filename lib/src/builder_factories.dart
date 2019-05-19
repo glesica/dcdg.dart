@@ -1,4 +1,5 @@
 import 'package:dcdg/src/builders/dot_builder.dart';
+import 'package:dcdg/src/builders/nomnoml_builder.dart';
 import 'package:dcdg/src/builders/plant_uml_builder.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
 import 'package:meta/meta.dart';
@@ -18,6 +19,11 @@ final Map<String, BuilderFactory> _factories = {
     callback: () => DotBuilder(),
     description: 'Graphviz builder that only handles inheritance',
     name: 'dot',
+  ),
+  'nomnoml': BuilderFactory(
+    callback: () => NomnomlBuilder(),
+    description: 'Nomnoml builder for embedding diagrams in web pages',
+    name: 'nomnoml',
   ),
 };
 

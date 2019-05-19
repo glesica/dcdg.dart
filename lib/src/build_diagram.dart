@@ -8,6 +8,8 @@ import 'package:meta/meta.dart';
 void buildDiagram({
   @required DiagramBuilder builder,
   @required Iterable<ClassElement> classElements,
+  bool excludeHasA,
+  bool excludeIsA,
   bool excludePrivateClasses,
   bool excludePrivateFields,
   bool excludePrivateMethods,
@@ -17,10 +19,16 @@ void buildDiagram({
   Iterable<RegExp> isA,
 }) {
   final visitor = DiagramVisitor(
+    onAggregateField: builder.addAggregation,
     onField: builder.addField,
-    onFinishClass: builder.finishClass,
+    onFinishClass: builder.endClass,
+    onInterface: builder.addInterface,
     onMethod: builder.addMethod,
-    onStartClass: builder.startClass,
+    onMixin: builder.addMixin,
+    onStartClass: builder.beginClass,
+    onSuper: builder.addSuper,
+    excludeHasA: excludeHasA,
+    excludeIsA: excludeIsA,
     excludePrivateClasses: excludePrivateClasses,
     excludePrivateFields: excludePrivateMethods,
     excludePrivateMethods: excludePrivateMethods,

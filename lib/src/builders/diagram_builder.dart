@@ -1,27 +1,26 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
 
 abstract class DiagramBuilder {
-  set excludeHasA(bool value);
-
-  set excludeIsA(bool value);
-
-  set excludePrivateClasses(bool value);
-
-  set excludePrivateFields(bool value);
-
-  set excludePrivateMethods(bool value);
+  void addAggregation(FieldElement element);
 
   void addField(FieldElement element);
 
+  void addInterface(InterfaceType element);
+
   void addMethod(MethodElement element);
 
-  void finishClass(ClassElement element);
+  void addMixin(InterfaceType element);
+
+  void addSuper(InterfaceType element);
+
+  void beginClass(ClassElement element);
+
+  void endClass(ClassElement element);
 
   void printContent(void printer(String content));
-
-  void startClass(ClassElement element);
 
   void writeContent(File file);
 }

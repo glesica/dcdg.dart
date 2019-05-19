@@ -5,13 +5,19 @@ import 'package:meta/meta.dart';
 
 typedef OnElementHandler<T extends Element> = void Function(T element);
 
+typedef OnTypeHandler<T extends DartType> = void Function(T element);
+
 void _defaultOnClass(ClassElement element) {
   throw StateError('No onStartClass was provided');
 }
 
-void _noopOnElement(_) {}
+void _noopHandler(_) {}
 
 class DiagramVisitor extends RecursiveElementVisitor<void> {
+  final bool _excludeHasA;
+
+  final bool _excludeIsA;
+
   final bool _excludePrivateClasses;
 
   final bool _excludePrivateFields;
@@ -26,16 +32,26 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
 
   final Iterable<RegExp> _isA;
 
+  final OnElementHandler<FieldElement> _onAggregateFieldElement;
+
   final OnElementHandler<FieldElement> _onFieldElement;
 
   final OnElementHandler<ClassElement> _onFinishClassElement;
 
+  final OnTypeHandler<InterfaceType> _onInterfaceType;
+
   final OnElementHandler<MethodElement> _onMethodElement;
+
+  final OnTypeHandler<InterfaceType> _onMixinType;
 
   final OnElementHandler<ClassElement> _onStartClassElement;
 
+  final OnTypeHandler<InterfaceType> _onSuperType;
+
   DiagramVisitor({
     @required OnElementHandler<ClassElement> onStartClass,
+    bool excludeHasA,
+    bool excludeIsA,
     bool excludePrivateClasses,
     bool excludePrivateFields,
     bool excludePrivateMethods,
@@ -43,20 +59,30 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     Iterable<RegExp> hasA,
     Iterable<RegExp> includes,
     Iterable<RegExp> isA,
+    OnElementHandler<FieldElement> onAggregateField,
     OnElementHandler<FieldElement> onField,
     OnElementHandler<ClassElement> onFinishClass,
+    OnTypeHandler<InterfaceType> onInterface,
     OnElementHandler<MethodElement> onMethod,
-  })  : _excludePrivateClasses = excludePrivateClasses ?? false,
+    OnTypeHandler<InterfaceType> onMixin,
+    OnTypeHandler<InterfaceType> onSuper,
+  })  : _excludeHasA = excludeHasA ?? false,
+        _excludeIsA = excludeIsA ?? false,
+        _excludePrivateClasses = excludePrivateClasses ?? false,
         _excludePrivateFields = excludePrivateFields ?? false,
         _excludePrivateMethods = excludePrivateMethods ?? false,
         _excludes = excludes ?? const <RegExp>[],
         _hasA = hasA ?? const <RegExp>[],
         _includes = includes ?? const <RegExp>[],
         _isA = isA ?? const <RegExp>[],
-        _onFieldElement = onField ?? _noopOnElement,
-        _onFinishClassElement = onFinishClass ?? _noopOnElement,
-        _onMethodElement = onMethod ?? _noopOnElement,
-        _onStartClassElement = onStartClass ?? _defaultOnClass;
+        _onAggregateFieldElement = onAggregateField ?? _noopHandler,
+        _onFieldElement = onField ?? _noopHandler,
+        _onFinishClassElement = onFinishClass ?? _noopHandler,
+        _onInterfaceType = onInterface ?? _noopHandler,
+        _onMethodElement = onMethod ?? _noopHandler,
+        _onMixinType = onMixin ?? _noopHandler,
+        _onStartClassElement = onStartClass ?? _defaultOnClass,
+        _onSuperType = onSuper ?? _noopHandler;
 
   /// Whether the given class contains a field whose type matches
   /// one of those provided in the `hasA` constructor parameter.
@@ -172,6 +198,44 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
 
     _onStartClassElement(element);
     super.visitClassElement(element);
+
+    // TODO: Apply regex filters
+    if (!_excludeIsA) {
+      final superType = element.supertype;
+      final hasSuper = superType != null;
+      final superIsObject = superType?.isObject == true;
+      final isPrivate = superType?.element?.isPrivate == true;
+      if (hasSuper &&
+          !superIsObject &&
+          !(_excludePrivateClasses && isPrivate)) {
+        _onSuperType(superType);
+      }
+
+      for (final mixinType in element.mixins) {
+        if (mixinType.isObject) {
+          continue;
+        }
+
+        if (_excludePrivateClasses && mixinType.element.isPrivate) {
+          continue;
+        }
+
+        _onMixinType(mixinType);
+      }
+
+      for (final interfaceType in element.interfaces) {
+        if (interfaceType.isObject) {
+          continue;
+        }
+
+        if (_excludePrivateClasses && interfaceType.element.isPrivate) {
+          continue;
+        }
+
+        _onInterfaceType(interfaceType);
+      }
+    }
+
     _onFinishClassElement(element);
   }
 
@@ -182,6 +246,10 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     }
 
     _onFieldElement(element);
+
+    if (!_excludeHasA) {
+      _onAggregateFieldElement(element);
+    }
   }
 
   void visitMethodElement(MethodElement element) {

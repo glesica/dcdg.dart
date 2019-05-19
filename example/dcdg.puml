@@ -1,6 +1,92 @@
 @startuml
 set namespaceSeparator ::
 
+class "dcdg::src::diagram_visitor.dart::DiagramVisitor" {
+  +bool hasA()
+  +bool isA()
+  +bool shouldInclude()
+  +bool shouldIncludeClass()
+  +bool shouldIncludeField()
+  +bool shouldIncludeHasA()
+  +bool shouldIncludeIsA()
+  +bool shouldIncludeMethod()
+  +void visitClassElement()
+  +void visitFieldElement()
+  +void visitMethodElement()
+}
+
+"analyzer::dart::element::visitor.dart::RecursiveElementVisitor<R>" <|-- "dcdg::src::diagram_visitor.dart::DiagramVisitor"
+
+
+class "dcdg::src::builders::dot_builder.dart::DotBuilder" {
+  +void addAggregation()
+  +void addField()
+  +void addInterface()
+  +void addMethod()
+  +void addMixin()
+  +void addSuper()
+  +void beginClass()
+  +void endClass()
+  +String namespacedTypeName()
+  +void printContent()
+  +void writeContent()
+}
+
+"dcdg::src::builders::diagram_builder.dart::DiagramBuilder" <|-- "dcdg::src::builders::dot_builder.dart::DotBuilder"
+
+
+class "dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder" {
+  +void addAggregation()
+  +void addField()
+  +void addInterface()
+  +void addMethod()
+  +void addMixin()
+  +void addSuper()
+  +void beginClass()
+  +void endClass()
+  +String namespacedTypeName()
+  +String getVisibility()
+  +void printContent()
+  +void writeContent()
+}
+
+"dcdg::src::builders::diagram_builder.dart::DiagramBuilder" <|-- "dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder"
+
+
+abstract class "dcdg::src::builders::diagram_builder.dart::DiagramBuilder" {
+  +void addAggregation()
+  +void addField()
+  +void addInterface()
+  +void addMethod()
+  +void addMixin()
+  +void addSuper()
+  +void beginClass()
+  +void endClass()
+  +void printContent()
+  +void writeContent()
+}
+
+
+
+class "dcdg::src::builders::nomnoml_builder.dart::NomnomlBuilder" {
+  +void addAggregation()
+  +void addField()
+  +void addInterface()
+  +void addMethod()
+  +void addMixin()
+  +void addSuper()
+  +void beginClass()
+  +void endClass()
+  +void finalizeFields()
+  +void finalizeMethods()
+  +String getVisibility()
+  +void printContent()
+  +void writeContent()
+}
+
+"dcdg::src::builders::diagram_builder.dart::DiagramBuilder" <|-- "dcdg::src::builders::nomnoml_builder.dart::NomnomlBuilder"
+
+
 abstract class "dcdg::src::configuration.dart::Configuration" {
   +DiagramBuilder builder
   +String builderName
@@ -42,86 +128,8 @@ class "dcdg::src::configuration.dart::ConfigurationImpl" {
   +bool shouldShowHelp
 }
 
-"dcdg::src::configuration.dart::Configuration" <|-- "dcdg::src::configuration.dart::ConfigurationImpl"
 "dcdg::src::configuration.dart::ConfigurationImpl" o-- "dcdg::src::builders::diagram_builder.dart::DiagramBuilder"
-
-
-class "dcdg::src::diagram_visitor.dart::DiagramVisitor" {
-  +bool hasA()
-  +bool isA()
-  +bool shouldInclude()
-  +bool shouldIncludeClass()
-  +bool shouldIncludeField()
-  +bool shouldIncludeHasA()
-  +bool shouldIncludeIsA()
-  +bool shouldIncludeMethod()
-  +void visitClassElement()
-  +void visitFieldElement()
-  +void visitMethodElement()
-}
-
-"analyzer::dart::element::visitor.dart::RecursiveElementVisitor<R>" <|-- "dcdg::src::diagram_visitor.dart::DiagramVisitor"
-
-
-class "dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder" {
-  +bool excludeHasA
-  +bool excludeIsA
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +void addAggregations()
-  +void addClass()
-  +void addField()
-  +void addInterfaces()
-  +void addMixins()
-  +void addSuper()
-  +void addMethod()
-  +void finishClass()
-  +String namespacedTypeName()
-  +String getVisibility()
-  +void printContent()
-  +void startClass()
-  +void writeContent()
-}
-
-"dcdg::src::builders::diagram_builder.dart::DiagramBuilder" <|-- "dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder"
-
-
-class "dcdg::src::builders::dot_builder.dart::DotBuilder" {
-  +bool excludeHasA
-  +bool excludeIsA
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +void addField()
-  +void addInterfaces()
-  +void addMethod()
-  +void addMixins()
-  +void addSuper()
-  +void finishClass()
-  +String getNamespacedTypeName()
-  +void printContent()
-  +void startClass()
-  +void writeContent()
-}
-
-"dcdg::src::builders::diagram_builder.dart::DiagramBuilder" <|-- "dcdg::src::builders::dot_builder.dart::DotBuilder"
-
-
-abstract class "dcdg::src::builders::diagram_builder.dart::DiagramBuilder" {
-  +bool excludeHasA
-  +bool excludeIsA
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +void addField()
-  +void addMethod()
-  +void finishClass()
-  +void printContent()
-  +void startClass()
-  +void writeContent()
-}
-
+"dcdg::src::configuration.dart::Configuration" <|-- "dcdg::src::configuration.dart::ConfigurationImpl"
 
 
 class "dcdg::src::builder_factories.dart::BuilderFactory" {
