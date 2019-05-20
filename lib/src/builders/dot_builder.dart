@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
 
 class DotBuilder implements DiagramBuilder {
@@ -12,35 +13,20 @@ class DotBuilder implements DiagramBuilder {
   ];
 
   @override
-  bool excludeHasA = false;
-
-  @override
-  bool excludeIsA = false;
-
-  @override
-  bool excludePrivateClasses = false;
-
-  @override
-  bool excludePrivateFields = false;
-
-  @override
-  bool excludePrivateMethods = false;
+  void addAggregation(FieldElement element) {
+    // TODO: implement addAggregate
+  }
 
   @override
   void addField(FieldElement element) {
     // TODO: implement addField
   }
 
-  void addInterfaces(ClassElement element) {
-    if (element.interfaces.isEmpty) {
-      return;
-    }
-
-    for (final interface in element.interfaces) {
-      final interfaceElement = interface.element;
-      final interfaceClass = getNamespacedTypeName(interfaceElement);
-      _lines.add('  $_currentClass -> $interfaceClass');
-    }
+  @override
+  void addInterface(InterfaceType element) {
+    final interfaceElement = element.element;
+    final interfaceClass = namespacedTypeName(interfaceElement);
+    _lines.add('  $_currentClass -> $interfaceClass');
   }
 
   @override
@@ -48,35 +34,31 @@ class DotBuilder implements DiagramBuilder {
     // TODO: implement addMethod
   }
 
-  void addMixins(ClassElement element) {
-    if (element.mixins.isEmpty) {
-      return;
-    }
-
-    for (final mixin in element.mixins) {
-      final mixinElement = mixin.element;
-      final mixinClass = getNamespacedTypeName(mixinElement);
-      _lines.add('  $_currentClass -> $mixinClass');
-    }
+  @override
+  void addMixin(InterfaceType element) {
+    final mixinElement = element.element;
+    final mixinClass = namespacedTypeName(mixinElement);
+    _lines.add('  $_currentClass -> $mixinClass');
   }
 
-  void addSuper(ClassElement element) {
-    final superElement = element.supertype.element;
-
-    if (superElement.name == 'Object') {
-      return;
-    }
-
-    final superClass = getNamespacedTypeName(superElement);
+  @override
+  void addSuper(InterfaceType element) {
+    final superElement = element.element;
+    final superClass = namespacedTypeName(superElement);
     _lines.add('  $_currentClass -> $superClass');
   }
 
   @override
-  void finishClass(ClassElement element) {
+  void beginClass(ClassElement element) {
+    _currentClass = namespacedTypeName(element);
+  }
+
+  @override
+  void endClass(ClassElement element) {
     _currentClass = null;
   }
 
-  String getNamespacedTypeName(Element element) {
+  String namespacedTypeName(Element element) {
     final namespace = element.library.identifier
         .replaceFirst('package:', '')
         .replaceFirst('dart:', '');
@@ -92,15 +74,6 @@ class DotBuilder implements DiagramBuilder {
           ..add('}'))
         .join('\n');
     printer(content);
-  }
-
-  @override
-  void startClass(ClassElement element) {
-    _currentClass = getNamespacedTypeName(element);
-
-    addSuper(element);
-    addInterfaces(element);
-    addMixins(element);
   }
 
   @override

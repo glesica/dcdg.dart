@@ -9,7 +9,7 @@ void main() {
       group('should return true', () {
         test('when there are no excludes and no includes', () {
           final visitor = DiagramVisitor(
-            onStartClass: (_) {},
+            onBeginClass: (_) {},
           );
           final element = MockElement('A');
           expect(visitor.shouldInclude(element), isTrue);
@@ -17,7 +17,7 @@ void main() {
 
         test('when there are no excludes, matching includes', () {
           final visitor = DiagramVisitor(
-            onStartClass: (_) {},
+            onBeginClass: (_) {},
             includes: [RegExp('A')],
           );
           final element = MockElement('A');
@@ -26,7 +26,7 @@ void main() {
 
         test('when there are non-matching excludes, no includes', () {
           final visitor = DiagramVisitor(
-            onStartClass: (_) {},
+            onBeginClass: (_) {},
             excludes: [RegExp('B')],
           );
           final element = MockElement('A');
@@ -35,7 +35,7 @@ void main() {
 
         test('when there are non-matching excludes, matching includes', () {
           final visitor = DiagramVisitor(
-            onStartClass: (_) {},
+            onBeginClass: (_) {},
             excludes: [RegExp('B')],
             includes: [RegExp('A')],
           );
@@ -47,7 +47,7 @@ void main() {
       group('should return false', () {
         test('when there are matching excludes, no includes', () {
           final visitor = DiagramVisitor(
-            onStartClass: (_) {},
+            onBeginClass: (_) {},
             excludes: [RegExp('A')],
           );
           final element = MockElement('A');
@@ -56,7 +56,7 @@ void main() {
 
         test('when there are matching excludes, non-matching includes', () {
           final visitor = DiagramVisitor(
-            onStartClass: (_) {},
+            onBeginClass: (_) {},
             excludes: [RegExp('A')],
             includes: [RegExp('B')],
           );
@@ -66,7 +66,7 @@ void main() {
 
         test('when there are no excludes, non-matching includes', () {
           final visitor = DiagramVisitor(
-            onStartClass: (_) {},
+            onBeginClass: (_) {},
             includes: [RegExp('B')],
           );
           final element = MockElement('A');
@@ -75,7 +75,7 @@ void main() {
 
         test('when there are non-matching excludes, non-matching includes', () {
           final visitor = DiagramVisitor(
-            onStartClass: (_) {},
+            onBeginClass: (_) {},
             excludes: [RegExp('B')],
             includes: [RegExp('C')],
           );

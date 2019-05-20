@@ -64,12 +64,7 @@ abstract class Configuration {
         (results[isAOption] as Iterable<String>).map((s) => RegExp(s));
 
     final builderName = results[builderOption];
-    final builder = getBuilder(builderName)
-      ..excludeHasA = excludeHasA
-      ..excludeIsA = excludeIsA
-      ..excludePrivateClasses = excludePrivateClasses
-      ..excludePrivateFields = excludePrivateFields
-      ..excludePrivateMethods = excludePrivateMethods;
+    final builder = getBuilder(builderName);
 
     return ConfigurationImpl(
       builder: builder,

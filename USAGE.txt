@@ -41,6 +41,7 @@ Usage: dcdg [options]
 Available builders:
   * plantuml - PlantUML builder that attempts to be feature-complete
   * dot - Graphviz builder that only handles inheritance
+  * nomnoml - Nomnoml builder for embedding diagrams in web pages
 
 The --include, --exclude, --has-a, and --is-a
 options accept regular expressions.

@@ -34,6 +34,8 @@ Future<Null> main(Iterable<String> arguments) async {
   buildDiagram(
     builder: config.builder,
     classElements: classes,
+    excludeHasA: config.excludeHasA,
+    excludeIsA: config.excludeIsA,
     excludePrivateClasses: config.excludePrivateClasses,
     excludePrivateFields: config.excludePrivateFields,
     excludePrivateMethods: config.excludePrivateMethods,
