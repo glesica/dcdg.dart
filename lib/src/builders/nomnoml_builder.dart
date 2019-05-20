@@ -20,11 +20,11 @@ class NomnomlBuilder implements DiagramBuilder {
   void addAggregation(FieldElement element) {
     final typeElement = element.type.element;
     if (typeElement is ClassElement) {
-      final className = fullClassName(typeElement);
-      _relationships.add('[$className]o-[$_currentClass]');
+      final name = fullClassName(typeElement);
+      _relationships.add('[$_currentClass]o-[$name]');
     } else {
       final name = typeName(element);
-      _relationships.add('[$name]o-[$_currentClass]');
+      _relationships.add('[$_currentClass]o-[$name]');
     }
   }
 
