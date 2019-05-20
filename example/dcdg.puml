@@ -71,6 +71,7 @@ class "dcdg::src::builders::nomnoml_builder.dart::NomnomlBuilder" {
   +void endClass()
   +void finalizeFields()
   +void finalizeMethods()
+  +String fullClassName()
   +String getVisibility()
   +void printContent()
   +void writeContent()

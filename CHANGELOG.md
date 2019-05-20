@@ -27,3 +27,6 @@
 
 1.3.2 - widen dependency ranges for flutter users
 
+2.0.0 - refactor to make builders simpler to implement
+        add nomnoml support
+

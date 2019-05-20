@@ -46,3 +46,4 @@ the formatting changed. That's fine, it does that so it can be used in CI. Run t
 test suite (including unit and functional tests) with `tool/check.sh`. If you change
 the user interface or add features you should run `tool/docs.sh` to regenerate automated
 documentation and other resources. This script requires [PlantUML](http://plantuml.com/).
+
