@@ -34,9 +34,11 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
 
   final OnElementHandler<FieldElement> _onAggregateFieldElement;
 
-  final OnElementHandler<FieldElement> _onFieldElement;
+  final OnElementHandler<ClassElement> _onBeginClassElement;
 
-  final OnElementHandler<ClassElement> _onFinishClassElement;
+  final OnElementHandler<ClassElement> _onEndClassElement;
+
+  final OnElementHandler<FieldElement> _onFieldElement;
 
   final OnTypeHandler<InterfaceType> _onInterfaceType;
 
@@ -44,12 +46,10 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
 
   final OnTypeHandler<InterfaceType> _onMixinType;
 
-  final OnElementHandler<ClassElement> _onStartClassElement;
-
   final OnTypeHandler<InterfaceType> _onSuperType;
 
   DiagramVisitor({
-    @required OnElementHandler<ClassElement> onStartClass,
+    @required OnElementHandler<ClassElement> onBeginClass,
     bool excludeHasA,
     bool excludeIsA,
     bool excludePrivateClasses,
@@ -61,7 +61,7 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     Iterable<RegExp> isA,
     OnElementHandler<FieldElement> onAggregateField,
     OnElementHandler<FieldElement> onField,
-    OnElementHandler<ClassElement> onFinishClass,
+    OnElementHandler<ClassElement> onEndClass,
     OnTypeHandler<InterfaceType> onInterface,
     OnElementHandler<MethodElement> onMethod,
     OnTypeHandler<InterfaceType> onMixin,
@@ -76,12 +76,12 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
         _includes = includes ?? const <RegExp>[],
         _isA = isA ?? const <RegExp>[],
         _onAggregateFieldElement = onAggregateField ?? _noopHandler,
+        _onBeginClassElement = onBeginClass ?? _defaultOnClass,
+        _onEndClassElement = onEndClass ?? _noopHandler,
         _onFieldElement = onField ?? _noopHandler,
-        _onFinishClassElement = onFinishClass ?? _noopHandler,
         _onInterfaceType = onInterface ?? _noopHandler,
         _onMethodElement = onMethod ?? _noopHandler,
         _onMixinType = onMixin ?? _noopHandler,
-        _onStartClassElement = onStartClass ?? _defaultOnClass,
         _onSuperType = onSuper ?? _noopHandler;
 
   /// Whether the given class contains a field whose type matches
@@ -196,7 +196,7 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
       return;
     }
 
-    _onStartClassElement(element);
+    _onBeginClassElement(element);
     super.visitClassElement(element);
 
     // TODO: Apply regex filters
@@ -236,7 +236,7 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
       }
     }
 
-    _onFinishClassElement(element);
+    _onEndClassElement(element);
   }
 
   @override
@@ -248,6 +248,31 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     _onFieldElement(element);
 
     if (!_excludeHasA) {
+      final type = element.type;
+
+      // We ignore parameter types since they're not meaningful
+      // until they're reified anyway.
+      if (type is TypeParameterType) {
+        return;
+      }
+
+      // We ignore certain types, such as those that don't exist
+      // statically, and those that are built-in.
+      if (type.isDartAsyncFuture ||
+          type.isDartAsyncFutureOr ||
+          type.isDynamic ||
+          type.isObject ||
+          type.isUndefined ||
+          type.isVoid) {
+        return;
+      }
+
+      // We ignore things in dart:core because they're everywhere
+      // and we generally don't care about them.
+      if (type.element.library.isDartCore) {
+        return;
+      }
+
       _onAggregateFieldElement(element);
     }
   }

@@ -21,11 +21,11 @@ void buildDiagram({
   final visitor = DiagramVisitor(
     onAggregateField: builder.addAggregation,
     onField: builder.addField,
-    onFinishClass: builder.endClass,
+    onEndClass: builder.endClass,
     onInterface: builder.addInterface,
     onMethod: builder.addMethod,
     onMixin: builder.addMixin,
-    onStartClass: builder.beginClass,
+    onBeginClass: builder.beginClass,
     onSuper: builder.addSuper,
     excludeHasA: excludeHasA,
     excludeIsA: excludeIsA,

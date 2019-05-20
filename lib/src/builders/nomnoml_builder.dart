@@ -6,15 +6,26 @@ import 'package:dcdg/dcdg.dart';
 import 'package:dcdg/src/builders/type_name.dart';
 
 class NomnomlBuilder implements DiagramBuilder {
+  String _currentClass;
+
   List<String> _lines = [];
 
   List<FieldElement> _fields = [];
 
   List<MethodElement> _methods = [];
 
+  Set<String> _relationships = {};
+
   @override
   void addAggregation(FieldElement element) {
-    // TODO: implement addAggregation
+    final typeElement = element.type.element;
+    if (typeElement is ClassElement) {
+      final className = fullClassName(typeElement);
+      _relationships.add('[$className]o-[$_currentClass]');
+    } else {
+      final name = typeName(element);
+      _relationships.add('[$name]o-[$_currentClass]');
+    }
   }
 
   @override
@@ -24,7 +35,8 @@ class NomnomlBuilder implements DiagramBuilder {
 
   @override
   void addInterface(InterfaceType element) {
-    // TODO: implement addInterface
+    final interfaceName = fullClassName(element.element);
+    _relationships.add('[$interfaceName]<:--[$_currentClass]');
   }
 
   @override
@@ -34,19 +46,22 @@ class NomnomlBuilder implements DiagramBuilder {
 
   @override
   void addMixin(InterfaceType element) {
-    // TODO: implement addMixin
+    final mixinName = fullClassName(element.element);
+    _relationships.add('[$mixinName]<:-[$_currentClass]');
   }
 
   @override
   void addSuper(InterfaceType element) {
-    // TODO: implement addSuper
+    final superName = fullClassName(element.element);
+    _relationships.add('[$superName]<:-[$_currentClass]');
   }
 
   @override
   void beginClass(ClassElement element) {
-    final abstractModifier = element.isAbstract ? '<abstract>' : '';
-    final className = typeName(element);
-    _lines.add('[$abstractModifier$className');
+    final name = fullClassName(element);
+    _currentClass = name;
+
+    _lines.add('[$name');
   }
 
   @override
@@ -54,28 +69,52 @@ class NomnomlBuilder implements DiagramBuilder {
     finalizeFields();
     finalizeMethods();
     _lines.add(']');
+
+    if (_relationships.isNotEmpty) {
+      _lines.add('');
+      _lines.addAll(_relationships);
+    }
+
+    _lines.add('');
+
+    _currentClass = null;
+    _fields.clear();
+    _methods.clear();
+    _relationships.clear();
   }
 
   void finalizeFields() {
+    if (_fields.isEmpty) {
+      return;
+    }
     _lines.add('  |');
     _lines.add(_fields.map((element) {
-      final staticPrefix = element.isStatic ? '<static> ' : '';
+      final staticPrefix = element.isStatic ? '<static>' : '';
       final visibilityPrefix = getVisibility(element);
       final fieldName = element.name;
       final fieldType = typeName(element);
-      return '$staticPrefix$visibilityPrefix$fieldName: $fieldType';
-    }).join(';\n  '));
+      return '  $staticPrefix$visibilityPrefix$fieldName: $fieldType';
+    }).join(';\n'));
   }
 
   void finalizeMethods() {
+    if (_methods.isEmpty) {
+      return;
+    }
     _lines.add('  |');
     _lines.add(_methods.map((element) {
       final visibilityPrefix = getVisibility(element);
-      final staticPrefix = element.isStatic ? '{static} ' : '';
+      final staticPrefix = element.isStatic ? '<static>' : '';
       final methodName = element.name;
       final methodType = element.returnType.name;
-      return '$staticPrefix$visibilityPrefix$methodType $methodName()';
-    }).join(';\n  '));
+      return '  $staticPrefix$visibilityPrefix$methodType $methodName()';
+    }).join(';\n'));
+  }
+
+  String fullClassName(ClassElement element) {
+    final abstractModifier = element.isAbstract ? '<abstract>' : '';
+    final className = typeName(element);
+    return '$abstractModifier$className';
   }
 
   String getVisibility(Element element) {

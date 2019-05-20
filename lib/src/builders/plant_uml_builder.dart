@@ -13,44 +13,14 @@ class PlantUmlBuilder implements DiagramBuilder {
   final List<String> _lines = [
     '@startuml',
     'set namespaceSeparator $namespaceSeparator',
+    '',
   ];
 
   final Set<String> _relationships = {};
 
   @override
   void addAggregation(FieldElement element) {
-    final type = element.type;
-
-    // We ignore parameter types since they're not meaningful
-    // until they're reified anyway.
-    if (type is TypeParameterType) {
-      return;
-    }
-
-    // We ignore certain types, such as those that don't exist
-    // statically, and those that are built-in.
-    if (type.isDartAsyncFuture ||
-        type.isDartAsyncFutureOr ||
-        type.isDartCoreBool ||
-        type.isDartCoreDouble ||
-        type.isDartCoreFunction ||
-        type.isDartCoreInt ||
-        type.isDartCoreNull ||
-        type.isDynamic ||
-        type.isObject ||
-        type.isUndefined ||
-        type.isVoid) {
-      return;
-    }
-
     final fieldType = namespacedTypeName(element);
-
-    // Ignore types in dart:core since they're everywhere and
-    // we generally don't care about them.
-    if (fieldType.contains('dart::core')) {
-      return;
-    }
-
     _relationships.add('$_currentClass o-- $fieldType');
   }
 
@@ -96,9 +66,6 @@ class PlantUmlBuilder implements DiagramBuilder {
   @override
   void beginClass(ClassElement element) {
     _currentClass = namespacedTypeName(element);
-
-    _lines.add('');
-
     final decl = element.isAbstract ? 'abstract class' : 'class';
     _lines.add('$decl $_currentClass {');
   }
@@ -106,8 +73,10 @@ class PlantUmlBuilder implements DiagramBuilder {
   @override
   void endClass(ClassElement element) {
     _lines.add('}');
-    _lines.add('');
-    _lines.addAll(_relationships);
+    if (_relationships.isNotEmpty) {
+      _lines.add('');
+      _lines.addAll(_relationships);
+    }
     _lines.add('');
 
     _currentClass = null;
