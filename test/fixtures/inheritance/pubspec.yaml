@@ -1,0 +1,5 @@
+name: inheritance_fixture
+description: A test fixture with inheritance
+dev_dependencies:
+  dcdg:
+    path: ../../../

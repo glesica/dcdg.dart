@@ -21,6 +21,7 @@
 1.2.0 - fix `--exported-only`, add `--has-a` and `--is-a`
 
 1.3.0 - add aggregation, --exclude-has-a, --exclude-is-a
+
         fix bug where exported classes were double-counted
 
 1.3.1 - improve type name output
@@ -28,5 +29,8 @@
 1.3.2 - widen dependency ranges for flutter users
 
 2.0.0 - refactor to make builders simpler to implement
+
         add nomnoml support
+
+2.0.1 - fix incomplete --is-a implementation
 

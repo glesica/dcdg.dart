@@ -119,6 +119,16 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
       current = current.superclass;
     }
 
+    for (final needle in _isA) {
+      if (element.interfaces.any((i) => needle.hasMatch(i.name))) {
+        return true;
+      }
+
+      if (element.mixins.any((m) => needle.hasMatch(m.name))) {
+        return true;
+      }
+    }
+
     return false;
   }
 
