@@ -6,15 +6,15 @@ import 'package:dcdg/dcdg.dart';
 import 'package:dcdg/src/builders/type_name.dart';
 
 class NomnomlBuilder implements DiagramBuilder {
-  String _currentClass;
+  String? _currentClass;
 
-  List<String> _lines = [];
+  final List<String> _lines = [];
 
-  List<FieldElement> _fields = [];
+  final List<FieldElement> _fields = [];
 
-  List<MethodElement> _methods = [];
+  final List<MethodElement> _methods = [];
 
-  Set<String> _relationships = {};
+  final Set<String> _relationships = {};
 
   @override
   void addAggregation(FieldElement element) {
@@ -106,7 +106,8 @@ class NomnomlBuilder implements DiagramBuilder {
       final visibilityPrefix = getVisibility(element);
       final staticPrefix = element.isStatic ? '<static>' : '';
       final methodName = element.name;
-      final methodType = element.returnType.name;
+      final methodType =
+          element.returnType.getDisplayString(withNullability: true);
       return '  $staticPrefix$visibilityPrefix$methodType $methodName()';
     }).join(';\n'));
   }
@@ -118,12 +119,16 @@ class NomnomlBuilder implements DiagramBuilder {
   }
 
   String getVisibility(Element element) {
-    return element.isPrivate ? '-' : element.hasProtected ? '#' : '+';
+    return element.isPrivate
+        ? '-'
+        : element.hasProtected
+            ? '#'
+            : '+';
   }
 
   @override
   void printContent(void Function(String content) printer) {
-    final content = ([]..addAll(_lines)).join('\n');
+    final content = ([..._lines]).join('\n');
     printer(content);
   }
 

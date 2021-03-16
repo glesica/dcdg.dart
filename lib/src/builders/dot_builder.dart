@@ -5,7 +5,7 @@ import 'package:analyzer/dart/element/type.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
 
 class DotBuilder implements DiagramBuilder {
-  String _currentClass;
+  String? _currentClass;
 
   final List<String> _lines = [
     'strict digraph {',
@@ -59,7 +59,7 @@ class DotBuilder implements DiagramBuilder {
   }
 
   String namespacedTypeName(Element element) {
-    final namespace = element.library.identifier
+    final namespace = element.library?.identifier
         .replaceFirst('package:', '')
         .replaceFirst('dart:', '');
     final className = element.name;
@@ -68,11 +68,7 @@ class DotBuilder implements DiagramBuilder {
 
   @override
   void printContent(void Function(String content) printer) {
-    final content = ([]
-          ..addAll(_lines)
-          ..add('')
-          ..add('}'))
-        .join('\n');
+    final content = ([..._lines, '', '}']).join('\n');
     printer(content);
   }
 

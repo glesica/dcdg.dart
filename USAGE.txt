@@ -2,41 +2,31 @@ Usage: dcdg [options]
 
 -b, --builder=<NAME>            Builder to use to construct a class diagram
                                 (defaults to "plantuml")
-
 -e, --exclude=<TYPE>            Class / type names to exclude, can be a regular
                                 expression
-
     --exclude-private=<KIND>    Exclude private entities (field, method, class,
                                 or all)
-
     --exclude-has-a             Exclude has-a / aggregation relationships from
                                 the diagram output
-
     --exclude-is-a              Exclude is-a / extension relationships from the
                                 diagram output
-
     --exported-only             Include only classes exported from the Dart
                                 package
-
     --has-a=<CLASS>             Include only classes with a has-a relationship
                                 to any of the named classes
-
     --is-a=<CLASS>              Include only classes with an is-a relationship
                                 to any of the named classes
-
 -h, --help                      Show usage information
 -i, --include=<TYPE>            Class / type names to include, can be a regular
                                 expression
-
 -o, --output=<FILE>             File to which output should be written (stdout
                                 if omitted)
                                 (defaults to "")
-
 -p, --package=<DIR>             Path to the root of the Dart package to scan
                                 (defaults to ".")
-
 -s, --search-path=<DIR>         Directory relative to the package root to search
                                 for classes
+                                (defaults to "lib")
 
 Available builders:
   * plantuml - PlantUML builder that attempts to be feature-complete

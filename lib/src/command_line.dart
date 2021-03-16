@@ -48,6 +48,7 @@ final argParser = ArgParser(usageLineLength: 80)
     exportedOnlyOption,
     help: 'Include only classes exported from the Dart package',
     negatable: false,
+    defaultsTo: false,
   )
   ..addMultiOption(
     hasAOption,
@@ -66,6 +67,7 @@ final argParser = ArgParser(usageLineLength: 80)
     abbr: 'h',
     help: 'Show usage information',
     negatable: false,
+    defaultsTo: false,
   )
   ..addMultiOption(
     includeOption,
@@ -92,7 +94,7 @@ final argParser = ArgParser(usageLineLength: 80)
     abbr: 's',
     help: 'Directory relative to the package root to search for classes',
     valueHelp: 'DIR',
-    defaultsTo: null,
+    defaultsTo: 'lib',
   );
 
 /// Return a string that contains the usage and help information

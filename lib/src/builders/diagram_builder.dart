@@ -20,7 +20,7 @@ abstract class DiagramBuilder {
 
   void endClass(ClassElement element);
 
-  void printContent(void printer(String content));
+  void printContent(void Function(String content) printer);
 
   void writeContent(File file);
 }

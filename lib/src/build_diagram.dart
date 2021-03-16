@@ -1,22 +1,21 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
 import 'package:dcdg/src/diagram_visitor.dart';
-import 'package:meta/meta.dart';
 
 /// Build a diagram using the given builder from the given class
 /// elements.
 void buildDiagram({
-  @required DiagramBuilder builder,
-  @required Iterable<ClassElement> classElements,
-  bool excludeHasA,
-  bool excludeIsA,
-  bool excludePrivateClasses,
-  bool excludePrivateFields,
-  bool excludePrivateMethods,
-  Iterable<RegExp> excludes,
-  Iterable<RegExp> hasA,
-  Iterable<RegExp> includes,
-  Iterable<RegExp> isA,
+  required DiagramBuilder builder,
+  required Iterable<ClassElement> classElements,
+  required bool excludeHasA,
+  required bool excludeIsA,
+  required bool excludePrivateClasses,
+  required bool excludePrivateFields,
+  required bool excludePrivateMethods,
+  required Iterable<RegExp> excludes,
+  required Iterable<RegExp> hasA,
+  required Iterable<RegExp> includes,
+  required Iterable<RegExp> isA,
 }) {
   final visitor = DiagramVisitor(
     onAggregateField: builder.addAggregation,

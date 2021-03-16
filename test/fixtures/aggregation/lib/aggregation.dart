@@ -3,11 +3,13 @@ class Foo0 {}
 class Foo1 {}
 
 class Bar {
-  Foo0 foo;
+  Foo0 foo = Foo0();
 
-  Foo1 _foo;
+  // ignore: unused_field
+  Foo1 _foo = Foo1();
 
-  int integer;
+  int integer = 0;
 
-  bool _boolean;
+  // ignore: unused_field
+  bool _boolean = false;
 }

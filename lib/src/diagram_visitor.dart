@@ -1,15 +1,10 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor.dart';
-import 'package:meta/meta.dart';
 
 typedef OnElementHandler<T extends Element> = void Function(T element);
 
 typedef OnTypeHandler<T extends DartType> = void Function(T element);
-
-void _defaultOnClass(ClassElement element) {
-  throw StateError('No onStartClass was provided');
-}
 
 void _noopHandler(_) {}
 
@@ -49,52 +44,46 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
   final OnTypeHandler<InterfaceType> _onSuperType;
 
   DiagramVisitor({
-    @required OnElementHandler<ClassElement> onBeginClass,
-    bool excludeHasA,
-    bool excludeIsA,
-    bool excludePrivateClasses,
-    bool excludePrivateFields,
-    bool excludePrivateMethods,
-    Iterable<RegExp> excludes,
-    Iterable<RegExp> hasA,
-    Iterable<RegExp> includes,
-    Iterable<RegExp> isA,
-    OnElementHandler<FieldElement> onAggregateField,
-    OnElementHandler<FieldElement> onField,
-    OnElementHandler<ClassElement> onEndClass,
-    OnTypeHandler<InterfaceType> onInterface,
-    OnElementHandler<MethodElement> onMethod,
-    OnTypeHandler<InterfaceType> onMixin,
-    OnTypeHandler<InterfaceType> onSuper,
-  })  : _excludeHasA = excludeHasA ?? false,
-        _excludeIsA = excludeIsA ?? false,
-        _excludePrivateClasses = excludePrivateClasses ?? false,
-        _excludePrivateFields = excludePrivateFields ?? false,
-        _excludePrivateMethods = excludePrivateMethods ?? false,
-        _excludes = excludes ?? const <RegExp>[],
-        _hasA = hasA ?? const <RegExp>[],
-        _includes = includes ?? const <RegExp>[],
-        _isA = isA ?? const <RegExp>[],
-        _onAggregateFieldElement = onAggregateField ?? _noopHandler,
-        _onBeginClassElement = onBeginClass ?? _defaultOnClass,
-        _onEndClassElement = onEndClass ?? _noopHandler,
-        _onFieldElement = onField ?? _noopHandler,
-        _onInterfaceType = onInterface ?? _noopHandler,
-        _onMethodElement = onMethod ?? _noopHandler,
-        _onMixinType = onMixin ?? _noopHandler,
-        _onSuperType = onSuper ?? _noopHandler;
+    required OnElementHandler<ClassElement> onBeginClass,
+    bool excludeHasA = false,
+    bool excludeIsA = false,
+    bool excludePrivateClasses = false,
+    bool excludePrivateFields = false,
+    bool excludePrivateMethods = false,
+    Iterable<RegExp> excludes = const <RegExp>[],
+    Iterable<RegExp> hasA = const <RegExp>[],
+    Iterable<RegExp> includes = const <RegExp>[],
+    Iterable<RegExp> isA = const <RegExp>[],
+    OnElementHandler<FieldElement> onAggregateField = _noopHandler,
+    OnElementHandler<FieldElement> onField = _noopHandler,
+    OnElementHandler<ClassElement> onEndClass = _noopHandler,
+    OnTypeHandler<InterfaceType> onInterface = _noopHandler,
+    OnElementHandler<MethodElement> onMethod = _noopHandler,
+    OnTypeHandler<InterfaceType> onMixin = _noopHandler,
+    OnTypeHandler<InterfaceType> onSuper = _noopHandler,
+  })  : _excludeHasA = excludeHasA,
+        _excludeIsA = excludeIsA,
+        _excludePrivateClasses = excludePrivateClasses,
+        _excludePrivateFields = excludePrivateFields,
+        _excludePrivateMethods = excludePrivateMethods,
+        _excludes = excludes,
+        _hasA = hasA,
+        _includes = includes,
+        _isA = isA,
+        _onAggregateFieldElement = onAggregateField,
+        _onBeginClassElement = onBeginClass,
+        _onEndClassElement = onEndClass,
+        _onFieldElement = onField,
+        _onInterfaceType = onInterface,
+        _onMethodElement = onMethod,
+        _onMixinType = onMixin,
+        _onSuperType = onSuper;
 
   /// Whether the given class contains a field whose type matches
   /// one of those provided in the `hasA` constructor parameter.
   bool hasA(ClassElement element) {
     for (final field in element.fields) {
-      final typeName = field.type.name;
-
-      if (typeName == null) {
-        // Some types, like typedefs, don't have a string
-        // representation that we can use.
-        continue;
-      }
+      final typeName = field.type.element?.name ?? '';
 
       if (_hasA.any((r) => r.hasMatch(typeName))) {
         return true;
@@ -109,22 +98,27 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
   /// constructor parameter.
   bool isA(ClassElement element) {
     //
-    InterfaceType current = element.type;
-    while (current != null) {
+    var current = element.thisType;
+    while (true) {
       //
-      if (_isA.any((r) => r.hasMatch(current.name))) {
+      if (_isA.any((r) => r.hasMatch(current.element.name))) {
         return true;
       }
 
-      current = current.superclass;
+      final superclass = current.superclass;
+      if (superclass == null) {
+        break;
+      }
+
+      current = superclass;
     }
 
     for (final needle in _isA) {
-      if (element.interfaces.any((i) => needle.hasMatch(i.name))) {
+      if (element.interfaces.any((i) => needle.hasMatch(i.element.name))) {
         return true;
       }
 
-      if (element.mixins.any((m) => needle.hasMatch(m.name))) {
+      if (element.mixins.any((m) => needle.hasMatch(m.element.name))) {
         return true;
       }
     }
@@ -136,11 +130,11 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
   /// and `excludes` lists alone, assuming it isn't excluded for
   /// any other reason.
   bool shouldInclude(Element element) {
-    if (_excludes.any((r) => r.hasMatch(element.name))) {
+    if (_excludes.any((r) => r.hasMatch(element.name ?? ''))) {
       return false;
     }
 
-    if (_includes.any((r) => r.hasMatch(element.name))) {
+    if (_includes.any((r) => r.hasMatch(element.name ?? ''))) {
       return true;
     }
 
@@ -212,17 +206,16 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     // TODO: Apply regex filters
     if (!_excludeIsA) {
       final superType = element.supertype;
-      final hasSuper = superType != null;
-      final superIsObject = superType?.isObject == true;
-      final isPrivate = superType?.element?.isPrivate == true;
-      if (hasSuper &&
+      final superIsObject = superType?.isDartCoreObject == true;
+      final isPrivate = superType?.element.isPrivate == true;
+      if (superType != null &&
           !superIsObject &&
           !(_excludePrivateClasses && isPrivate)) {
         _onSuperType(superType);
       }
 
       for (final mixinType in element.mixins) {
-        if (mixinType.isObject) {
+        if (mixinType.isDartCoreObject) {
           continue;
         }
 
@@ -234,7 +227,7 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
       }
 
       for (final interfaceType in element.interfaces) {
-        if (interfaceType.isObject) {
+        if (interfaceType.isDartCoreObject) {
           continue;
         }
 
@@ -270,16 +263,15 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
       // statically, and those that are built-in.
       if (type.isDartAsyncFuture ||
           type.isDartAsyncFutureOr ||
+          type.isDartCoreObject ||
           type.isDynamic ||
-          type.isObject ||
-          type.isUndefined ||
           type.isVoid) {
         return;
       }
 
       // We ignore things in dart:core because they're everywhere
       // and we generally don't care about them.
-      if (type.element.library.isDartCore) {
+      if (type.element?.library?.isDartCore == true) {
         return;
       }
 
@@ -287,6 +279,7 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     }
   }
 
+  @override
   void visitMethodElement(MethodElement element) {
     if (!shouldIncludeMethod(element)) {
       return;

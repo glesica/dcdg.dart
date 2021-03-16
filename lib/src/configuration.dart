@@ -2,12 +2,11 @@ import 'package:args/args.dart';
 import 'package:dcdg/src/builder_factories.dart';
 import 'package:dcdg/src/command_line.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
-import 'package:meta/meta.dart';
 
 /// A full configuration to allow fetching classes and running
 /// a builder against a Dart package.
 abstract class Configuration {
-  DiagramBuilder get builder;
+  DiagramBuilder? get builder;
 
   String get builderName;
 
@@ -75,18 +74,18 @@ abstract class Configuration {
       excludePrivateClasses: excludePrivateClasses,
       excludePrivateFields: excludePrivateFields,
       excludePrivateMethods: excludePrivateMethods,
-      exportedOnly: results[exportedOnlyOption],
+      exportedOnly: results[exportedOnlyOption]!,
       hasAExpressions: hasAExpressions,
       includeExpressions: includeExpressions,
       isAExpressions: isAExpressions,
-      outputPath: results[outputPathOption],
-      packagePath: results[packagePathOption],
-      searchPath: results[searchPathOption],
-      shouldShowHelp: results[helpOption],
+      outputPath: results[outputPathOption]!,
+      packagePath: results[packagePathOption]!,
+      searchPath: results[searchPathOption]!,
+      shouldShowHelp: results[helpOption]!,
     );
   }
 
-  factory Configuration.fromCommandLine(List<String> arguments) {
+  factory Configuration.fromCommandLine(Iterable<String> arguments) {
     final results = argParser.parse(arguments);
     return Configuration.fromArgResults(results);
   }
@@ -94,7 +93,7 @@ abstract class Configuration {
 
 class ConfigurationImpl implements Configuration {
   @override
-  final DiagramBuilder builder;
+  final DiagramBuilder? builder;
 
   @override
   final String builderName;
@@ -142,21 +141,21 @@ class ConfigurationImpl implements Configuration {
   final bool shouldShowHelp;
 
   ConfigurationImpl({
-    @required this.builder,
-    @required this.builderName,
-    @required this.excludeExpressions,
-    @required this.excludeHasA,
-    @required this.excludeIsA,
-    @required this.excludePrivateClasses,
-    @required this.excludePrivateFields,
-    @required this.excludePrivateMethods,
-    @required this.exportedOnly,
-    @required this.hasAExpressions,
-    @required this.includeExpressions,
-    @required this.isAExpressions,
-    @required this.outputPath,
-    @required this.packagePath,
-    @required this.searchPath,
-    @required this.shouldShowHelp,
+    required this.builder,
+    required this.builderName,
+    required this.excludeExpressions,
+    required this.excludeHasA,
+    required this.excludeIsA,
+    required this.excludePrivateClasses,
+    required this.excludePrivateFields,
+    required this.excludePrivateMethods,
+    required this.exportedOnly,
+    required this.hasAExpressions,
+    required this.includeExpressions,
+    required this.isAExpressions,
+    required this.outputPath,
+    required this.packagePath,
+    required this.searchPath,
+    required this.shouldShowHelp,
   });
 }

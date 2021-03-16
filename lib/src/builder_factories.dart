@@ -2,7 +2,6 @@ import 'package:dcdg/src/builders/dot_builder.dart';
 import 'package:dcdg/src/builders/nomnoml_builder.dart';
 import 'package:dcdg/src/builders/plant_uml_builder.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
-import 'package:meta/meta.dart';
 
 /// A collection of available builders parameterized in different ways
 /// for different use-cases.
@@ -37,9 +36,9 @@ class BuilderFactory {
   final String name;
 
   BuilderFactory({
-    @required this.callback,
-    @required this.description,
-    @required this.name,
+    required this.callback,
+    required this.description,
+    required this.name,
   });
 
   @override
@@ -48,4 +47,7 @@ class BuilderFactory {
 
 Iterable<BuilderFactory> availableBuilders() => _factories.values;
 
-DiagramBuilder getBuilder(String name) => _factories[name]?.callback();
+DiagramBuilder? getBuilder(String name) {
+  final factory = _factories[name];
+  return factory?.callback();
+}

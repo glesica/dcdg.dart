@@ -38,6 +38,7 @@ ProcessResult runWith(Iterable<String> arguments, String against) =>
         '--trace',
         'run',
         'dcdg',
-      ]..addAll(arguments),
+        ...arguments,
+      ],
       workingDirectory: against,
     );
