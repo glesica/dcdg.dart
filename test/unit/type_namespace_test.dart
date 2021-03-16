@@ -1,24 +1,16 @@
-import 'package:analyzer/dart/element/element.dart';
+import 'package:test/test.dart';
+
 import 'package:dcdg/src/builders/type_namespace.dart';
 import 'package:dcdg/src/constants.dart';
-import 'package:mockito/mockito.dart';
-import 'package:test/test.dart';
+
+import 'fakes.dart';
 
 void main() {
   group('typeNamespace', () {
-    Element element;
-    LibraryElement library;
-
-    setUp(() {
-      element = MockElement();
-      library = MockLibraryElement();
-
-      when(element.name).thenReturn('class');
-      when(element.library).thenReturn(library);
-    });
-
     test('should concatenate package and class name', () {
-      when(library.identifier).thenReturn('package:pkg/entry.dart');
+      final library = FakeLibraryElement('package:pkg/entry.dart');
+      final element = FakeElement('class', library);
+
       final namespace = typeNamespace(element);
       expect(
         namespace,
@@ -31,7 +23,9 @@ void main() {
     });
 
     test('should convert a dart:core prefix to dart::core', () {
-      when(library.identifier).thenReturn('dart:core/entry.dart');
+      final library = FakeLibraryElement('dart:core/entry.dart');
+      final element = FakeElement('class', library);
+
       final namespace = typeNamespace(element);
       expect(
         namespace,
@@ -45,7 +39,9 @@ void main() {
     });
 
     test('should allow a custom namespace separator', () {
-      when(library.identifier).thenReturn('package:pkg/entry.dart');
+      final library = FakeLibraryElement('package:pkg/entry.dart');
+      final element = FakeElement('class', library);
+
       final separator = '+';
       final namespace = typeNamespace(element, separator: separator);
       expect(
@@ -59,7 +55,3 @@ void main() {
     });
   });
 }
-
-class MockElement extends Mock implements Element {}
-
-class MockLibraryElement extends Mock implements LibraryElement {}

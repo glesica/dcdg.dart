@@ -1,5 +1,6 @@
 import 'package:args/args.dart';
 import 'package:dcdg/src/builder_factories.dart';
+import 'package:dcdg/src/version.dart';
 
 const builderOption = 'builder';
 const excludeOption = 'exclude';
@@ -14,6 +15,7 @@ const isAOption = 'is-a';
 const outputPathOption = 'output';
 const packagePathOption = 'package';
 const searchPathOption = 'search-path';
+const versionOption = 'version';
 
 final argParser = ArgParser(usageLineLength: 80)
   ..addOption(
@@ -48,6 +50,7 @@ final argParser = ArgParser(usageLineLength: 80)
     exportedOnlyOption,
     help: 'Include only classes exported from the Dart package',
     negatable: false,
+    defaultsTo: false,
   )
   ..addMultiOption(
     hasAOption,
@@ -66,6 +69,7 @@ final argParser = ArgParser(usageLineLength: 80)
     abbr: 'h',
     help: 'Show usage information',
     negatable: false,
+    defaultsTo: false,
   )
   ..addMultiOption(
     includeOption,
@@ -92,7 +96,14 @@ final argParser = ArgParser(usageLineLength: 80)
     abbr: 's',
     help: 'Directory relative to the package root to search for classes',
     valueHelp: 'DIR',
-    defaultsTo: null,
+    defaultsTo: 'lib',
+  )
+  ..addFlag(
+    versionOption,
+    abbr: 'v',
+    help: 'Show the version number and exit',
+    negatable: false,
+    defaultsTo: false,
   );
 
 /// Return a string that contains the usage and help information
@@ -112,4 +123,9 @@ options accept regular expressions.
 Note: If both excludes and includes are supplied, types that are in
 both lists will be removed from the includes list and then the
 includes list will be applied as usual.''';
+}
+
+/// Return the version string we show on --version.
+String makeVersion() {
+  return 'dcdg $version';
 }

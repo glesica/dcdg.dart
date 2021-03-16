@@ -1,0 +1,7 @@
+FROM google/dart:2.12 AS build
+RUN apt-get -q update && \
+    apt-get -y install make && \
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir -p /code
+VOLUME /code
+WORKDIR /code

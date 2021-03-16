@@ -8,11 +8,11 @@ String typeName(final Element element) {
   }
 
   if (element is FieldElement) {
-    return element.type.displayName;
+    return element.type.getDisplayString(withNullability: true);
   }
 
   if (element is TypeDefiningElement) {
-    return element.type.displayName;
+    return element.displayName;
   }
 
   return element.displayName;

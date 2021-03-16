@@ -8,7 +8,7 @@ import 'package:dcdg/src/constants.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
 
 class PlantUmlBuilder implements DiagramBuilder {
-  String _currentClass;
+  String? _currentClass;
 
   final List<String> _lines = [
     '@startuml',
@@ -45,7 +45,7 @@ class PlantUmlBuilder implements DiagramBuilder {
     final visibilityPrefix = getVisibility(element);
     final staticPrefix = element.isStatic ? '{static} ' : '';
     final name = element.name;
-    final type = element.returnType.name;
+    final type = element.returnType.getDisplayString(withNullability: true);
     _lines.add('  $staticPrefix$visibilityPrefix$type $name()');
   }
 
@@ -87,16 +87,16 @@ class PlantUmlBuilder implements DiagramBuilder {
       '"${typeNamespace(element)}${typeName(element)}"';
 
   String getVisibility(Element element) {
-    return element.isPrivate ? '-' : element.hasProtected ? '#' : '+';
+    return element.isPrivate
+        ? '-'
+        : element.hasProtected
+            ? '#'
+            : '+';
   }
 
   @override
-  void printContent(void printer(String content)) {
-    final content = ([]
-          ..addAll(_lines)
-          ..add('')
-          ..add('@enduml'))
-        .join('\n');
+  void printContent(void Function(String content) printer) {
+    final content = ([..._lines, '', '@enduml']).join('\n');
     printer(content);
   }
 

@@ -1,0 +1,24 @@
+name: DCDG CI
+
+on: [push, pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-20.04
+    container:
+      image: glesica/dcdg_build
+      volumes:
+        - ${{ github.workspace }}:/code
+    steps:
+      - uses: actions/checkout@v1
+      - run: ./tool/check.sh
+
+  check-format:
+    runs-on: ubuntu-20.04
+    container:
+      image: glesica/dcdg_build
+      volumes:
+        - ${{ github.workspace }}:/code
+    steps:
+      - uses: actions/checkout@v1
+      - run: ./tool/format.sh

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dcdg/dcdg.dart';
+import 'package:dcdg/src/command_line.dart';
 import 'package:path/path.dart' as path;
 
 Future<Null> main(Iterable<String> arguments) async {
@@ -12,16 +13,22 @@ Future<Null> main(Iterable<String> arguments) async {
     exit(0);
   }
 
+  if (config.shouldShowVersion) {
+    print(makeVersion());
+    exit(0);
+  }
+
   // TODO: Move validation to the Configuration itself for easier testing
 
   if (config.builder == null) {
     outputError('Builder "${config.builderName}" was not found');
     exit(1);
   }
+  final builder = config.builder!;
 
   final pubspec = File(path.join(config.packagePath, 'pubspec.yaml'));
   if (!pubspec.existsSync()) {
-    outputError('No Dart package found at ${config.packagePath}');
+    outputError('No Dart package found at "${config.packagePath}"');
     exit(1);
   }
 
@@ -32,7 +39,7 @@ Future<Null> main(Iterable<String> arguments) async {
   );
 
   buildDiagram(
-    builder: config.builder,
+    builder: builder,
     classElements: classes,
     excludeHasA: config.excludeHasA,
     excludeIsA: config.excludeIsA,
@@ -46,11 +53,11 @@ Future<Null> main(Iterable<String> arguments) async {
   );
 
   if (config.outputPath == '') {
-    config.builder.printContent(print);
+    builder.printContent(print);
   } else {
     final outFile = File(config.outputPath);
     try {
-      config.builder.writeContent(outFile);
+      builder.writeContent(outFile);
     } on FileSystemException catch (exception) {
       outputError(
         'Failed writing to file ${exception.path} (${exception.osError})',
@@ -61,7 +68,7 @@ Future<Null> main(Iterable<String> arguments) async {
   }
 }
 
-void outputError(String message, [Exception exception]) {
+void outputError(String message, [Exception? exception]) {
   stderr.writeln('Error: $message');
   if (exception != null) {
     stderr.writeln(exception.toString());

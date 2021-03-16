@@ -1,5 +1,7 @@
 name: subdir_fixture
 description: A test fixture with a subdirectory
+environment:
+  sdk: '>=2.12.0 <3.0.0'
 dev_dependencies:
   dcdg:
     path: ../../../

@@ -14,8 +14,8 @@ class ClassElementCollector extends RecursiveElementVisitor<void> {
   final bool _exportOnly;
 
   ClassElementCollector({
-    bool exportedOnly,
-  }) : _exportOnly = exportedOnly ?? false;
+    bool exportedOnly = false,
+  }) : _exportOnly = exportedOnly;
 
   Iterable<ClassElement> get classElements => _classElements;
 
@@ -30,8 +30,8 @@ class ClassElementCollector extends RecursiveElementVisitor<void> {
       return;
     }
 
-    final Set<String> _hiddenNames = {};
-    final Set<String> _shownNames = {};
+    final _hiddenNames = <String>{};
+    final _shownNames = <String>{};
 
     for (final combinator in element.combinators) {
       if (combinator is HideElementCombinator) {
@@ -46,7 +46,7 @@ class ClassElementCollector extends RecursiveElementVisitor<void> {
     final collector = ClassElementCollector(
       exportedOnly: _exportOnly,
     );
-    element.exportedLibrary.accept(collector);
+    element.exportedLibrary?.accept(collector);
 
     bool shouldInclude(ClassElement element) {
       if (_shownNames.isEmpty && _hiddenNames.isEmpty) {

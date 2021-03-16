@@ -1,38 +1,6 @@
 @startuml
 set namespaceSeparator ::
 
-class "dcdg::src::diagram_visitor.dart::DiagramVisitor" {
-  +bool hasA()
-  +bool isA()
-  +bool shouldInclude()
-  +bool shouldIncludeClass()
-  +bool shouldIncludeField()
-  +bool shouldIncludeHasA()
-  +bool shouldIncludeIsA()
-  +bool shouldIncludeMethod()
-  +void visitClassElement()
-  +void visitFieldElement()
-  +void visitMethodElement()
-}
-
-"analyzer::dart::element::visitor.dart::RecursiveElementVisitor<R>" <|-- "dcdg::src::diagram_visitor.dart::DiagramVisitor"
-
-class "dcdg::src::builders::dot_builder.dart::DotBuilder" {
-  +void addAggregation()
-  +void addField()
-  +void addInterface()
-  +void addMethod()
-  +void addMixin()
-  +void addSuper()
-  +void beginClass()
-  +void endClass()
-  +String namespacedTypeName()
-  +void printContent()
-  +void writeContent()
-}
-
-"dcdg::src::builders::diagram_builder.dart::DiagramBuilder" <|-- "dcdg::src::builders::dot_builder.dart::DotBuilder"
-
 class "dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder" {
   +void addAggregation()
   +void addField()
@@ -49,6 +17,22 @@ class "dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder" {
 }
 
 "dcdg::src::builders::diagram_builder.dart::DiagramBuilder" <|-- "dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder"
+
+class "dcdg::src::builders::dot_builder.dart::DotBuilder" {
+  +void addAggregation()
+  +void addField()
+  +void addInterface()
+  +void addMethod()
+  +void addMixin()
+  +void addSuper()
+  +void beginClass()
+  +void endClass()
+  +String namespacedTypeName()
+  +void printContent()
+  +void writeContent()
+}
+
+"dcdg::src::builders::diagram_builder.dart::DiagramBuilder" <|-- "dcdg::src::builders::dot_builder.dart::DotBuilder"
 
 abstract class "dcdg::src::builders::diagram_builder.dart::DiagramBuilder" {
   +void addAggregation()
@@ -82,57 +66,73 @@ class "dcdg::src::builders::nomnoml_builder.dart::NomnomlBuilder" {
 
 "dcdg::src::builders::diagram_builder.dart::DiagramBuilder" <|-- "dcdg::src::builders::nomnoml_builder.dart::NomnomlBuilder"
 
-abstract class "dcdg::src::configuration.dart::Configuration" {
-  +DiagramBuilder builder
-  +String builderName
-  +Iterable<RegExp> excludeExpressions
-  +bool excludeHasA
-  +bool excludeIsA
-  +bool exportedOnly
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +Iterable<RegExp> hasAExpressions
-  +Iterable<RegExp> includeExpressions
-  +Iterable<RegExp> isAExpressions
-  +String outputPath
-  +String packagePath
-  +String searchPath
-  +bool shouldShowHelp
-}
-
-"dcdg::src::configuration.dart::Configuration" o-- "dcdg::src::builders::diagram_builder.dart::DiagramBuilder"
-
-class "dcdg::src::configuration.dart::ConfigurationImpl" {
-  +DiagramBuilder builder
-  +String builderName
-  +Iterable<RegExp> excludeExpressions
-  +bool excludeHasA
-  +bool excludeIsA
-  +bool excludePrivateClasses
-  +bool excludePrivateFields
-  +bool excludePrivateMethods
-  +bool exportedOnly
-  +Iterable<RegExp> hasAExpressions
-  +Iterable<RegExp> includeExpressions
-  +Iterable<RegExp> isAExpressions
-  +String outputPath
-  +String packagePath
-  +String searchPath
-  +bool shouldShowHelp
-}
-
-"dcdg::src::configuration.dart::ConfigurationImpl" o-- "dcdg::src::builders::diagram_builder.dart::DiagramBuilder"
-"dcdg::src::configuration.dart::Configuration" <|-- "dcdg::src::configuration.dart::ConfigurationImpl"
-
 class "dcdg::src::builder_factories.dart::BuilderFactory" {
-  +() → DiagramBuilder callback
+  +DiagramBuilder Function() callback
   +String description
   +String name
   +String toString()
 }
 
-"dcdg::src::builder_factories.dart::BuilderFactory" o-- "dcdg::src::builder_factories.dart::() → DiagramBuilder"
+"dcdg::src::builder_factories.dart::BuilderFactory" o-- "dcdg::src::builder_factories.dart::DiagramBuilder Function()"
+
+abstract class "dcdg::src::configuration.dart::Configuration" {
+  +DiagramBuilder? builder
+  +String builderName
+  +Iterable<RegExp> excludeExpressions
+  +bool excludeHasA
+  +bool excludeIsA
+  +bool exportedOnly
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +Iterable<RegExp> hasAExpressions
+  +Iterable<RegExp> includeExpressions
+  +Iterable<RegExp> isAExpressions
+  +String outputPath
+  +String packagePath
+  +String searchPath
+  +bool shouldShowHelp
+}
+
+"dcdg::src::configuration.dart::Configuration" o-- "dcdg::src::builders::diagram_builder.dart::DiagramBuilder?"
+
+class "dcdg::src::configuration.dart::ConfigurationImpl" {
+  +DiagramBuilder? builder
+  +String builderName
+  +Iterable<RegExp> excludeExpressions
+  +bool excludeHasA
+  +bool excludeIsA
+  +bool excludePrivateClasses
+  +bool excludePrivateFields
+  +bool excludePrivateMethods
+  +bool exportedOnly
+  +Iterable<RegExp> hasAExpressions
+  +Iterable<RegExp> includeExpressions
+  +Iterable<RegExp> isAExpressions
+  +String outputPath
+  +String packagePath
+  +String searchPath
+  +bool shouldShowHelp
+}
+
+"dcdg::src::configuration.dart::ConfigurationImpl" o-- "dcdg::src::builders::diagram_builder.dart::DiagramBuilder?"
+"dcdg::src::configuration.dart::Configuration" <|-- "dcdg::src::configuration.dart::ConfigurationImpl"
+
+class "dcdg::src::diagram_visitor.dart::DiagramVisitor" {
+  +bool hasA()
+  +bool isA()
+  +bool shouldInclude()
+  +bool shouldIncludeClass()
+  +bool shouldIncludeField()
+  +bool shouldIncludeHasA()
+  +bool shouldIncludeIsA()
+  +bool shouldIncludeMethod()
+  +void visitClassElement()
+  +void visitFieldElement()
+  +void visitMethodElement()
+}
+
+"analyzer::dart::element::visitor.dart::RecursiveElementVisitor" <|-- "dcdg::src::diagram_visitor.dart::DiagramVisitor"
 
 class "dcdg::src::class_element_collector.dart::ClassElementCollector" {
   +Iterable<ClassElement> classElements
@@ -140,7 +140,7 @@ class "dcdg::src::class_element_collector.dart::ClassElementCollector" {
   +void visitExportElement()
 }
 
-"analyzer::dart::element::visitor.dart::RecursiveElementVisitor<R>" <|-- "dcdg::src::class_element_collector.dart::ClassElementCollector"
+"analyzer::dart::element::visitor.dart::RecursiveElementVisitor" <|-- "dcdg::src::class_element_collector.dart::ClassElementCollector"
 
 
 @enduml
