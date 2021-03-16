@@ -34,3 +34,5 @@
 
 2.0.1 - fix incomplete --is-a implementation
 
+3.0.0 - update to non-nullable types by default
+
