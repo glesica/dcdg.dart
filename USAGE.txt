@@ -27,6 +27,7 @@ Usage: dcdg [options]
 -s, --search-path=<DIR>         Directory relative to the package root to search
                                 for classes
                                 (defaults to "lib")
+-v, --version                   Show the version number and exit
 
 Available builders:
   * plantuml - PlantUML builder that attempts to be feature-complete

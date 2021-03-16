@@ -38,6 +38,8 @@ abstract class Configuration {
 
   bool get shouldShowHelp;
 
+  bool get shouldShowVersion;
+
   factory Configuration.fromArgResults(ArgResults results) {
     final excludePrivateValues =
         results[excludePrivateOption] as Iterable<String>;
@@ -82,6 +84,7 @@ abstract class Configuration {
       packagePath: results[packagePathOption]!,
       searchPath: results[searchPathOption]!,
       shouldShowHelp: results[helpOption]!,
+      shouldShowVersion: results[versionOption]!,
     );
   }
 
@@ -140,6 +143,9 @@ class ConfigurationImpl implements Configuration {
   @override
   final bool shouldShowHelp;
 
+  @override
+  final bool shouldShowVersion;
+
   ConfigurationImpl({
     required this.builder,
     required this.builderName,
@@ -157,5 +163,6 @@ class ConfigurationImpl implements Configuration {
     required this.packagePath,
     required this.searchPath,
     required this.shouldShowHelp,
+    required this.shouldShowVersion,
   });
 }

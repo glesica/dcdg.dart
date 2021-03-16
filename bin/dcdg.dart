@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dcdg/dcdg.dart';
+import 'package:dcdg/src/command_line.dart';
 import 'package:path/path.dart' as path;
 
 Future<Null> main(Iterable<String> arguments) async {
@@ -9,6 +10,11 @@ Future<Null> main(Iterable<String> arguments) async {
 
   if (config.shouldShowHelp) {
     print(makeHelp());
+    exit(0);
+  }
+
+  if (config.shouldShowVersion) {
+    print(makeVersion());
     exit(0);
   }
 
