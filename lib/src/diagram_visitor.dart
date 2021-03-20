@@ -48,7 +48,7 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
 
   final OnTypeHandler<InterfaceType> _onSuperType;
 
-  final _verbose;
+  final bool _verbose;
 
   DiagramVisitor({
     required OnElementHandler<ClassElement> onBeginClass,
