@@ -2,7 +2,6 @@ name: dcdg
 description: A tool to automatically generate class diagrams (like UML) from a Dart package.
 version: 3.0.0
 homepage: https://github.com/glesica/dcdg.dart
-author: George Lesica <george@lesica.com>
 executables:
   dcdg:
 
