@@ -6,7 +6,7 @@ void main() {
   pubGetFixtures();
 
   group('dcdg tool (export cases)', () {
-    test('should ignore unexported classes', () {
+    test('should ignore un-exported classes', () {
       final result = runWith(
         [
           '--exported-only',
