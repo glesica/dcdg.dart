@@ -92,6 +92,8 @@ abstract class "dcdg::src::configuration.dart::Configuration" {
   +String packagePath
   +String searchPath
   +bool shouldShowHelp
+  +bool shouldShowVersion
+  +bool verbose
 }
 
 "dcdg::src::configuration.dart::Configuration" o-- "dcdg::src::builders::diagram_builder.dart::DiagramBuilder?"
@@ -113,6 +115,8 @@ class "dcdg::src::configuration.dart::ConfigurationImpl" {
   +String packagePath
   +String searchPath
   +bool shouldShowHelp
+  +bool shouldShowVersion
+  +bool verbose
 }
 
 "dcdg::src::configuration.dart::ConfigurationImpl" o-- "dcdg::src::builders::diagram_builder.dart::DiagramBuilder?"

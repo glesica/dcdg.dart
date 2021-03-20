@@ -17,12 +17,13 @@ void pubGetFixtures() {
       return;
     }
 
-    final result = Process.runSync('pub', ['get'], workingDirectory: d.path);
+    final result =
+        Process.runSync('dart', ['pub', 'get'], workingDirectory: d.path);
     if (result.exitCode != 0) {
       throw ProcessException(
-        'pub',
-        ['get'],
-        'pub get failed on fixture ${d.path}',
+        'dart',
+        ['pub', 'get'],
+        'dart pub get failed on fixture ${d.path}',
         result.exitCode,
       );
     }
@@ -33,10 +34,11 @@ void pubGetFixtures() {
 
 ProcessResult runWith(Iterable<String> arguments, String against) =>
     Process.runSync(
-      'pub',
+      'dart',
       [
-        '--trace',
         'run',
+        '--verbosity',
+        'all',
         'dcdg',
         ...arguments,
       ],

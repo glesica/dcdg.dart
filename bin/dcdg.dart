@@ -50,6 +50,7 @@ Future<Null> main(Iterable<String> arguments) async {
     hasA: config.hasAExpressions,
     includes: config.includeExpressions,
     isA: config.isAExpressions,
+    verbose: config.verbose,
   );
 
   if (config.outputPath == '') {

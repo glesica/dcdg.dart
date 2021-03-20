@@ -1,7 +1,6 @@
-import 'package:test/test.dart';
-
-import 'package:dcdg/src/builders/type_namespace.dart';
 import 'package:dcdg/src/constants.dart';
+import 'package:dcdg/src/type_namespace.dart';
+import 'package:test/test.dart';
 
 import 'fakes.dart';
 

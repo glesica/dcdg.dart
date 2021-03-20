@@ -17,6 +17,7 @@ Usage: dcdg [options]
     --is-a=<CLASS>              Include only classes with an is-a relationship
                                 to any of the named classes
 -h, --help                      Show usage information
+-V, --verbose                   Show verbose output
 -i, --include=<TYPE>            Class / type names to include, can be a regular
                                 expression
 -o, --output=<FILE>             File to which output should be written (stdout

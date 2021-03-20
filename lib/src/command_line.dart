@@ -16,6 +16,7 @@ const outputPathOption = 'output';
 const packagePathOption = 'package';
 const searchPathOption = 'search-path';
 const versionOption = 'version';
+const verboseOption = 'verbose';
 
 final argParser = ArgParser(usageLineLength: 80)
   ..addOption(
@@ -68,6 +69,13 @@ final argParser = ArgParser(usageLineLength: 80)
     helpOption,
     abbr: 'h',
     help: 'Show usage information',
+    negatable: false,
+    defaultsTo: false,
+  )
+  ..addFlag(
+    verboseOption,
+    abbr: 'V',
+    help: 'Show verbose output',
     negatable: false,
     defaultsTo: false,
   )

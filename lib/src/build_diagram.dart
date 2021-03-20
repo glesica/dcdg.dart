@@ -16,6 +16,7 @@ void buildDiagram({
   required Iterable<RegExp> hasA,
   required Iterable<RegExp> includes,
   required Iterable<RegExp> isA,
+  required bool verbose,
 }) {
   final visitor = DiagramVisitor(
     onAggregateField: builder.addAggregation,
@@ -35,6 +36,7 @@ void buildDiagram({
     hasA: hasA,
     includes: includes,
     isA: isA,
+    verbose: verbose,
   );
 
   for (final element in classElements) {

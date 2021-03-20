@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:dcdg/src/builders/type_name.dart';
-import 'package:dcdg/src/builders/type_namespace.dart';
-import 'package:dcdg/src/constants.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
+import 'package:dcdg/src/constants.dart';
+import 'package:dcdg/src/type_name.dart';
+import 'package:dcdg/src/type_namespace.dart';
 
 class PlantUmlBuilder implements DiagramBuilder {
   String? _currentClass;
