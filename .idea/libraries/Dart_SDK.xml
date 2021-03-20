@@ -1,0 +1,28 @@
+<component name="libraryTable">
+  <library name="Dart SDK">
+    <CLASSES>
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/async" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/cli" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/collection" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/convert" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/core" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/developer" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/ffi" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/html" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/indexed_db" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/io" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/isolate" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/js" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/js_util" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/math" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/mirrors" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/svg" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/typed_data" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/web_audio" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/web_gl" />
+      <root url="file:///opt/homebrew/Cellar/dart/2.12.1/libexec/lib/web_sql" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
