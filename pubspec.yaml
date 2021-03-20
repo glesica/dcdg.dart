@@ -11,7 +11,6 @@ environment:
 dependencies:
   analyzer: ^1.1.0
   args: ^2.0.0
-  meta: ^1.0.0
   path: ^1.4.0
 
 dev_dependencies:
