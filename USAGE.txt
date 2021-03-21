@@ -36,8 +36,9 @@ Available builders:
   * nomnoml - Nomnoml builder for embedding diagrams in web pages
 
 The --include, --exclude, --has-a, and --is-a
-options accept regular expressions.
+options accept regular expressions. These options accept multiple values,
+separated by commas, or they can be passed multiple times.
 
-Note: If both excludes and includes are supplied, types that are in
-both lists will be removed from the includes list and then the
+Note: If both exclude and include are supplied, types that
+are in both lists will be removed from the includes list and then the
 includes list will be applied as usual.
