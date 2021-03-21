@@ -126,10 +126,11 @@ Available builders:
   * ${availableBuilders().join('\n  * ')}
 
 The --$includeOption, --$excludeOption, --$hasAOption, and --$isAOption
-options accept regular expressions.
+options accept regular expressions. These options accept multiple values,
+separated by commas, or they can be passed multiple times.
 
-Note: If both excludes and includes are supplied, types that are in
-both lists will be removed from the includes list and then the
+Note: If both $excludeOption and $includeOption are supplied, types that
+are in both lists will be removed from the includes list and then the
 includes list will be applied as usual.''';
 }
 

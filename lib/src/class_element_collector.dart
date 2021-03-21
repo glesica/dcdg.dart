@@ -57,7 +57,7 @@ class ClassElementCollector extends RecursiveElementVisitor<void> {
           _shownNames.isNotEmpty && _shownNames.contains(element.name);
       final shouldHide =
           _hiddenNames.isNotEmpty && _hiddenNames.contains(element.name);
-      return _exportOnly ? shouldShow && !shouldHide : true;
+      return _exportOnly ? (shouldShow && !shouldHide) : true;
     }
 
     collector.classElements.where(shouldInclude).forEach(visitClassElement);

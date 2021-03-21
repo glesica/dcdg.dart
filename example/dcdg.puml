@@ -136,15 +136,11 @@ class "dcdg::src::diagram_visitor.dart::DiagramVisitor" {
   +void visitMethodElement()
 }
 
-"analyzer::dart::element::visitor.dart::RecursiveElementVisitor" <|-- "dcdg::src::diagram_visitor.dart::DiagramVisitor"
-
 class "dcdg::src::class_element_collector.dart::ClassElementCollector" {
   +Iterable<ClassElement> classElements
   +void visitClassElement()
   +void visitExportElement()
 }
-
-"analyzer::dart::element::visitor.dart::RecursiveElementVisitor" <|-- "dcdg::src::class_element_collector.dart::ClassElementCollector"
 
 
 @enduml
