@@ -1,4 +1,5 @@
 #!/bin/sh
 
-pub get
-pub run test -j 1 $@
+dart pub get
+dart run test -j 1 $@
+

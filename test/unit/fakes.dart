@@ -5,7 +5,10 @@ class FakeElement implements Element {
   final LibraryElement? library;
 
   @override
-  final String? name;
+  final String name;
+
+  @override
+  String get displayName => name;
 
   FakeElement(this.name, [this.library]);
 

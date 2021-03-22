@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/visitor.dart';
+
+import 'type_name.dart';
+import 'type_namespace.dart';
 
 typedef OnElementHandler<T extends Element> = void Function(T element);
 
@@ -43,6 +48,8 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
 
   final OnTypeHandler<InterfaceType> _onSuperType;
 
+  final bool _verbose;
+
   DiagramVisitor({
     required OnElementHandler<ClassElement> onBeginClass,
     bool excludeHasA = false,
@@ -61,6 +68,7 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     OnElementHandler<MethodElement> onMethod = _noopHandler,
     OnTypeHandler<InterfaceType> onMixin = _noopHandler,
     OnTypeHandler<InterfaceType> onSuper = _noopHandler,
+    bool verbose = false,
   })  : _excludeHasA = excludeHasA,
         _excludeIsA = excludeIsA,
         _excludePrivateClasses = excludePrivateClasses,
@@ -77,7 +85,8 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
         _onInterfaceType = onInterface,
         _onMethodElement = onMethod,
         _onMixinType = onMixin,
-        _onSuperType = onSuper;
+        _onSuperType = onSuper,
+        _verbose = verbose;
 
   /// Whether the given class contains a field whose type matches
   /// one of those provided in the `hasA` constructor parameter.
@@ -126,11 +135,25 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     return false;
   }
 
+  String _namespacedTypeName(Element element) =>
+      '${typeNamespace(element)}${typeName(element)}';
+
   /// Whether an element should be included based on the `includes`
   /// and `excludes` lists alone, assuming it isn't excluded for
   /// any other reason.
   bool shouldInclude(Element element) {
-    if (_excludes.any((r) => r.hasMatch(element.name ?? ''))) {
+    final fqName = _namespacedTypeName(element);
+    if (_verbose) {
+      stderr.writeln('shouldInclude: ${element.name} ($fqName)');
+    }
+    if (_excludes.any((r) {
+      final isMatch = r.hasMatch(fqName) || r.hasMatch(element.name ?? '');
+      if (_verbose) {
+        stderr.writeln(
+            'Matches exclude pattern "${r.pattern}" -> ${isMatch ? 'EXCLUDED' : 'no'}');
+      }
+      return isMatch;
+    })) {
       return false;
     }
 
@@ -203,14 +226,15 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     _onBeginClassElement(element);
     super.visitClassElement(element);
 
-    // TODO: Apply regex filters
+    // TODO: Apply more regex filtering?
     if (!_excludeIsA) {
       final superType = element.supertype;
       final superIsObject = superType?.isDartCoreObject == true;
       final isPrivate = superType?.element.isPrivate == true;
       if (superType != null &&
           !superIsObject &&
-          !(_excludePrivateClasses && isPrivate)) {
+          !(_excludePrivateClasses && isPrivate) &&
+          !shouldIncludeClass(element)) {
         _onSuperType(superType);
       }
 

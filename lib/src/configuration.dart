@@ -1,7 +1,7 @@
 import 'package:args/args.dart';
 import 'package:dcdg/src/builder_factories.dart';
-import 'package:dcdg/src/command_line.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
+import 'package:dcdg/src/command_line.dart';
 
 /// A full configuration to allow fetching classes and running
 /// a builder against a Dart package.
@@ -39,6 +39,8 @@ abstract class Configuration {
   bool get shouldShowHelp;
 
   bool get shouldShowVersion;
+
+  bool get verbose;
 
   factory Configuration.fromArgResults(ArgResults results) {
     final excludePrivateValues =
@@ -85,6 +87,7 @@ abstract class Configuration {
       searchPath: results[searchPathOption]!,
       shouldShowHelp: results[helpOption]!,
       shouldShowVersion: results[versionOption]!,
+      verbose: results[verboseOption]!,
     );
   }
 
@@ -146,6 +149,9 @@ class ConfigurationImpl implements Configuration {
   @override
   final bool shouldShowVersion;
 
+  @override
+  final bool verbose;
+
   ConfigurationImpl({
     required this.builder,
     required this.builderName,
@@ -164,5 +170,6 @@ class ConfigurationImpl implements Configuration {
     required this.searchPath,
     required this.shouldShowHelp,
     required this.shouldShowVersion,
+    required this.verbose,
   });
 }
