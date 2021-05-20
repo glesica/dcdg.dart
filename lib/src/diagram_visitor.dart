@@ -106,10 +106,8 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
   /// the classes named in the iterable provided to the `isA`
   /// constructor parameter.
   bool isA(ClassElement element) {
-    //
     var current = element.thisType;
     while (true) {
-      //
       if (_isA.any((r) => r.hasMatch(current.element.name))) {
         return true;
       }
