@@ -2,18 +2,15 @@ import 'package:analyzer/dart/element/element.dart';
 
 /// Determine and return the most sensible "name" for the given
 /// [Element].
-String typeName(final Element element) {
-  if (element is ClassElement) {
-    element.displayName;
-  }
-
+String typeName(final Element element, {bool withNullability = true}) {
   if (element is FieldElement) {
-    return element.type.getDisplayString(withNullability: true);
+    return element.type.getDisplayString(withNullability: withNullability);
   }
 
-  if (element is TypeDefiningElement) {
-    return element.displayName;
+  final name = element.displayName;
+  if (withNullability) {
+    return name;
   }
 
-  return element.displayName;
+  return name.replaceFirst('?', '').replaceFirst('*', '');
 }
