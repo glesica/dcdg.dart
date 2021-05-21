@@ -3,7 +3,9 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
-  pubGetFixtures();
+  setUpAll(() {
+    pubGetFixtures();
+  });
 
   group('dcdg tool (export cases)', () {
     test('should ignore un-exported classes', () {

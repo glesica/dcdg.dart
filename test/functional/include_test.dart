@@ -3,7 +3,9 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
-  pubGetFixtures();
+  setUpAll(() {
+    pubGetFixtures();
+  });
 
   group('dcdg tool (include cases)', () {
     test('should limit to included classes', () {

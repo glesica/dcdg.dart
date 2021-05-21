@@ -4,7 +4,9 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
-  pubGetFixtures();
+  setUpAll(() {
+    pubGetFixtures();
+  });
 
   group('dcdg tool (success cases)', () {
     test('should produce plantuml output by default', () {
