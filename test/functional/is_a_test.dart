@@ -3,6 +3,10 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
+  setUpAll(() {
+    pubGetFixtures();
+  });
+
   group('dcdg tool (is-a cases)', () {
     test('should follow extends', () {
       final result = runWith(

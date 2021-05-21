@@ -3,7 +3,9 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
-  pubGetFixtures();
+  setUpAll(() {
+    pubGetFixtures();
+  });
 
   group('dcdg tool (aggregation cases)', () {
     test('should include user-defined types and exclude core types in plantuml',
