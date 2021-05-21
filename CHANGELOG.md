@@ -36,3 +36,5 @@
 
 3.0.0 - update to non-nullable types by default
 
+3.1.0 - improve --exclude functionality and fix bugs
+
