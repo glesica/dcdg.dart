@@ -1,0 +1,7 @@
+name: nullable_fixture
+description: A simple test fixture
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+dev_dependencies:
+  dcdg:
+    path: ../../../

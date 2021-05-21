@@ -96,7 +96,7 @@ abstract class "dcdg::src::configuration.dart::Configuration" {
   +bool verbose
 }
 
-"dcdg::src::configuration.dart::Configuration" o-- "dcdg::src::builders::diagram_builder.dart::DiagramBuilder?"
+"dcdg::src::configuration.dart::Configuration" o-- "dcdg::src::builders::diagram_builder.dart::DiagramBuilder"
 
 class "dcdg::src::configuration.dart::ConfigurationImpl" {
   +DiagramBuilder? builder
@@ -119,7 +119,7 @@ class "dcdg::src::configuration.dart::ConfigurationImpl" {
   +bool verbose
 }
 
-"dcdg::src::configuration.dart::ConfigurationImpl" o-- "dcdg::src::builders::diagram_builder.dart::DiagramBuilder?"
+"dcdg::src::configuration.dart::ConfigurationImpl" o-- "dcdg::src::builders::diagram_builder.dart::DiagramBuilder"
 "dcdg::src::configuration.dart::Configuration" <|-- "dcdg::src::configuration.dart::ConfigurationImpl"
 
 class "dcdg::src::diagram_visitor.dart::DiagramVisitor" {
