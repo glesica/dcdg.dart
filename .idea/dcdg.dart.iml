@@ -23,6 +23,9 @@
       <excludeFolder url="file://$MODULE_DIR$/test/fixtures/inheritance/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/test/fixtures/inheritance/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/test/fixtures/inheritance/build" />
+      <excludeFolder url="file://$MODULE_DIR$/test/fixtures/nullable/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/test/fixtures/nullable/build" />
+      <excludeFolder url="file://$MODULE_DIR$/test/fixtures/nullable/.dart_tool" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -84,7 +84,7 @@ class PlantUmlBuilder implements DiagramBuilder {
   }
 
   String namespacedTypeName(Element element) =>
-      '"${typeNamespace(element)}${typeName(element)}"';
+      '"${typeNamespace(element)}${typeName(element, withNullability: false)}"';
 
   String getVisibility(Element element) {
     return element.isPrivate
