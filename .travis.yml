@@ -1,8 +1,0 @@
-language: dart
-dart:
-  - 2.12.0
-  - stable
-  - dev
-script:
-  - ./tool/format.sh
-  - ./tool/check.sh --reporter=expanded
