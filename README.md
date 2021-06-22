@@ -59,4 +59,4 @@ Run the full test suite (including unit and functional tests) with
 
 If you change the user interface or add features you should run `tool/docs.sh`
 to regenerate documentation and other resources. This script requires
-[PlantUML](http://plantuml.com/).
+[PlantUML](https://plantuml.com/).
