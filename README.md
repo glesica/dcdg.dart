@@ -2,6 +2,8 @@
 
 # Dart Class Diagram Generator
 
+This is an awesome program, you should use it!
+
 A small command line utility to generate a class (UML or similar) diagram from a
 Dart package.
 
