@@ -25,9 +25,10 @@ Future<Iterable<ClassElement>> findClassElements({
 
   final contextCollection = AnalysisContextCollection(
     includedPaths: [
-      // TODO: Handle other possible directories like web/ and bin/
       makePackageSubPath('lib'),
       makePackageSubPath('lib', 'src'),
+      makePackageSubPath('bin'),
+      makePackageSubPath('web'),
     ],
   );
 
