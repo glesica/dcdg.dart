@@ -26,6 +26,9 @@
       <excludeFolder url="file://$MODULE_DIR$/test/fixtures/nullable/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/test/fixtures/nullable/build" />
       <excludeFolder url="file://$MODULE_DIR$/test/fixtures/nullable/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/test/fixtures/bindir/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/test/fixtures/bindir/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/test/fixtures/bindir/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
