@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
+import 'package:analyzer/dart/analysis/results.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:dcdg/src/class_element_collector.dart';
 import 'package:path/path.dart' as path;
@@ -45,8 +46,8 @@ Future<Iterable<ClassElement>> findClassElements({
     final context = contextCollection.contextFor(filePath);
 
     final unitResult = await context.currentSession.getResolvedUnit(filePath);
-    if (unitResult?.isPart == false) {
-      unitResult?.libraryElement.accept(collector);
+    if (unitResult is ResolvedUnitResult) {
+      unitResult.libraryElement.accept(collector);
     }
   }
 
