@@ -57,5 +57,16 @@ void main() {
       expect(result.stdout, contains('Sub'));
       expect(result.stdout, isNot(contains('NonSub')));
     });
+
+    test('should follow external packages', () {
+      final result = runWith(
+        [],
+        'test/fixtures/inheritance',
+      );
+      expect(result.stderr, '');
+      expect(result.exitCode, 0);
+      expect(result.stdout,
+          matches(r'.*PublicExternalPublic <|-- .*ExternalExtends'));
+    });
   });
 }

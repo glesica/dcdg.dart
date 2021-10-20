@@ -227,12 +227,17 @@ class DiagramVisitor extends RecursiveElementVisitor<void> {
     // TODO: Apply more regex filtering?
     if (!_excludeIsA) {
       final superType = element.supertype;
+      final superElement = superType?.element;
+
       final superIsObject = superType?.isDartCoreObject == true;
-      final isPrivate = superType?.element.isPrivate == true;
+      final superIsPrivate = superType?.element.isPrivate == true;
+      final superIsIncluded =
+          (superElement != null) && shouldInclude(superElement);
+
       if (superType != null &&
           !superIsObject &&
-          !(_excludePrivateClasses && isPrivate) &&
-          !shouldIncludeClass(element)) {
+          !(_excludePrivateClasses && superIsPrivate) &&
+          superIsIncluded) {
         _onSuperType(superType);
       }
 
