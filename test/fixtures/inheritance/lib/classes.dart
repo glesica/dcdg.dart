@@ -1,3 +1,5 @@
+import 'package:simple_fixture/external.dart';
+
 abstract class Extended {}
 
 abstract class MixedIn {}
@@ -9,3 +11,5 @@ class ClassExtend extends Extended {}
 class ClassMixIn with MixedIn {}
 
 class ClassImplement implements Implemented {}
+
+class ExternalExtends extends PublicExternalPublic {}

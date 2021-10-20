@@ -2,6 +2,9 @@ name: inheritance_fixture
 description: A test fixture with inheritance
 environment:
   sdk: '>=2.12.0 <3.0.0'
+dependencies:
+  simple_fixture:
+    path: ../simple/
 dev_dependencies:
   dcdg:
     path: ../../../
