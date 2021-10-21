@@ -40,3 +40,9 @@
 
 3.1.1 - fix insecure link in readme
 
+4.0.0 - update dependencies
+
+        handle web/ and bin/ directories
+
+        fix is-a include bug
+
