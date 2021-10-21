@@ -16,17 +16,17 @@ the PlantUML source in the `example/` directory.
 
 **Install from pub:**
 
-`pub global activate dcdg`
+`dart pub global activate dcdg`
 
 **Install from clone:**
 
-`pub global activate -s path .`
+`dart pub global activate -s path .`
 
 ## Usage
 
 From inside a Dart package directory:
 
-`pub global run dcdg`
+`dart pub global run dcdg`
 
 This will dump a PlantUML file to stdout. You can save it to a file
 instead with the `-o` option.
@@ -60,3 +60,4 @@ Run the full test suite (including unit and functional tests) with
 If you change the user interface or add features you should run `tool/docs.sh`
 to regenerate documentation and other resources. This script requires
 [PlantUML](https://plantuml.com/).
+
