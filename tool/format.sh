@@ -1,3 +1,3 @@
 #!/bin/sh
 
-dartfmt -w --fix --set-exit-if-changed .
+dart format --fix --set-exit-if-changed .
