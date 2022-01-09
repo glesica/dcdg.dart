@@ -47,7 +47,10 @@ Future<Iterable<ClassElement>> findClassElements({
 
     final unitResult = await context.currentSession.getResolvedUnit(filePath);
     if (unitResult is ResolvedUnitResult) {
-      unitResult.libraryElement.accept(collector);
+      // Skip parts files to avoid duplication.
+      if (!unitResult.isPart) {
+        unitResult.libraryElement.accept(collector);
+      }
     }
   }
 
