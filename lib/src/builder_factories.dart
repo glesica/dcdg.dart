@@ -1,4 +1,5 @@
 import 'package:dcdg/src/builders/dot_builder.dart';
+import 'package:dcdg/src/builders/mermaid_builder.dart';
 import 'package:dcdg/src/builders/nomnoml_builder.dart';
 import 'package:dcdg/src/builders/plant_uml_builder.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
@@ -23,6 +24,11 @@ final Map<String, BuilderFactory> _factories = {
     callback: () => NomnomlBuilder(),
     description: 'Nomnoml builder for embedding diagrams in web pages',
     name: 'nomnoml',
+  ),
+  'mermaid': BuilderFactory(
+    callback: () => MermaidBuilder(),
+    description: 'Mermaid builder that attempts to be feature-complete',
+    name: 'mermaid',
   ),
 };
 

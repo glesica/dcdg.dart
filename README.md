@@ -31,6 +31,11 @@ From inside a Dart package directory:
 This will dump a PlantUML file to stdout. You can save it to a file
 instead with the `-o` option.
 
+If you'd like to create a Mermaid file instead, pass the `-b` option
+with `mermaid` as its argument:
+
+`dart pub global run dcdg -b mermaid`
+
 See `--help` for more options, including ways to filter what ends up
 in the output. You can find the help contents in [USAGE.txt](USAGE.txt)
 as well.
@@ -60,4 +65,3 @@ Run the full test suite (including unit and functional tests) with
 If you change the user interface or add features you should run `tool/docs.sh`
 to regenerate documentation and other resources. This script requires
 [PlantUML](https://plantuml.com/).
-
