@@ -83,17 +83,6 @@ class PlantUmlBuilder implements DiagramBuilder {
     _relationships.clear();
   }
 
-  String namespacedTypeName(Element element) =>
-      '"${typeNamespace(element)}${typeName(element, withNullability: false)}"';
-
-  String getVisibility(Element element) {
-    return element.isPrivate
-        ? '-'
-        : element.hasProtected
-            ? '#'
-            : '+';
-  }
-
   @override
   void printContent(void Function(String content) printer) {
     final content = ([..._lines, '', '@enduml']).join('\n');
@@ -103,5 +92,16 @@ class PlantUmlBuilder implements DiagramBuilder {
   @override
   void writeContent(File file) {
     printContent(file.writeAsStringSync);
+  }
+
+  static String namespacedTypeName(Element element) =>
+      '"${typeNamespace(element)}${typeName(element, withNullability: false)}"';
+
+  static String getVisibility(Element element) {
+    return element.isPrivate
+        ? '-'
+        : element.hasProtected
+            ? '#'
+            : '+';
   }
 }
