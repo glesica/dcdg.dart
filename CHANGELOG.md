@@ -47,3 +47,5 @@
         fix is-a include bug
 
 4.0.1 - fix duplication bug in parts files
+
+4.1.0 - add Mermaid diagram support
