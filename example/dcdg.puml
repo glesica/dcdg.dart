@@ -10,13 +10,30 @@ class "dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder" {
   +void addSuper()
   +void beginClass()
   +void endClass()
-  +String namespacedTypeName()
-  +String getVisibility()
   +void printContent()
   +void writeContent()
+  {static} +String namespacedTypeName()
+  {static} +String getVisibility()
 }
 
 "dcdg::src::builders::diagram_builder.dart::DiagramBuilder" <|-- "dcdg::src::builders::plant_uml_builder.dart::PlantUmlBuilder"
+
+class "dcdg::src::builders::mermaid_builder.dart::MermaidBuilder" {
+  +void addAggregation()
+  +void addField()
+  +void addInterface()
+  +void addMethod()
+  +void addMixin()
+  +void addSuper()
+  +void beginClass()
+  +void endClass()
+  +void printContent()
+  +void writeContent()
+  {static} +String namespacedTypeName()
+  {static} +String getVisibility()
+}
+
+"dcdg::src::builders::diagram_builder.dart::DiagramBuilder" <|-- "dcdg::src::builders::mermaid_builder.dart::MermaidBuilder"
 
 class "dcdg::src::builders::dot_builder.dart::DotBuilder" {
   +void addAggregation()
