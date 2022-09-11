@@ -43,5 +43,22 @@ void main() {
       expect(result.stdout, isNot(contains('[int]')));
       expect(result.stdout, isNot(contains('[bool]')));
     });
+
+    test('should include user-defined types and exclude core types in mermaid',
+        () {
+      final result = runWith(
+        [
+          '-b',
+          'mermaid',
+        ],
+        'test/fixtures/aggregation/',
+      );
+      expect(result.stderr, '');
+      expect(result.exitCode, 0);
+      expect(result.stdout, contains('Bar o-- Foo0'));
+      expect(result.stdout, contains('Bar o-- Foo1'));
+      expect(result.stdout, isNot(contains('Bar o-- int')));
+      expect(result.stdout, isNot(contains('Bar o-- bool')));
+    });
   });
 }
