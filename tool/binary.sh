@@ -4,4 +4,5 @@ set -e
 
 mkdir -p build/
 PLATFORM=$(uname -s | tr '[:upper:]' '[:lower:]')
-dart2native -o "build/dcdg-$PLATFORM" bin/dcdg.dart
+dart pub get
+dart compile exe -o "build/dcdg-$PLATFORM" bin/dcdg.dart

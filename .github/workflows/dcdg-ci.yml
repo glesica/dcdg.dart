@@ -6,7 +6,7 @@ jobs:
   check:
     runs-on: ubuntu-20.04
     container:
-      image: glesica/dcdg_build
+      image: google/dart:2.14
       volumes:
         - ${{ github.workspace }}:/code
     steps:
@@ -16,7 +16,7 @@ jobs:
   check-format:
     runs-on: ubuntu-20.04
     container:
-      image: glesica/dcdg_build
+      image: google/dart:2.14
       volumes:
         - ${{ github.workspace }}:/code
     steps:

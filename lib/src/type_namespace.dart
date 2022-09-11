@@ -3,8 +3,11 @@ import 'package:dcdg/src/constants.dart';
 
 /// Build a namespace for the given element based on the definition
 /// of its type.
-String typeNamespace(final Element element,
-    {String separator = namespaceSeparator}) {
+String typeNamespace(
+  final Element element, {
+  String separator = namespaceSeparator,
+  bool stripFileExtension = false,
+}) {
   var library = element.library;
 
   // If we're building a has-a relationship then we get the
@@ -17,7 +20,8 @@ String typeNamespace(final Element element,
 
   final namespace = library?.identifier
       .replaceFirst('package:', '')
-      .replaceFirst('dart:', 'dart::')
+      .replaceFirst('dart:', 'dart$separator')
+      .replaceAll('.dart', stripFileExtension ? '' : '.dart')
       .split('/')
       .join(separator);
   return '$namespace$separator';

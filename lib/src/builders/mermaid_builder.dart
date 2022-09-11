@@ -4,7 +4,6 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:dcdg/src/builders/diagram_builder.dart';
 import 'package:dcdg/src/type_name.dart';
-import 'package:dcdg/src/type_namespace.dart';
 
 /*
 TODO: Build the diagrams in the functional tests to verify that
@@ -12,9 +11,6 @@ TODO: Build the diagrams in the functional tests to verify that
 
 TODO: Consider adding a field to DiagramBuilder that knows how
  to invoke the relevant compiler to produce an image
-
-FIXME: Fields with a function type appear as methods because the
- type ends with ()
  */
 
 class MermaidBuilder implements DiagramBuilder {
@@ -36,7 +32,12 @@ class MermaidBuilder implements DiagramBuilder {
     final staticSuffix = element.isStatic ? '\$' : '';
     final abstractSuffix = element.isAbstract ? '*' : '';
     final name = element.name;
-    final type = typeName(element, leftBracket: '~', rightBracket: '~');
+    final type = typeName(
+      element,
+      leftBracket: '~',
+      rightBracket: '~',
+      stripParens: true,
+    );
     _lines.add(
         '$_currentClass : $visibilityPrefix$name$staticSuffix$abstractSuffix $type');
   }

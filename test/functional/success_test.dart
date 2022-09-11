@@ -27,6 +27,24 @@ void main() {
       expect(result.stdout, contains('_PrivatePartInternalPartPrivate'));
     });
 
+    test('should produce mermaid output', () {
+      final result = runWith(
+        [
+          '-b',
+          'mermaid',
+        ],
+        'test/fixtures/simple/',
+      );
+      expect(result.stderr, '');
+      expect(result.exitCode, 0);
+      expect(result.stdout, contains('PublicExternalPublic'));
+      expect(result.stdout, contains('_PrivateExternalPrivate'));
+      expect(result.stdout, contains('PublicInternalPublic'));
+      expect(result.stdout, contains('_PrivateInternalPrivate'));
+      expect(result.stdout, contains('PublicPartInternalPartPublic'));
+      expect(result.stdout, contains('_PrivatePartInternalPartPrivate'));
+    });
+
     test('should not yield empty namespaces', () {
       final result = runWith(
         [
